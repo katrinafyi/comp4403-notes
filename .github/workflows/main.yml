@@ -25,9 +25,8 @@ jobs:
       
     - name: Commit files to gh-pages
       run: |
-        git checkout -b gh-pages
+        git switch -c gh-pages
         git fetch --all
-        git reset --hard origin/gh-pages
         rm -rv *
         mv -vf ${{ steps.compendium.outputs.site }}/* .
         git config --local user.name "GitHub Actions"
