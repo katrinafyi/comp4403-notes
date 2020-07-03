@@ -23,8 +23,13 @@ jobs:
     - uses: kentonlam/compendium@master
       id: compendium
 
+    - name: Copy generated files
+      run: |
+        mkdir -p ./_site
+        mv -vf ${{ steps.compendium.outputs.site }}/* _site
+
     - uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_branch: gh-pages
-        publish_dir: ${{ steps.compendium.outputs.site }}
+        publish_dir: _site
