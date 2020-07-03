@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    
+    <title>Lecture 6 — Static Semantic Analysis</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
+    <!--<link rel="stylesheet" href="https://unpkg.com/mvp.css">-->
+    <!--<link rel="stylesheet" href="https://latex.now.sh/style.css">-->
+    <style>
+        code{white-space: pre-wrap;}
+        span.smallcaps{font-variant: small-caps;}
+        span.underline{text-decoration: underline;}
+        div.column{display: inline-block; vertical-align: top; width: 50%;}
+    </style>
+    <!--<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    var macros = [];
+    /*
+    const BATCH_SIZE = 100;
+    var i = 0;
+    while (i < mathElements.length) {
+      const start = i;
+      setTimeout(() => {
+        for (var j = 0; j < BATCH_SIZE; j++) {
+          const i = start + j;
+          if (i >= mathElements.length) break;
+
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }, 0);
+      i += BATCH_SIZE;
+    }
+    */
+    
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+      katex.render(texText.data, mathElements[i], {
+        displayMode: mathElements[i].classList.contains('display'),
+        throwOnError: false,
+        macros: macros,
+        fleqn: false
+      });
+    }}
+    
+    });
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <header id="title-block-header">
+<h1 class="title">Lecture 6 — Static Semantic Analysis</h1>
+</header>
+
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#lecture-6-static-semantic-analysis">Lecture 6 — Static Semantic Analysis</a>
+<ul>
+<li><a href="#type-inference-rules">Type inference rules</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="lecture-6-static-semantic-analysis">Lecture 6 — Static Semantic Analysis</h1>
+<p>At the top level, a program is just a block and a block contains declarations then the main body. Declarations are a mapping from an identifier to a declaration.</p>
+<p>Statements are assignments, writes, reads, calls, if, while, or statement lists.</p>
+<p>Expressions can be numbers, lvalues, unary operators, binary operators, or a ‘narrow’ which narrows an expression to a subrange.</p>
+<p>We need to know the types of all the identifiers as they’re declared. This is represented as a mapping, or symbol table. We also need to know the types of operators, such as <span class="math inline">+ : \mathbb Z \times\mathbb Z \to \mathbb Z</span>.</p>
+<p>If we declare <span class="math inline">x</span> to be an integer, internally we know it is a “ref int” or a reference to an integer.</p>
+<p>The symbol table stores ConstEntry, TypeEntry, VarEntry, or ProcEntry. For example, the code</p>
+<pre><code>const C = 42;
+type S = [-C..C];
+var b : boolean;
+    y : S;</code></pre>
+<p>has the following symbol table &gt; C ↦ ConstEntry(int, 42) &gt; S ↦ TypeEntry(subrange(int, -42, 42)) &gt; b ↦ VarEntry(ref(boolean)) &gt; y ↦ VarEntry(ref(subrange(int, -42, 42)))</p>
+<h3 id="type-inference-rules">Type inference rules</h3>
+<p>Something like <span class="math inline">\textit{syms} ~\vdash n : \text{int}</span> (<strong>integer value</strong>) means that given a symbol table <em>syms</em>, any number is of type int.</p>
+<p><img src="/assets/Clipboard_2020-03-14-10-31-47.png" /></p>
+<p>There are other rules in the PL0-SSemantics.pdf document. Note that narrowing subranges may require a runtime check or more advanced static analysis.</p>
+<p><img src="/assets/Clipboard_2020-03-14-10-30-12.png" /></p>
+  </body>
+</html>

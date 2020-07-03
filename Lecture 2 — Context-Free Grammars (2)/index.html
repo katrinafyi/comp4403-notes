@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    
+    <title>Lecture 2 — Context-Free Grammars (2)</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
+    <!--<link rel="stylesheet" href="https://unpkg.com/mvp.css">-->
+    <!--<link rel="stylesheet" href="https://latex.now.sh/style.css">-->
+    <style>
+        code{white-space: pre-wrap;}
+        span.smallcaps{font-variant: small-caps;}
+        span.underline{text-decoration: underline;}
+        div.column{display: inline-block; vertical-align: top; width: 50%;}
+    </style>
+    <!--<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    var macros = [];
+    /*
+    const BATCH_SIZE = 100;
+    var i = 0;
+    while (i < mathElements.length) {
+      const start = i;
+      setTimeout(() => {
+        for (var j = 0; j < BATCH_SIZE; j++) {
+          const i = start + j;
+          if (i >= mathElements.length) break;
+
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }, 0);
+      i += BATCH_SIZE;
+    }
+    */
+    
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+      katex.render(texText.data, mathElements[i], {
+        displayMode: mathElements[i].classList.contains('display'),
+        throwOnError: false,
+        macros: macros,
+        fleqn: false
+      });
+    }}
+    
+    });
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <header id="title-block-header">
+<h1 class="title">Lecture 2 — Context-Free Grammars</h1>
+</header>
+
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#lecture-2-context-free-grammars">Lecture 2 — Context-Free Grammars</a>
+<ul>
+<li><a href="#context-free-grammars">Context-free grammars</a>
+<ul>
+<li><a href="#derivation-sequences">Derivation sequences</a></li>
+<li><a href="#derivations">Derivations</a></li>
+<li><a href="#nullables">Nullables</a></li>
+<li><a href="#languages-and-sentences">Languages and sentences</a></li>
+</ul></li>
+<li><a href="#parse-trees">Parse trees</a>
+<ul>
+<li><a href="#associativity">Associativity</a></li>
+<li><a href="#precedence">Precedence</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="lecture-2-context-free-grammars">Lecture 2 — Context-Free Grammars</h1>
+<p>Recall the phases of a compiler from last lecture. We’re going to be focusing on syntax analysis for the next few lectures.</p>
+<h2 id="context-free-grammars">Context-free grammars</h2>
+<p>By convention, to define a context-free grammar, it is sufficient to define a list of productions: <span class="math display">
+\begin{aligned}
+E &amp;\to E\ Op\ E \\ 
+E &amp;\to ``(&quot;\ E\ ``)&quot; \\ 
+E &amp;\to \textit{number} \\ 
+Op &amp;\to ``+&quot;\\
+Op &amp;\to ``-&quot;\\
+Op &amp;\to ``*&quot;
+\end{aligned}
+</span> This has start symbol <span class="math inline">E</span>, nonterminals <span class="math inline">\{E, Op\}</span> and terminals <span class="math inline">\{``(&quot;, ``)&quot;, \textit{number}, ``+&quot;, ``-&quot;, ``*&quot;\}</span>.</p>
+<blockquote>
+<p>A <strong>context-free grammar</strong> consists of - a finite set of terminal symbols <span class="math inline">\Sigma</span>, - a finite, non-empty set of nonterminal symbols (disjoint from the terminals), - a finite, non-empty set of productions <span class="math inline">A \to \alpha</span>, where <span class="math inline">A</span> is a nonterminal and <span class="math inline">\alpha</span> is a possibly empty sequence of nonterminal or terminal symbols, and - a start symbol which is nonterminal.</p>
+</blockquote>
+<h3 id="derivation-sequences">Derivation sequences</h3>
+<p>Productions can be used to rewrite strings of symbols. A leftmost derivation sequence for <span class="math inline">3-4-2</span> is <span class="math display">
+\begin{aligned}
+E &amp;\Rightarrow E\ Op\ E\\
+&amp;\Rightarrow E\ Op\ E\ Op\ E\\
+&amp;\Rightarrow 3\ Op\ E\ Op\ E\\
+&amp;\Rightarrow 3\ -\ E\ Op\ E\\
+&amp;\Rightarrow 3\ -\ 4\ Op\ E\\
+&amp;\Rightarrow 3\ -\ 4\ -\ E\\
+&amp;\Rightarrow 3\ -\ 4\ -\ 2\\
+\end{aligned}
+</span> The leftmost nonterminal is expanded at each stage.</p>
+<p>The process of expanding <span class="math inline">3-4</span> goes something like this: 1. Start with the start symbol. Which of the 3 alternatives do we choose? The first (somewhat arbitrarily). 2. Then, we expand the left <span class="math inline">E</span> to the number 3. 3. And so on.</p>
+<h3 id="derivations">Derivations</h3>
+<p>Given a production <span class="math inline">N \to \gamma</span>, a <strong>direct derivation</strong> is <span class="math display">
+\alpha N \beta \Rightarrow \alpha \gamma \beta.
+</span> A <strong>derivation</strong> is a sequence of 0 or more direct derivations. It is written <span class="math inline">\alpha \xRightarrow * \beta</span> and read “<span class="math inline">\alpha</span> derives <span class="math inline">\beta</span>”.</p>
+<h3 id="nullables">Nullables</h3>
+<p>A possibly empty sequence <span class="math inline">\alpha</span> is <strong>nullable</strong> if it can derive the empty string, often denoted <span class="math inline">\epsilon</span>. There are some rules: - <span class="math inline">\epsilon</span> is nullable, - any terminal is non-nullable, - a sequence is nullable only if all items are nullable, - a set of alternatives is nullable if any is alternative nullable, - EBNF optionals and repetitions are nullable, and - a non-terminal <span class="math inline">N</span> is nullable if some production of <span class="math inline">N</span> has a nullable right-hand side.</p>
+<h3 id="languages-and-sentences">Languages and sentences</h3>
+<p>The <strong>formal language</strong> <span class="math inline">\mathcal L(G)</span> of some grammar <span class="math inline">G</span> is the set of all finite sequences of terminals derivable from the start symbol <span class="math inline">S</span> of <span class="math inline">G</span>. That is, <span class="math display">
+\mathcal L(G) = \{t \in \operatorname{seq}\Sigma ~|~ S \xRightarrow *t\}.
+</span></p>
+<p>A <strong>sentence</strong> is a sequence of terminals derivable from the start symbol, <span class="math inline">S \Rightarrow t</span>.</p>
+<p>A <strong>sentential form</strong> is a sequence of terminal and/or non-terminals derivable from the start symbol, <span class="math inline">S \xRightarrow{*} \alpha</span>.</p>
+<p><em>Examples of languages:</em> <img src="/assets/Clipboard_2020-02-28-19-57-28.png" alt="Examples of languages" />.</p>
+<h2 id="parse-trees">Parse trees</h2>
+<p><img src="/assets/Clipboard_2020-02-28-19-59-40.png" /> This grammar is <em>ambiguous</em>, which is usually bad. A derivation sequence of a sentnece has a corresponding parse tree.</p>
+<p>A grammar <span class="math inline">G</span> is <strong>ambiguous for a sentence</strong> <span class="math inline">t</span> if there is more than one parse tree for <span class="math inline">t</span>.</p>
+<p>A grammar <span class="math inline">G</span> itself is <strong>ambiguous</strong> if any sentence is ambiguous.</p>
+<h3 id="associativity">Associativity</h3>
+<p>To remove ambiguity, we can enforce left or right associativity into the grammar. For left-asssociative, <span class="math display">
+\begin{aligned}
+E &amp;\to E\ ``-&quot;\ T \\ 
+E &amp;\to T \\ 
+T &amp;\to N
+\end{aligned}
+</span> For right, <span class="math display">
+\begin{aligned}
+E &amp;\to T\ ``-&quot;\ E \\ 
+E &amp;\to T \\ 
+T &amp;\to N
+\end{aligned}
+</span></p>
+<h3 id="precedence">Precedence</h3>
+<p>A grammar like <span class="math display">
+\begin{aligned}
+E &amp;\to E\ ``+&quot;\ E \\ 
+E &amp;\to E \ ``*&quot;\ E \\ 
+E &amp;\to N
+\end{aligned}
+</span> is ambiguous because the order is not specified. To ensure <span class="math inline">+</span> has lower precedence (and is left associative), we can rewrite it as the following: <span class="math display">
+\begin{aligned}
+E &amp;\to E\ ``+&quot;\ T ~|~T \\ 
+T &amp;\to T \ ``*&quot;\ F ~|~ F \\ 
+F &amp;\to N\ |\ ``(&quot;\, E\, ``)&quot;
+\end{aligned}
+</span> This grammar is unambiguous. That is, it treats <span class="math inline">+</span> as lower precedence than <span class="math inline">*</span> unless it is surrounded by parentheses.</p>
+  </body>
+</html>

@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    
+    <title>Week 7.1 - Bottom-Up, Shift-Reduce and LR Parsing</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
+    <!--<link rel="stylesheet" href="https://unpkg.com/mvp.css">-->
+    <!--<link rel="stylesheet" href="https://latex.now.sh/style.css">-->
+    <style>
+        code{white-space: pre-wrap;}
+        span.smallcaps{font-variant: small-caps;}
+        span.underline{text-decoration: underline;}
+        div.column{display: inline-block; vertical-align: top; width: 50%;}
+    </style>
+    <!--<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    var macros = [];
+    /*
+    const BATCH_SIZE = 100;
+    var i = 0;
+    while (i < mathElements.length) {
+      const start = i;
+      setTimeout(() => {
+        for (var j = 0; j < BATCH_SIZE; j++) {
+          const i = start + j;
+          if (i >= mathElements.length) break;
+
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }, 0);
+      i += BATCH_SIZE;
+    }
+    */
+    
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+      katex.render(texText.data, mathElements[i], {
+        displayMode: mathElements[i].classList.contains('display'),
+        throwOnError: false,
+        macros: macros,
+        fleqn: false
+      });
+    }}
+    
+    });
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#week-7.1-bottom-up-shift-reduce-and-lr-parsing">Week 7.1 — Bottom-Up, Shift-Reduce and LR Parsing</a>
+<ul>
+<li><a href="#lr0-grammars">LR(0) grammars</a></li>
+<li><a href="#lr0-conflicts">LR(0) conflicts</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="week-7.1-bottom-up-shift-reduce-and-lr-parsing">Week 7.1 — Bottom-Up, Shift-Reduce and LR Parsing</h1>
+<blockquote>
+<p>April 21, 2020</p>
+</blockquote>
+<p>These are more general parsing than LL(1) RDP and lead to LR(1) and LALR parsing (LALR is used by Java-CUP).</p>
+<p>Shift/reduce parsers work bottom up starting from the terminal symbols and end with the start symbol. They make use of a parse stack with three actions:</p>
+<ul>
+<li><em>shift</em> which pushes the next input symbol onto the stack,</li>
+<li><em>reduce</em> which takes a sequence <span class="math inline">\alpha</span> on top of the stack matching the right hand side of some production <span class="math inline">N \to \alpha</span>, replacing <span class="math inline">\alpha</span> with <span class="math inline">N</span> (opposite of a production), and</li>
+<li><em>accept</em> which finishes parsing if the stack contains only the start symbol there is no additional input.</li>
+</ul>
+<p>Consider a simple grammar <span class="math display">
+\begin{aligned}S &amp;\to A \\ A &amp;\to (\ A\ ) \\ A &amp;\to \textrm{a}\end{aligned}
+</span> The process looks something like this. Note that the symbol $ is used for both the bottom of the stack and end of input.</p>
+<p><img src="/assets/image-20200426114735684.png" alt="image-20200426114735684" style="zoom:30%;" /></p>
+<p>Note that we need to be careful to shift or reduce appropriately (this will be discussed later).</p>
+<p>The trick to shift/reduce is knowing when to shift a terminal onto the stack or perform a reduction. There are many schemes for choosing between shift and reduce actions, including LR(0), SLR(1) (not in this course), LR(1), and LALR(1).</p>
+<h3 id="lr0-grammars">LR(0) grammars</h3>
+<p>The name is because we parse <em>left</em> to right, producing a <em>rightmost</em> derivation sequence, with zero symbols lookahead.</p>
+<p>An <strong>LR(0) parsing item</strong> is of the form <span class="math inline">N \to \alpha \bullet \beta</span>. This represents that we are trying to match <span class="math inline">N</span>, where have currently matched <span class="math inline">\alpha</span> and <span class="math inline">\beta</span> is yet to be matched.</p>
+<p>An <strong>LR(0) parsing automaton</strong> (state machine) consists of a finite set of states, each of which is a set of these LR(0) parsing items. The <em>kernel item</em> of the initial state is <span class="math inline">S&#39; \to \bullet S</span>.</p>
+<h4 id="derived-lr0-items">Derived LR(0) items</h4>
+<p>If a state has an item of the form <span class="math inline">N \to \alpha \bullet M \beta</span> with <span class="math inline">M \to \alpha_1 \mid \cdots \mid \alpha_m</span>, then the state also includes the <strong>derived items</strong>, <span class="math inline">M \to \bullet \alpha_1,\ \ldots,\ M \to \bullet \alpha_m</span>.</p>
+<h4 id="goto-states">Goto states</h4>
+<p>Suppose we are at a state <span class="math inline">s_i</span> with an item of the form <span class="math inline">N \to \alpha \bullet \textrm x \beta</span> where <span class="math inline">\textrm x</span> is a single (non-terminal or terminal) symbol. Then, there is a <strong>goto state</strong> <span class="math inline">s_j</span> from <span class="math inline">s_i</span> on <span class="math inline">\textrm x</span>. The state <span class="math inline">s_j</span> then has a kernel item of the form <span class="math inline">N \to \alpha \textrm x \bullet \beta</span>.</p>
+<p>If there are multiple items in <span class="math inline">s_i</span> with the same <span class="math inline">\textrm x</span> symbol immediately to the right of the <span class="math inline">\bullet</span> then the goto state <span class="math inline">s_j</span> includes <em>all</em> those items but with the <span class="math inline">\bullet</span> after the <span class="math inline">\textrm x</span>.</p>
+<h4 id="parsing-actions">Parsing actions</h4>
+<p>An LR(0) item of the form:</p>
+<ul>
+<li><span class="math inline">N \to \alpha \bullet \textrm a \beta</span> where <span class="math inline">\textrm a</span> is a terminal symbol, indicates the state containing the item has a <em>shift</em> parsing action.</li>
+<li><span class="math inline">S&#39; \to S \bullet</span> where <span class="math inline">S&#39;</span> is the (introduced) start symbol for the grammar, indicates the state containing the item has an <em>accept</em> action.</li>
+<li><span class="math inline">N \to \alpha \bullet</span> (i.e., there is nothing further to match on the right), where <span class="math inline">N</span> is not the start symbol, indicates the state has a parsing action <em>reduce <span class="math inline">N \to \alpha</span></em>.</li>
+</ul>
+<p>Note that <span class="math inline">N \to \alpha</span> is part is a necessary part of the reduce action name. A shift action at end-of-file is an <em>error</em>, as is an accept action when the input is not at end-of-file.</p>
+<h4 id="example">Example</h4>
+<p><img src="/assets/image-20200426122410940.png" alt="image-20200426122410940" style="zoom:33%;" /></p>
+<p>An example of the stack while parsing using this automaton:</p>
+<p><img src="/assets/image-20200426122612819.png" alt="image-20200426122612819" style="zoom:33%;" /></p>
+<p>The state is interleaved with the symbols on the stack. When shifting, we look at the current state and the symbol to determine the new state.</p>
+<p>When reducing, we pop the right hand side off the stack and ‘replace’ it with the left side, considering the preceding state to determine the next state. Compare the second and third reductions in the example and how they lead to <span class="math inline">A4</span> and <span class="math inline">A1</span> respectively.</p>
+<h3 id="lr0-conflicts">LR(0) conflicts</h3>
+<p>There is the possibility that our automaton is non-deterministic for each state. Not every grammar is LR(0). Possible conflicts are:</p>
+<ul>
+<li>shift/reduce conflict,</li>
+<li>reduce/reduce conflict (e.g. <span class="math inline">N \to \alpha</span> and <span class="math inline">M \to \beta</span>),</li>
+<li>shift/accept conflict,</li>
+<li>accept/reduct conflict.</li>
+</ul>
+<p>Note that a shift/shift conflict is impossible. A grammar is <strong>LR(0)</strong> if none of the states in its automaton contains a parsing action conflict.</p>
+<p><em>Example:</em> Below is an example of a state diagram with an accept/shift conflict, so the grammar is <em>not</em> LR(0).</p>
+<p><img src="/assets/image-20200426124009061.png" alt="image-20200426124009061" style="zoom:30%;" /></p>
+<p>Note that this grammar is not very complex which hints that LR(0) is not too powerful. We will look at more powerful LR(1) grammars.</p>
+  </body>
+</html>

@@ -1,0 +1,1855 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    
+    <title>Single Page View</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
+    <!--<link rel="stylesheet" href="https://unpkg.com/mvp.css">-->
+    <!--<link rel="stylesheet" href="https://latex.now.sh/style.css">-->
+    <style>
+        code{white-space: pre-wrap;}
+        span.smallcaps{font-variant: small-caps;}
+        span.underline{text-decoration: underline;}
+        div.column{display: inline-block; vertical-align: top; width: 50%;}
+    </style>
+    <!--<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    var macros = [];
+    /*
+    const BATCH_SIZE = 100;
+    var i = 0;
+    while (i < mathElements.length) {
+      const start = i;
+      setTimeout(() => {
+        for (var j = 0; j < BATCH_SIZE; j++) {
+          const i = start + j;
+          if (i >= mathElements.length) break;
+
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }, 0);
+      i += BATCH_SIZE;
+    }
+    */
+    
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+      katex.render(texText.data, mathElements[i], {
+        displayMode: mathElements[i].classList.contains('display'),
+        throwOnError: false,
+        macros: macros,
+        fleqn: false
+      });
+    }}
+    
+    });
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    
+<h1>Single Page View</h1>
+<small>This is an automatically generated page containing everything in a single view.</small>
+
+
+
+<article>
+<h2>Table of Contents</h2>
+<nav class="toc">
+                <ol>
+                    
+                    <li><a href="#lecture-1-compilers-and-interpreters">Lecture 1 — Compilers and Interpreters</a>
+            
+                <ol>
+                    
+                    <li><a href="#administrative-notes">Administrative notes</a>
+            		</li>
+
+                    <li><a href="#introduction">Introduction</a>
+            
+                <ol>
+                    
+                    <li><a href="#resources">Resources</a>
+            		</li>
+
+                    <li><a href="#assessment">Assessment</a>
+            		</li>
+                </ol>
+            		</li>
+
+                    <li><a href="#phases-of-a-compiler">Phases of a compiler</a>
+            
+                <ol>
+                    
+                    <li><a href="#lexical-analysis">Lexical analysis</a>
+            		</li>
+
+                    <li><a href="#syntax-analysis">Syntax analysis</a>
+            		</li>
+
+                    <li><a href="#type-checking-aka-static-analysis">Type checking (aka static analysis)</a>
+            		</li>
+
+                    <li><a href="#code-generation">Code generation</a>
+            		</li>
+
+                    <li><a href="#interpreter">Interpreter</a>
+            		</li>
+                </ol>
+            		</li>
+
+                    <li><a href="#pl0-programming-language">PL0 programming language</a>
+            
+                <ol>
+                    
+                    <li><a href="#example">Example</a>
+            		</li>
+
+                    <li><a href="#concrete-syntax-parse-tree">Concrete syntax parse tree</a>
+            		</li>
+
+                    <li><a href="#abstract-syntax-tree">Abstract syntax tree</a>
+            		</li>
+
+                    <li><a href="#type-checking">Type checking</a>
+            		</li>
+                </ol>
+            		</li>
+                </ol>
+            		</li>
+
+                    <li><a href="#lecture-2-context-free-grammars">Lecture 2 — Context-Free Grammars</a>
+            
+                <ol>
+                    
+                    <li><a href="#context-free-grammars">Context-free grammars</a>
+            
+                <ol>
+                    
+                    <li><a href="#derivation-sequences">Derivation sequences</a>
+            		</li>
+
+                    <li><a href="#derivations">Derivations</a>
+            		</li>
+
+                    <li><a href="#nullables">Nullables</a>
+            		</li>
+
+                    <li><a href="#languages-and-sentences">Languages and sentences</a>
+            		</li>
+                </ol>
+            		</li>
+
+                    <li><a href="#parse-trees">Parse trees</a>
+            
+                <ol>
+                    
+                    <li><a href="#associativity">Associativity</a>
+            		</li>
+
+                    <li><a href="#precedence">Precedence</a>
+            		</li>
+                </ol>
+            		</li>
+                </ol>
+            		</li>
+
+                    <li><a href="#lecture-3-context-free-grammars-2">Lecture 3 — Context-Free Grammars 2</a>
+            
+                <ol>
+                    
+                    <li><a href="#statement-sequences">Statement sequences</a>
+            
+                <ol>
+                    
+                    <li><a href="#if-statements">If statements</a>
+            		</li>
+                </ol>
+            		</li>
+
+                    <li><a href="#chomsky-hierarchy-of-grammars">Chomsky hierarchy of grammars</a>
+            		</li>
+
+                    <li><a href="#recursive-descent-parsing">Recursive descent parsing</a>
+            
+                <ol>
+                    
+                    <li><a href="#implementation">Implementation</a>
+            		</li>
+                </ol>
+            		</li>
+                </ol>
+            		</li>
+
+                    <li><a href="#lecture-4-recursive-descent-parsing-2-abstract-syntax-trees">Lecture 4 — Recursive Descent Parsing 2 & Abstract Syntax Trees</a>
+            
+                <ol>
+                    
+                    <li><a href="#constructing-an-abstract-syntax-tree">Constructing an abstract syntax tree</a>
+            		</li>
+
+                    <li><a href="#syntax-error-recovery">Syntax error recovery</a>
+            		</li>
+                </ol>
+            		</li>
+
+                    <li><a href="#lecture-5-syntax-error-recovery">Lecture 5 — Syntax Error Recovery</a>
+            		</li>
+
+                    <li><a href="#lecture-6-static-semantic-analysis">Lecture 6 — Static Semantic Analysis</a>
+            
+                <ol>
+                    
+                    <li><a href="#type-inference-rules">Type inference rules</a>
+            		</li>
+                </ol>
+            		</li>
+
+                    <li><a href="#lecture-7-static-semantic-analysis-2">Lecture 7 — Static Semantic Analysis (2)</a>
+            
+                <ol>
+                    
+                    <li><a href="#the-pl0-compiler-assignment">The PL0 Compiler (Assignment)</a>
+            
+                <ol>
+                    
+                    <li><a href="#visitor-pattern">Visitor Pattern</a>
+            		</li>
+                </ol>
+            		</li>
+                </ol>
+            		</li>
+
+                    <li><a href="#lecture-8-constant-expressions">Lecture 8 — Constant Expressions</a>
+            
+                <ol>
+                    
+                    <li><a href="#the-interpreter">The Interpreter</a>
+            
+                <ol>
+                    
+                    <li><a href="#an-example-of-stack-frames">An example of stack frames</a>
+            		</li>
+                </ol>
+            		</li>
+                </ol>
+            		</li>
+
+                    <li><a href="#lecture-9-left-factoring-and-left-recursion-removal">Lecture 9 — Left-Factoring and Left-Recursion Removal</a>
+            
+                <ol>
+                    
+                    <li><a href="#left-factors">Left factors</a>
+            		</li>
+
+                    <li><a href="#left-recursion">Left recursion</a>
+            
+                <ol>
+                    
+                    <li><a href="#multiple-direct-left-recursions">Multiple (direct) left recursions</a>
+            		</li>
+
+                    <li><a href="#indirect-left-recursions">Indirect left recursions</a>
+            		</li>
+                </ol>
+            		</li>
+                </ol>
+            		</li>
+
+                    <li><a href="#lecture-10---first-and-follow-sets-ll-1-grammars">Lecture 10 - First and Follow Sets, LL-1 Grammars</a>
+            
+                <ol>
+                    
+                    <li><a href="#ll1-grammars">LL(1) grammars</a>
+            		</li>
+                </ol>
+            		</li>
+
+                    <li><a href="#lecture-11---cup-and-jflex-example">Lecture 11 - CUP and JFlex Example</a>
+            		</li>
+
+                    <li><a href="#comp4403-notes">comp4403-notes</a>
+            		</li>
+
+                    <li><a href="#revision">Revision</a>
+            
+                <ol>
+                    
+                    <li><a href="#likely-questions">Likely questions</a>
+            		</li>
+
+                    <li><a href="#topics">Topics</a>
+            		</li>
+                </ol>
+            		</li>
+
+                    <li><a href="#tutorial-3-rdp-exercise">Tutorial 3 — RDP Exercise</a>
+            		</li>
+
+                    <li><a href="#week-9-runtime-stack-organisation">Week 9 — Runtime Stack Organisation</a>
+            
+                <ol>
+                    
+                    <li><a href="#factorial-example">Factorial example</a>
+            		</li>
+                </ol>
+            		</li>
+
+                    <li><a href="#week-10.1-parameter-passing-mechanisms">Week 10.1 — Parameter Passing Mechanisms</a>
+            		</li>
+
+                    <li><a href="#week-10.2-lexical-analysis-regex-nfa-dfa">Week 10.2 — Lexical Analysis, Regex, NFA, DFA</a>
+            
+                <ol>
+                    
+                    <li><a href="#regular-expressions">Regular expressions</a>
+            		</li>
+
+                    <li><a href="#finite-automata">Finite automata</a>
+            
+                <ol>
+                    
+                    <li><a href="#converting-a-regular-expression-to-an-nfa">Converting a regular expression to an NFA</a>
+            		</li>
+
+                    <li><a href="#converting-an-nfa-to-a-dfa">Converting an NFA to a DFA</a>
+            		</li>
+
+                    <li><a href="#minimising-a-dfa">Minimising a DFA</a>
+            		</li>
+
+                    <li><a href="#lexical-analysis">Lexical analysis</a>
+            		</li>
+                </ol>
+            		</li>
+                </ol>
+            		</li>
+
+                    <li><a href="#week-6.1-more-java-cup-and-jflex-examples">Week 6.1 — More Java-CUP and JFlex Examples</a>
+            		</li>
+
+                    <li><a href="#week-6.2-stack-machine">Week 6.2 — Stack Machine</a>
+            
+                <ol>
+                    
+                    <li><a href="#evaluating-using-a-stack">Evaluating using a stack</a>
+            		</li>
+                </ol>
+            		</li>
+
+                    <li><a href="#week-6.3-code-generation-for-pl0-expressions-and-statements">Week 6.3 — Code Generation for PL0 Expressions and Statements</a>
+            		</li>
+
+                    <li><a href="#week-7.1-bottom-up-shift-reduce-and-lr-parsing">Week 7.1 — Bottom-Up, Shift-Reduce and LR Parsing</a>
+            
+                <ol>
+                    
+                    <li><a href="#lr0-grammars">LR(0) grammars</a>
+            
+                <ol>
+                    
+                    <li><a href="#derived-lr0-items">Derived LR(0) items</a>
+            		</li>
+
+                    <li><a href="#goto-states">Goto states</a>
+            		</li>
+
+                    <li><a href="#parsing-actions">Parsing actions</a>
+            		</li>
+
+                    <li><a href="#example">Example</a>
+            		</li>
+                </ol>
+            		</li>
+
+                    <li><a href="#lr0-conflicts">LR(0) conflicts</a>
+            		</li>
+                </ol>
+            		</li>
+
+                    <li><a href="#week-7.2-lr1-and-lalr1">Week 7.2 — LR(1) and LALR(1)</a>
+            
+                <ol>
+                    
+                    <li><a href="#lr1-grammars-and-parsing">LR(1) grammars and parsing</a>
+            
+                <ol>
+                    
+                    <li><a href="#lr1-state-machine-construction">LR(1) state machine construction</a>
+            		</li>
+
+                    <li><a href="#parsing-actions">Parsing actions</a>
+            		</li>
+
+                    <li><a href="#example-1">Example 1</a>
+            		</li>
+
+                    <li><a href="#example-2">Example 2</a>
+            		</li>
+
+                    <li><a href="#lr1-conflicts">LR(1) conflicts</a>
+            		</li>
+
+                    <li><a href="#example-3">Example 3</a>
+            		</li>
+                </ol>
+            		</li>
+
+                    <li><a href="#lalr1-grammars-and-parsing">LALR(1) grammars and parsing</a>
+            
+                <ol>
+                    
+                    <li><a href="#example-3-as-lalr1">Example 3 as LALR(1)</a>
+            		</li>
+                </ol>
+            		</li>
+                </ol>
+            		</li>
+
+                    <li><a href="#week-8.1-java-cup-assignment-2">Week 8.1 — Java-CUP, Assignment 2</a>
+            
+                <ol>
+                    
+                    <li><a href="#example-5">Example 5</a>
+            		</li>
+
+                    <li><a href="#java-cup-precedence">Java-CUP precedence</a>
+            		</li>
+
+                    <li><a href="#assignment-2">Assignment 2</a>
+            		</li>
+                </ol>
+            		</li>
+
+                    <li><a href="#week-8.2-symbol-table">Week 8.2 — Symbol Table</a>
+            
+                <ol>
+                    
+                    <li><a href="#lecture-synopsis">Lecture synopsis</a>
+            		</li>
+                </ol>
+            		</li>
+                </ol>
+            </nav>
+</article>
+
+<header id="title-block-header">
+<h1 class="title">Lecture 1 — Compilers and Interpreters</h1>
+</header>
+
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#lecture-1-compilers-and-interpreters">Lecture 1 — Compilers and Interpreters</a>
+<ul>
+<li><a href="#administrative-notes">Administrative notes</a></li>
+<li><a href="#introduction">Introduction</a>
+<ul>
+<li><a href="#resources">Resources</a></li>
+<li><a href="#assessment">Assessment</a></li>
+</ul></li>
+<li><a href="#phases-of-a-compiler">Phases of a compiler</a></li>
+<li><a href="#pl0-programming-language">PL0 programming language</a>
+<ul>
+<li><a href="#example">Example</a></li>
+<li><a href="#concrete-syntax-parse-tree">Concrete syntax parse tree</a></li>
+<li><a href="#abstract-syntax-tree">Abstract syntax tree</a></li>
+<li><a href="#type-checking">Type checking</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="lecture-1-compilers-and-interpreters">Lecture 1 — Compilers and Interpreters</h1>
+<p><strong>Ian Hayes</strong>: <a href="ian.hayes@uq.edu.au">ian.hayes@uq.edu.au</a>, 78-414 (GP South).</p>
+<h3 id="administrative-notes">Administrative notes</h3>
+<p>Piazza will be used for general notices and administration. A link is in email. Please, don’t post your assignment solutions on Piazza.</p>
+<p>The course has a website, with weekly readings and notes, <a href="https://learn.uq.edu.au/bbcswebdav/pid-4972733-dt-content-rid-22842531_1/courses/COMP4403S_7020_21490/index.html">here</a>. This course may be “very hard” if you do not have the prerequisite programming experience.</p>
+<h2 id="introduction">Introduction</h2>
+<p>Modifying a compiler will form part of an assignment. This compiler is written in Java and on the order of 1000s to 10000s of lines of code.</p>
+<p>We do use a reasonable amount of Java’s features, such as generics, utilities and lambda notation. There are a few data structures built-in, and understanding them is useful (e.g. symbol table, AST).</p>
+<p>Initially, we will use a interpreter then move into generating code. We will use a stack machine instead of a real machine, to simplify code generation.</p>
+<h3 id="resources">Resources</h3>
+<p>The textbook for this year is Aho’s <em>Compilers: Principles, Techniques, and Tools</em>. The previous book, Louden’s <em>Compiler Construction - Principles and Practice</em>, can also be used. There is a website for converting references between the two.</p>
+<h3 id="assessment">Assessment</h3>
+<p>3 assignments, each worth 20%. Final exam worth 40%.</p>
+<h2 id="phases-of-a-compiler">Phases of a compiler</h2>
+<p><img src="/assets/Clipboard_2020-02-24-08-26-18.png" /></p>
+<p>For an <strong>interpreter</strong>, it is identical except instead of code generation and machine code, there is an interpreter which directly evaluates the AST and symbol table.</p>
+<h4 id="lexical-analysis">Lexical analysis</h4>
+<p>Input is a sequence of characters representing a program and the output is a sequence of lexical tokens. Lexical tokens can be identifiers, constants, keywords, etc. Whitespace and comments are ignored, but can separate tokens.</p>
+<h4 id="syntax-analysis">Syntax analysis</h4>
+<p>Input is a sequence of lexical tokens and its output is an abstract syntax tree (AST) and symbol table. The symbol table contains all identifiers defined within the program as well as bulitin types. May be organised into scopes, e.g. identifiers defined only within a procedure.</p>
+<h4 id="type-checking-aka-static-analysis">Type checking (aka static analysis)</h4>
+<p>Input is an AST and symbol table and output is an updated symbol table and AST. Resolves all references to identifiers, updating symbol table with type information, checking AST for type correctness and updating it in the case of type casts.</p>
+<h4 id="code-generation">Code generation</h4>
+<p>Input is the AST and updated symbol table and output is code for a target machine. May include machine-independent or -dependent optimisations, instruction selection and register allocation.</p>
+<p>In this course, we won’t cover much on optimisation due to lack of time. Because we’re using a stack machine, code generation is fairly simple.</p>
+<h4 id="interpreter">Interpreter</h4>
+<p>Input is AST and updated symbol table. Interprets the AST directly to execute the program. Less time is spent compiling, at the cost of slower execution. Commonly used for high-level dynamically-typed languages.</p>
+<h2 id="pl0-programming-language">PL0 programming language</h2>
+<p>This is the programming language we will be working with through this course. It is designed for teaching and similar to Pascal.</p>
+<p>The PL0 concrete syntax can be found <a href="https://learn.uq.edu.au/bbcswebdav/pid-4972733-dt-content-rid-22842531_1/courses/COMP4403S_7020_21490/notes/PL0-CSyntax.pdf">here</a>.</p>
+<h3 id="example">Example</h3>
+<p>Consider the following snippet of PL0 code:</p>
+<pre><code>if x &lt; 0 then z := -x else z := x</code></pre>
+<p>Converting to lexical tokens, it becomes: KW_IF, ID(“x”), LESS, NUMBER(0), KW_THEN, ID(“z”), ASSIGN, MINUS, ID(“x”), KW_ELSE, ID(“z”), ASSIGN, ID(“x”).</p>
+<h3 id="concrete-syntax-parse-tree">Concrete syntax parse tree</h3>
+<p><strong>Terminals</strong> form leaf nodes in our parse tree. In this case, terminals are the lexical tokens.</p>
+<p>Note that the EBNF &gt; <em>Exp</em> → [PLUS | MINUS] Term {(PLUS | MINUS) Term} &gt; <em>Term</em> → Factor {(TIMES | DIVIDE) Factor} &gt; <em>Factor</em> → LPAREN Condition RPAREN | NUMBER | LValue</p>
+<p>ensures that TIMES and DIVIDE have higher precedence than PLUS and MINUS. This is because the smallest unit is the <em>Term</em>. This also allows parens to have the highest priority.</p>
+<p>Below is the concrete parse tree. Note that an <strong>in-order</strong> traversal of the tree will visit all leaf nodes in the same order as the original input. The tree expresses the structure of the program. However, the program cannot be exactly recreated because whitespace and comments are lost.</p>
+<p><img src="/assets/Clipboard_2020-02-24-09-25-26.png" /></p>
+<h3 id="abstract-syntax-tree">Abstract syntax tree</h3>
+<p>The compiler documentation can be found <a href="https://learn.uq.edu.au/bbcswebdav/pid-4972733-dt-content-rid-22842531_1/courses/COMP4403S_7020_21490/notes/PL0-Compiler.pdf">here</a>. It contains descriptions of the relevant AST nodes.</p>
+<p>The concrete tree is quite verbose. That is, there is a lot of noise needed to define the semantics of the language, such as <em>Term</em> and keywords. The AST strips this away.</p>
+<p><img src="/assets/Clipboard_2020-02-24-09-37-37.png" /></p>
+<h3 id="type-checking">Type checking</h3>
+<p>IdentiferNode is an intermediate node. It is either a constant defined in the source code (i.e. a literal) or a variable, which needs to be treated different. The reason why is a variable can be changed. A variable should be thought of as a reference or location which contains a mutable value.</p>
+<p>For example, we convert IdentifierNode(“x”) to VariableNode(“x”) with the type of ref(int). ConstNode(0) has the type int. However, because this is used as part of a BinaryNode with less-than, we need to dereference the left ref(int) to a int. This is done by inserting a DereferenceNode, giving us a int type.</p>
+<p>In the IdentiferNode(“z”) under AssignmentNode, it becomes a VariableNode(“z”) of type ref(int). It is important that the left hand size of an assignment is a reference. It doesn’t make sense to assign something to an integer.</p>
+<p><img src="/assets/Clipboard_2020-02-24-09-47-40.png" /></p><header id="title-block-header">
+<h1 class="title">Lecture 2 — Context-Free Grammars</h1>
+</header>
+
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#lecture-2-context-free-grammars">Lecture 2 — Context-Free Grammars</a>
+<ul>
+<li><a href="#context-free-grammars">Context-free grammars</a>
+<ul>
+<li><a href="#derivation-sequences">Derivation sequences</a></li>
+<li><a href="#derivations">Derivations</a></li>
+<li><a href="#nullables">Nullables</a></li>
+<li><a href="#languages-and-sentences">Languages and sentences</a></li>
+</ul></li>
+<li><a href="#parse-trees">Parse trees</a>
+<ul>
+<li><a href="#associativity">Associativity</a></li>
+<li><a href="#precedence">Precedence</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="lecture-2-context-free-grammars">Lecture 2 — Context-Free Grammars</h1>
+<p>Recall the phases of a compiler from last lecture. We’re going to be focusing on syntax analysis for the next few lectures.</p>
+<h2 id="context-free-grammars">Context-free grammars</h2>
+<p>By convention, to define a context-free grammar, it is sufficient to define a list of productions: <span class="math display">
+\begin{aligned}
+E &amp;\to E\ Op\ E \\ 
+E &amp;\to ``(&quot;\ E\ ``)&quot; \\ 
+E &amp;\to \textit{number} \\ 
+Op &amp;\to ``+&quot;\\
+Op &amp;\to ``-&quot;\\
+Op &amp;\to ``*&quot;
+\end{aligned}
+</span> This has start symbol <span class="math inline">E</span>, nonterminals <span class="math inline">\{E, Op\}</span> and terminals <span class="math inline">\{``(&quot;, ``)&quot;, \textit{number}, ``+&quot;, ``-&quot;, ``*&quot;\}</span>.</p>
+<blockquote>
+<p>A <strong>context-free grammar</strong> consists of - a finite set of terminal symbols <span class="math inline">\Sigma</span>, - a finite, non-empty set of nonterminal symbols (disjoint from the terminals), - a finite, non-empty set of productions <span class="math inline">A \to \alpha</span>, where <span class="math inline">A</span> is a nonterminal and <span class="math inline">\alpha</span> is a possibly empty sequence of nonterminal or terminal symbols, and - a start symbol which is nonterminal.</p>
+</blockquote>
+<h3 id="derivation-sequences">Derivation sequences</h3>
+<p>Productions can be used to rewrite strings of symbols. A leftmost derivation sequence for <span class="math inline">3-4-2</span> is <span class="math display">
+\begin{aligned}
+E &amp;\Rightarrow E\ Op\ E\\
+&amp;\Rightarrow E\ Op\ E\ Op\ E\\
+&amp;\Rightarrow 3\ Op\ E\ Op\ E\\
+&amp;\Rightarrow 3\ -\ E\ Op\ E\\
+&amp;\Rightarrow 3\ -\ 4\ Op\ E\\
+&amp;\Rightarrow 3\ -\ 4\ -\ E\\
+&amp;\Rightarrow 3\ -\ 4\ -\ 2\\
+\end{aligned}
+</span> The leftmost nonterminal is expanded at each stage.</p>
+<p>The process of expanding <span class="math inline">3-4</span> goes something like this: 1. Start with the start symbol. Which of the 3 alternatives do we choose? The first (somewhat arbitrarily). 2. Then, we expand the left <span class="math inline">E</span> to the number 3. 3. And so on.</p>
+<h3 id="derivations">Derivations</h3>
+<p>Given a production <span class="math inline">N \to \gamma</span>, a <strong>direct derivation</strong> is <span class="math display">
+\alpha N \beta \Rightarrow \alpha \gamma \beta.
+</span> A <strong>derivation</strong> is a sequence of 0 or more direct derivations. It is written <span class="math inline">\alpha \xRightarrow * \beta</span> and read “<span class="math inline">\alpha</span> derives <span class="math inline">\beta</span>”.</p>
+<h3 id="nullables">Nullables</h3>
+<p>A possibly empty sequence <span class="math inline">\alpha</span> is <strong>nullable</strong> if it can derive the empty string, often denoted <span class="math inline">\epsilon</span>. There are some rules: - <span class="math inline">\epsilon</span> is nullable, - any terminal is non-nullable, - a sequence is nullable only if all items are nullable, - a set of alternatives is nullable if any is alternative nullable, - EBNF optionals and repetitions are nullable, and - a non-terminal <span class="math inline">N</span> is nullable if some production of <span class="math inline">N</span> has a nullable right-hand side.</p>
+<h3 id="languages-and-sentences">Languages and sentences</h3>
+<p>The <strong>formal language</strong> <span class="math inline">\mathcal L(G)</span> of some grammar <span class="math inline">G</span> is the set of all finite sequences of terminals derivable from the start symbol <span class="math inline">S</span> of <span class="math inline">G</span>. That is, <span class="math display">
+\mathcal L(G) = \{t \in \operatorname{seq}\Sigma ~|~ S \xRightarrow *t\}.
+</span></p>
+<p>A <strong>sentence</strong> is a sequence of terminals derivable from the start symbol, <span class="math inline">S \Rightarrow t</span>.</p>
+<p>A <strong>sentential form</strong> is a sequence of terminal and/or non-terminals derivable from the start symbol, <span class="math inline">S \xRightarrow{*} \alpha</span>.</p>
+<p><em>Examples of languages:</em> <img src="/assets/Clipboard_2020-02-28-19-57-28.png" alt="Examples of languages" />.</p>
+<h2 id="parse-trees">Parse trees</h2>
+<p><img src="/assets/Clipboard_2020-02-28-19-59-40.png" /> This grammar is <em>ambiguous</em>, which is usually bad. A derivation sequence of a sentnece has a corresponding parse tree.</p>
+<p>A grammar <span class="math inline">G</span> is <strong>ambiguous for a sentence</strong> <span class="math inline">t</span> if there is more than one parse tree for <span class="math inline">t</span>.</p>
+<p>A grammar <span class="math inline">G</span> itself is <strong>ambiguous</strong> if any sentence is ambiguous.</p>
+<h3 id="associativity">Associativity</h3>
+<p>To remove ambiguity, we can enforce left or right associativity into the grammar. For left-asssociative, <span class="math display">
+\begin{aligned}
+E &amp;\to E\ ``-&quot;\ T \\ 
+E &amp;\to T \\ 
+T &amp;\to N
+\end{aligned}
+</span> For right, <span class="math display">
+\begin{aligned}
+E &amp;\to T\ ``-&quot;\ E \\ 
+E &amp;\to T \\ 
+T &amp;\to N
+\end{aligned}
+</span></p>
+<h3 id="precedence">Precedence</h3>
+<p>A grammar like <span class="math display">
+\begin{aligned}
+E &amp;\to E\ ``+&quot;\ E \\ 
+E &amp;\to E \ ``*&quot;\ E \\ 
+E &amp;\to N
+\end{aligned}
+</span> is ambiguous because the order is not specified. To ensure <span class="math inline">+</span> has lower precedence (and is left associative), we can rewrite it as the following: <span class="math display">
+\begin{aligned}
+E &amp;\to E\ ``+&quot;\ T ~|~T \\ 
+T &amp;\to T \ ``*&quot;\ F ~|~ F \\ 
+F &amp;\to N\ |\ ``(&quot;\, E\, ``)&quot;
+\end{aligned}
+</span> This grammar is unambiguous. That is, it treats <span class="math inline">+</span> as lower precedence than <span class="math inline">*</span> unless it is surrounded by parentheses.</p><header id="title-block-header">
+<h1 class="title">Lecture 3 — Context-Free Grammars 2</h1>
+</header>
+
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#lecture-3-context-free-grammars-2">Lecture 3 — Context-Free Grammars 2</a>
+<ul>
+<li><a href="#statement-sequences">Statement sequences</a>
+<ul>
+<li><a href="#if-statements">If statements</a></li>
+</ul></li>
+<li><a href="#chomsky-hierarchy-of-grammars">Chomsky hierarchy of grammars</a></li>
+<li><a href="#recursive-descent-parsing">Recursive descent parsing</a>
+<ul>
+<li><a href="#implementation">Implementation</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="lecture-3-context-free-grammars-2">Lecture 3 — Context-Free Grammars 2</h1>
+<p>Consider a grammar: <span class="math display">
+\begin{aligned}
+L &amp;\to LL \\ 
+L &amp;\to ``x&quot; \\ 
+L &amp;\to \epsilon
+\end{aligned}
+</span> The language of this is <span class="math display">
+\mathcal L(G) = \{\epsilon, x, xx, xxx, \ldots\}.
+</span> This is ambiguous because the expansion of <span class="math inline">\epsilon</span> could occur anywhere in the string. For example, <span class="math inline">x</span> has parse trees <span class="math inline">L(x)</span>, <span class="math inline">L(L(x), L(\epsilon))</span>, and more.</p>
+<p>To make this unambiguous, we can force the literal <span class="math inline">x</span> to occur at either the start or end of the production. That is, <span class="math display">
+\begin{aligned}
+L &amp;\to L\ ``x&quot; \\ 
+L &amp;\to \epsilon
+\end{aligned}
+</span> It should be obvious that <span class="math inline">\mathcal L(G)</span> is unchanged from before, but the grammar is now unambiguous.</p>
+<h2 id="statement-sequences">Statement sequences</h2>
+<p>Consider a sequence of one or more statements separated by semicolons. A possible grammar is <span class="math display">
+\begin{aligned}
+SS &amp;\to S \\ 
+SS &amp;\to SS\ ``;&quot;\ S
+\end{aligned}
+</span> Subtly different, consider a sequence of one or more statements <em>terminated</em> by semicolons. <span class="math display">
+\begin{aligned}
+SS &amp;\to S\ ``;&quot; SS\\
+SS &amp;\to SS\ S\ ``;&quot;
+\end{aligned}
+</span></p>
+<p>Some common idioms are things prefixed or suffixed by other things (left and right associative, respectively). <span class="math display">
+\begin{aligned}
+A \to A \alpha \ |\ \beta &amp;\implies \mathcal L(G) = \{\beta, \beta \alpha, \beta \alpha \alpha, \ldots\}\\
+A \to \alpha A \ |\ \beta &amp;\implies \mathcal L(G) = \{\beta, \alpha\beta, \alpha\alpha\beta, \ldots\}
+\end{aligned}
+</span></p>
+<h3 id="if-statements">If statements</h3>
+<p>Consider a grammar <span class="math display">
+\begin{aligned}
+S &amp;\to \textit{IfS} \ |\ \ldots \\ 
+\textit{IfS} &amp;\to \text{if } C \text{ then } S \text{ else } S \\
+\textit{IfS} &amp;\to \text{if } C \text{ then } S
+\end{aligned}
+</span> However, this is an ambiguous grammar. Take the case <span class="math inline">\text{if } C_1 \text{ then if } C_2 \text{ then } S_1 \text{ else } S_2</span>. The two interpretations are basically <span class="math display">
+\text{if } C_1 \text{ then \{ if } C_2 \text{ then } S_1 \text{ \} else } S_2\\
+\text{if } C_1 \text{ then \{ if } C_2 \text{ then } S_1 \text{ else } S_2\ \}
+</span> Traditionally, programming languages normally take the second one, matching the <span class="math inline">\text{else}</span> with the closest starting <span class="math inline">\text{if}</span> statement. This ambiguity is called the “dangling else problem”.</p>
+<p>Conventionally, we can also avoid the issue by enforcing braces (C-style), indentation (Python), or a terminating keyword <span class="math inline">\text{fi}</span> (ALGOL 68, Bash).</p>
+<h2 id="chomsky-hierarchy-of-grammars">Chomsky hierarchy of grammars</h2>
+<p>Here, nonterminal symbols are uppercase and terminals are lowercase. Greek letters signify possibly empty sequences of terminals or non-terminals. - <strong>Type 3</strong>: Left (or right) linear grammars: <span class="math inline">A \to \epsilon\ |\ aB\ |\ a</span>, with <span class="math inline">B</span> in the same form. - <strong>Type 2</strong>: Context-free grammars: <span class="math inline">A \to \alpha</span>. - <strong>Type 1</strong>: Context-sensitive grammars: <span class="math inline">\beta A \gamma \to \beta \alpha \gamma</span>. - <strong>Type 0</strong>: Unrestricted grammars: <span class="math inline">\alpha \to \beta</span>, where <span class="math inline">\alpha \ne \epsilon</span>.</p>
+<p>Note that each type is a superset of the previous. Type 3 left linear grammars are, in fact, regular expressions. Type 1 is called context-sensitive because we can only replace <span class="math inline">A</span> with <span class="math inline">\alpha</span> when it is surrounded by the appropriate symbols.</p>
+<p>There are some correspondences between these types and more familiar conventions: - <strong>Type 3</strong>: finite automaton (state machines), regular expressions, left/right linear grammars. - <strong>Type 2</strong>: pushdown automaton (with a stack), context-free grammar. - <strong>Type 1</strong>: context-sensitive grammar. - <strong>Type 0</strong>: unrestricted grammar, Turing machine equivalent, general computation.</p>
+<h2 id="recursive-descent-parsing">Recursive descent parsing</h2>
+<p>We will focus on top-down parsing for now, with bottom-up parsing to come later.</p>
+<p>We will be using extended BNF (EBNF) to write our grammars. It is always possible to take an ENBF grammar and rewrite it as BNF. It introduces the following syntax: - <span class="math inline">[\ S\ ]</span> is for optionals and is equivalent to <span class="math inline">\textit{OpS} \to S\ |\ \epsilon</span>. - <span class="math inline">\{\ S\ \}</span> is for zero or more repetitions of <span class="math inline">S</span> and is equivalent to <span class="math inline">\textit{RepS}\to(S)\ \textit{RepS}\ |\ \epsilon</span>. - <span class="math inline">(\ S\ )</span> is for precedence grouping.</p>
+<h3 id="implementation">Implementation</h3>
+<p>We start with terminal symbols, such as identifiers, matching them with <code>tokens.match(Token.T)</code>.</p>
+<p>For non-terminal symbols, such as <span class="math inline">\textit{RelCondition}</span>, we will write something like <code>parseRelCondition()</code>.</p>
+<p>To parse a sequence of symbols, such as <span class="math inline">S_1S_2\ldots</span>, we will use <code>recog(s1); recog(s2);</code> for some recogniser functions.</p>
+<p>For example, to parse <span class="math inline">\textit{Factor}\to\textit{LPAREN RelCondition RPAREN}</span> we will use</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>tokens.<span class="fu">match</span>(Token.<span class="fu">LPAREN</span>);</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="fu">parseRelCondition</span>();</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>tokens.<span class="fu">match</span>(Token.<span class="fu">RPAREN</span>);</span></code></pre></div>
+<p>For alternatives, we need to be careful about which alternative to choose. In this grammar, it is always possible to choose the correct alternative by at one token. This is not always the case. For $  |  | , we can match it using</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="dt">void</span> <span class="fu">parseFactor</span>() {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>  <span class="kw">if</span> (tokens.<span class="fu">isMatch</span>(Token.<span class="fu">LPAREN</span>)) {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>    tokens.<span class="fu">match</span>(Token.<span class="fu">LPAREN</span>);</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>    <span class="fu">parseRelCondition</span>();</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>    tokens.<span class="fu">match</span>(Token.<span class="fu">RPAREN</span>);</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>  } <span class="kw">else</span> <span class="kw">if</span> (tokens.<span class="fu">isMatch</span>(Token.<span class="fu">NUMBER</span>)) {</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>    tokens.<span class="fu">match</span>(Token.<span class="fu">NUMBER</span>);</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>  } <span class="kw">else</span> <span class="kw">if</span> (tokens.<span class="fu">isMatch</span>(Token.<span class="fu">IDENTIFIER</span>)) {</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a>    <span class="fu">parseLValue</span>();</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a>  } <span class="kw">else</span> {</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a>    <span class="co">// throw new eXcEPtIoN(&quot;yeet&quot;);</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a>    <span class="fu">error</span>(<span class="st">&quot;Syntax error&quot;</span>);</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a>  }</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true"></a>}</span></code></pre></div>
+<p>To parse optionals, such as <span class="math inline">\textit{RelCondition} \to \textit{Exp } [\ \textit{RelOp Exp}\ ]</span>, we can use something like</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="dt">void</span> <span class="fu">parseRelCondition</span>() {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>  <span class="fu">parseExp</span>();</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>  <span class="kw">if</span> (tokens.<span class="fu">isIn</span>(REL_OPS_SET)) { <span class="co">// because there are multiple RelOps</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>    <span class="fu">parseRelOp</span>();</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>    <span class="fu">parseExp</span>();</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a>  }</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a>}</span></code></pre></div>
+<p>To parse an if statement of the form <span class="math display">
+\textit{IfStatement} \to \textit{KW\_IF Condition KW\_THEN Statement }[\textit{ KW\_ELSE Statement }],
+</span> we can use</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="dt">void</span> <span class="fu">parseIfStatement</span>() {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>  tokens.<span class="fu">match</span>(Token.<span class="fu">KW_IF</span>);</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>  <span class="fu">parseCondition</span>();</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>  tokens.<span class="fu">match</span>(Token.<span class="fu">KW_THEN</span>);</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>  <span class="fu">parseStatement</span>();</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a>  <span class="kw">if</span> (tokens.<span class="fu">isMatch</span>(Token.<span class="fu">KW_ELSE</span>)) {</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a>    tokens.<span class="fu">match</span>(Token.<span class="fu">KW_ELSE</span>);</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true"></a>    <span class="fu">parseStatement</span>();</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true"></a>  }</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true"></a>}</span></code></pre></div>
+<p>We can parse a term of <span class="math inline">\textit{Term} \to \textit{Factor }\{\ (\textit{ TIMES | DIVIDE ) Factor }\}</span> like</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="dt">void</span> <span class="fu">parseTerm</span>() {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>  <span class="fu">parseFactor</span>();</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>  <span class="kw">while</span> (tokens.<span class="fu">isIn</span>(TERM_OPS_SET)) {</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>    tokens.<span class="fu">match</span>(tokens.<span class="fu">isMatch</span>(Token.<span class="fu">TIMES</span>) ? Token.<span class="fu">TIMES</span> : Token.<span class="fu">DIVIDE</span>);</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>    <span class="co">// we should assert error if token is neither times or divide.</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a>    <span class="fu">parseFactor</span>();</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a>  }</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true"></a>}</span></code></pre></div>
+<p>Consider a rule <span class="math inline">\textit{Factor} \to \textit{LPAREN Exp RPAREN }|\ \textit{NUMBER}</span>. We might want it to <em>evaluate</em> a factor as we parse it. We can do that with an extra variable, like</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="dt">int</span> <span class="fu">parseFactor</span>() {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>  <span class="dt">int</span> result = <span class="bn">0x80808080</span>; <span class="co">// useful useless value.</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>  <span class="kw">if</span> (tokens.<span class="fu">isMatch</span>(Token.<span class="fu">LPAREN</span>)) {</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a>    tokens.<span class="fu">match</span>(Token.<span class="fu">LPAREN</span>);</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a>    result = <span class="fu">parseExp</span>();</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a>    tokens.<span class="fu">match</span>(Token.<span class="fu">RPAREN</span>);</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a>  } <span class="kw">else</span> <span class="kw">if</span> (tokens.<span class="fu">isMatch</span>(Token.<span class="fu">NUMBER</span>)) {</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a>    result = tokens.<span class="fu">getIntValue</span>(); <span class="co">// assumes current token is a number</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true"></a>    tokens.<span class="fu">match</span>(Token.<span class="fu">NUMBER</span>); <span class="co">// consume and advance to next token</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true"></a>  } <span class="kw">else</span> {</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true"></a>    <span class="fu">error</span>(<span class="st">&quot;Syntax error&quot;</span>);</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true"></a>  }</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true"></a>  <span class="kw">return</span> result;</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true"></a>}</span></code></pre></div><header id="title-block-header">
+<h1 class="title">Lecture 4 — Recursive Descent Parsing 2 &amp; Abstract Syntax Trees</h1>
+</header>
+
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#lecture-4-recursive-descent-parsing-2-abstract-syntax-trees">Lecture 4 — Recursive Descent Parsing 2 &amp; Abstract Syntax Trees</a>
+<ul>
+<li><a href="#constructing-an-abstract-syntax-tree">Constructing an abstract syntax tree</a></li>
+<li><a href="#syntax-error-recovery">Syntax error recovery</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="lecture-4-recursive-descent-parsing-2-abstract-syntax-trees">Lecture 4 — Recursive Descent Parsing 2 &amp; Abstract Syntax Trees</h1>
+<p>We are continuing to take a grammar and write a Java parser for that grammar.</p>
+<p>Refer to <em>RecursiveDescentParsing.pdf</em> for examples of Java code for specific EBNF constructs.</p>
+<p>Let’s look at Terms now. <span class="math inline">\textit{TERM} \to \textit{Factor }\{ \textit{ (TIMES | DIVIDE) Factor }\}</span>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="dt">int</span> <span class="fu">parseTerm</span>() {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>  <span class="dt">int</span> result;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>  result = <span class="fu">parseFactor</span>();</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>  <span class="kw">while</span> (tokens.<span class="fu">isIn</span>(TERM_OPS_SET)) { <span class="co">// set of times and divide</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>    <span class="dt">boolean</span> times;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>    <span class="kw">if</span> (tokens.<span class="fu">isMatch</span>(Token.<span class="fu">TIMES</span>)) {</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>      times = <span class="kw">true</span>;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>      tokens.<span class="fu">match</span>(Token.<span class="fu">TIMES</span>);</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>    } <span class="kw">else</span> <span class="kw">if</span> (tokens.<span class="fu">isMatch</span>(Token.<span class="fu">DIVIDE</span>)) {</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>      times = <span class="kw">false</span>;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>      tokens.<span class="fu">match</span>(Token.<span class="fu">DIVIDE</span>);</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a>    } <span class="kw">else</span> {</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a>      <span class="fu">fatal</span>(<span class="st">&quot;unknown term operator in set&quot;</span>);</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a>    }</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a>    <span class="dt">int</span> factor = <span class="fu">parseFactor</span>();</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a>    <span class="kw">if</span> (times) {</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a>      result *= factor;</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a>    } <span class="kw">else</span> {</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a>      result /= factor;</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true"></a>    }</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true"></a>  }</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true"></a>  <span class="kw">return</span> result;</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true"></a>}</span></code></pre></div>
+<h2 id="constructing-an-abstract-syntax-tree">Constructing an abstract syntax tree</h2>
+<p>Using the same example from above, we will parse a <em>Term</em> into an AST.</p>
+<blockquote>
+<p><em>Term</em> → <em>Factor</em> { (<em>TIMES</em> | <em>DIVIDE</em>) <em>Factor</em> }.</p>
+</blockquote>
+<div class="sourceCode" id="cb2"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>ExpNode <span class="fu">parseTerm</span>() {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>  ExpNode result = <span class="fu">parseFactor</span>();</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>  <span class="kw">while</span> (tokens.<span class="fu">isIn</span>(TERM_OPS_SET)) { <span class="co">// set of times and divide</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>    Operator op = Operator.<span class="fu">INVALID_OP</span>;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>    <span class="bu">Location</span> opLoc = tokens.<span class="fu">getLocation</span>();</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>    <span class="dt">boolean</span> times;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>    <span class="kw">if</span> (tokens.<span class="fu">isMatch</span>(Token.<span class="fu">TIMES</span>)) {</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>      op = Operator.<span class="fu">MUL_OP</span>;</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a>      tokens.<span class="fu">match</span>(Token.<span class="fu">TIMES</span>);</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a>    } <span class="kw">else</span> <span class="kw">if</span> (tokens.<span class="fu">isMatch</span>(Token.<span class="fu">DIVIDE</span>)) {</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a>      op = Operator.<span class="fu">DIV_OP</span>;</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a>      tokens.<span class="fu">match</span>(Token.<span class="fu">DIVIDE</span>);</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a>    } <span class="kw">else</span> {</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true"></a>      <span class="fu">fatal</span>(<span class="st">&quot;unknown term operator in set&quot;</span>);</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true"></a>    }</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true"></a>    ExpNode factor = <span class="fu">parseFactor</span>();</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true"></a>    result = <span class="kw">new</span> ExpNode.<span class="fu">BinaryNode</span>(opLoc, op, result, factor);</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true"></a>  }</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true"></a>  <span class="kw">return</span> result;</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true"></a>}</span></code></pre></div>
+<p>Let’s start with an expression <code>2 * 3 / 4</code>. Tracing the variables, with indentation roughly matching the code’s indentation,</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>result = <span class="fu">ConstNode</span>(l1, INTEGER_TYPE, <span class="dv">2</span>); <span class="co">// r1</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>  <span class="co">// enter while loop, first</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>  op = INVALID_OP;</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>  opLoc = l2;</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>    op = MUL_OP;</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a>  factor = <span class="fu">ConstNode</span>(l3, INTEGER_TYPE, <span class="dv">3</span>); <span class="co">// f1</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a>  result = <span class="fu">BinaryNode</span>(l2, MUL_OP, r1, f1); <span class="co">// r2</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a>  <span class="co">// while loop, second</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a>  op = INVALID_OP;</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a>  opLoc = l4;</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true"></a>    op = DIV_OP;</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true"></a>  factor = <span class="fu">ConstNode</span>(l5, INTEGER_TYPE, <span class="dv">4</span>); <span class="co">// f2</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true"></a>  result = <span class="fu">BinaryNode</span>(l4, DIV_OP, r2, f2);</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true"></a><span class="kw">return</span> result;</span></code></pre></div>
+<h2 id="syntax-error-recovery">Syntax error recovery</h2>
+<p><em>Moved to lecture 5.</em></p><header id="title-block-header">
+<h1 class="title">Lecture 5 — Syntax Error Recovery</h1>
+</header>
+
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#lecture-5-syntax-error-recovery">Lecture 5 — Syntax Error Recovery</a></li>
+</ul>
+</nav>
+
+<h1 id="lecture-5-syntax-error-recovery">Lecture 5 — Syntax Error Recovery</h1>
+<p>Remark: For this parsing method, the first symbols of any alternative must be pairwise disjoint.</p>
+<p>There are a few parts to syntax error recovery, such as when parsing and when matching. For example, when a syntax error is encountered it can throw away unexpected tokens or replace tokens with the correct token.</p>
+<blockquote>
+<p><em>WhileStatement → KW_WHILE Condition KW_DO Statement</em></p>
+</blockquote>
+<div class="sourceCode" id="cb1"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="dt">void</span> <span class="fu">parseWhileStatement</span>(TokenSet recoverSet) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>  <span class="co">// String is used for error messages and debugging.</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>  stmt.<span class="fu">parse</span>(<span class="st">&quot;WhileStatement&quot;</span>, Token.<span class="fu">KW_WHILE</span>, recoverSet, () -&gt; { <span class="co">// (2)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>    <span class="co">// CONDITION_START_SET is the set of tokens which start conditions</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>    tokens.<span class="fu">match</span>(Token.<span class="fu">KW_WHILE</span>, CONDITION_START_SET); <span class="co">// (1)</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>    <span class="fu">parseCondition</span>(recoverSet.<span class="fu">union</span>(Token.<span class="fu">KW_DO</span>));</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>    tokens.<span class="fu">match</span>(Token.<span class="fu">KW_DO</span>, STATEMENT_START_SET);</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>    <span class="fu">parseCondition</span>(recoverSet);</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>  });</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>}</span></code></pre></div>
+<p>Here, <strong>tokens.match</strong> takes a second argument. This is what tokens are expected to immediately follow a <code>while</code>.</p>
+<p>When matching terminals with <strong>(1)</strong>, if the next token is not <code>while</code>, it will emit an error message and see if the current token is in the start set. If it <em>is</em> in the set, it assumes the <code>while</code> token is missing and will implicitly insert it. If it is not, it will discard the token and repeat. (This is a very local way of recovering.)</p>
+<p>The other part is to do with matching non-terminals such as <strong>(2)</strong>. This looks to see if the next token is the <code>while</code> keyword. If it is, it executes the given function. If it is not, it will start skipping tokens until either a token is <code>while</code> <em>or</em> it finds something in the <em>recover set</em>. The recover set is a set of tokens expected to come after the entire while statement. In this case, it gives up and returns a dummy error node.</p>
+<p>For <strong>parseCondition</strong>, if it doesn’t match a condition, it will skip until a valid condition or anything in the passed recover set (which will also include <code>do</code>). This is the set of things which can follow the condition.</p>
+<p>Now, consider a parser for a <em>RelCondition</em>:</p>
+<blockquote>
+<p><em>RelCondition → Exp</em> [ <em>RelOp Exp</em> ]</p>
+</blockquote>
+<div class="sourceCode" id="cb2"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="dt">void</span> <span class="fu">parseRelCondition</span>(TokenSet recoverSet) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>  exp.<span class="fu">parse</span>(<span class="st">&quot;RelCondition&quot;</span>, EXP_START_SET, recoverSet, () -&gt; {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>    <span class="fu">parseExp</span>(recoverSet.<span class="fu">union</span>(REL_OP_SET));</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>    <span class="kw">if</span> (tokens.<span class="fu">isIn</span>(REL_OP_SET)) {</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>      <span class="fu">parseRelOp</span>(recoverSet.<span class="fu">union</span>(EXP_START_SET));</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>      <span class="fu">parseExp</span>(recoverSet); <span class="co">// because this is optional, not repetition.</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>    }</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>  });</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a>}</span></code></pre></div>
+<p>Let’s parse factors! &gt; <em>Factor → LPAREN Condition RPAREN</em> | <em>NUMBER</em> | <em>LValue</em></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>ExpNode <span class="fu">parseFactor</span>(TokenSet recoverSet) {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>  <span class="kw">return</span> exp.<span class="fu">parse</span>(<span class="st">&quot;Factor&quot;</span>, FACTOR_START_SET, recoverSet, () -&gt; {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>    ExpNode result = <span class="kw">null</span>;</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>    <span class="kw">if</span> (tokens.<span class="fu">isMatch</span>(Token.<span class="fu">LPAREN</span>)) {</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>      tokens.<span class="fu">match</span>(Token.<span class="fu">LPAREN</span>); <span class="co">// cannot fail</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a>      result = <span class="fu">parseCondition</span>(recoverSet.<span class="fu">union</span>(Token.<span class="fu">RPAREN</span>));</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a>      tokens.<span class="fu">match</span>(Token.<span class="fu">RPAREN</span>, recoverSet);</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a>    } <span class="kw">else</span> <span class="kw">if</span> (tokens.<span class="fu">isMatch</span>(Token.<span class="fu">NUMBER</span>)) {</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a>      result = <span class="kw">new</span> ExpNode.<span class="fu">ConstNode</span>(tokens.<span class="fu">getLocation</span>(), </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a>        Predefined.<span class="fu">INTEGER_TYPE</span>, tokens.<span class="fu">getIntValue</span>());</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true"></a>      tokens.<span class="fu">match</span>(Token.<span class="fu">NUMBER</span>); <span class="co">// cannot fail</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true"></a>    } <span class="kw">else</span> <span class="kw">if</span> (tokens.<span class="fu">isMatch</span>(Token.<span class="fu">IDENTIFIER</span>)) {</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true"></a>      result = <span class="fu">parseLValue</span>(recoverSet);</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true"></a>    } <span class="kw">else</span> {</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true"></a>      <span class="co">// will never occur because .parse() only calls this code</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true"></a>      <span class="co">// when a FACTOR_START_SET item is found.</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true"></a>      <span class="fu">fatal</span>(<span class="st">&quot;internal error in parseFactor&quot;</span>);</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true"></a>    }</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true"></a>    <span class="kw">return</span> result;</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true"></a>  });</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true"></a>}</span></code></pre></div>
+<p>Note that we must use <strong>tokens.match</strong> after building the constant node because it consumes the next number.</p><header id="title-block-header">
+<h1 class="title">Lecture 6 — Static Semantic Analysis</h1>
+</header>
+
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#lecture-6-static-semantic-analysis">Lecture 6 — Static Semantic Analysis</a>
+<ul>
+<li><a href="#type-inference-rules">Type inference rules</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="lecture-6-static-semantic-analysis">Lecture 6 — Static Semantic Analysis</h1>
+<p>At the top level, a program is just a block and a block contains declarations then the main body. Declarations are a mapping from an identifier to a declaration.</p>
+<p>Statements are assignments, writes, reads, calls, if, while, or statement lists.</p>
+<p>Expressions can be numbers, lvalues, unary operators, binary operators, or a ‘narrow’ which narrows an expression to a subrange.</p>
+<p>We need to know the types of all the identifiers as they’re declared. This is represented as a mapping, or symbol table. We also need to know the types of operators, such as <span class="math inline">+ : \mathbb Z \times\mathbb Z \to \mathbb Z</span>.</p>
+<p>If we declare <span class="math inline">x</span> to be an integer, internally we know it is a “ref int” or a reference to an integer.</p>
+<p>The symbol table stores ConstEntry, TypeEntry, VarEntry, or ProcEntry. For example, the code</p>
+<pre><code>const C = 42;
+type S = [-C..C];
+var b : boolean;
+    y : S;</code></pre>
+<p>has the following symbol table &gt; C ↦ ConstEntry(int, 42) &gt; S ↦ TypeEntry(subrange(int, -42, 42)) &gt; b ↦ VarEntry(ref(boolean)) &gt; y ↦ VarEntry(ref(subrange(int, -42, 42)))</p>
+<h3 id="type-inference-rules">Type inference rules</h3>
+<p>Something like <span class="math inline">\textit{syms} ~\vdash n : \text{int}</span> (<strong>integer value</strong>) means that given a symbol table <em>syms</em>, any number is of type int.</p>
+<p><img src="/assets/Clipboard_2020-03-14-10-31-47.png" /></p>
+<p>There are other rules in the PL0-SSemantics.pdf document. Note that narrowing subranges may require a runtime check or more advanced static analysis.</p>
+<p><img src="/assets/Clipboard_2020-03-14-10-30-12.png" /></p>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#lecture-7-static-semantic-analysis-2">Lecture 7 — Static Semantic Analysis (2)</a>
+<ul>
+<li><a href="#the-pl0-compiler-assignment">The PL0 Compiler (Assignment)</a>
+<ul>
+<li><a href="#visitor-pattern">Visitor Pattern</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="lecture-7-static-semantic-analysis-2">Lecture 7 — Static Semantic Analysis (2)</h1>
+<p>Recall the type inference rules:</p>
+<p><img src="/assets/Clipboard_2020-03-14-10-31-47.png" /></p>
+<p>Also, remember that for all variables, the entry in the symbol table will be a type “ref(T)”.</p>
+<p>In this language, statements don’t have a particular type. They are either well-formed or not. In our rules, we only deal with “WFStatement”.</p>
+<figure>
+<img src="/assets/image-20200323100705640.png" alt="" /><figcaption>image-20200323100705640</figcaption>
+</figure>
+<p>These give rules for when a statement is considered well-formed.</p>
+<p>Consider the following example:</p>
+<pre><code>type s = [-42..42];
+var y : S;
+    y := 4;</code></pre>
+<figure>
+<img src="/assets/static%20semantic.png" alt="" /><figcaption>static semantic</figcaption>
+</figure>
+<figure>
+<img src="/assets/ss%20if%20statement.png" alt="" /><figcaption>ss if statement</figcaption>
+</figure>
+<h2 id="the-pl0-compiler-assignment">The PL0 Compiler (Assignment)</h2>
+<h3 id="visitor-pattern">Visitor Pattern</h3>
+<p>We need to write a class which visits each type of node.</p>
+<p>Tree nodes have a function <code>accept(Visitor v)</code> which calls <code>v.visitXTree()</code>, and the Visitor class has methods <code>visitXTree</code> which call accept on the relevant children.</p>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#lecture-8-constant-expressions">Lecture 8 — Constant Expressions</a>
+<ul>
+<li><a href="#the-interpreter">The Interpreter</a>
+<ul>
+<li><a href="#an-example-of-stack-frames">An example of stack frames</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="lecture-8-constant-expressions">Lecture 8 — Constant Expressions</h1>
+<blockquote>
+<p>Assignment 1 deadline has been pushed back to Thursday, 9th April.</p>
+</blockquote>
+<p>Let’s look at constants. The only operation we can do on constants is negation. They can also refer to other constants, but we need to be careful of circular references. In the compiler, constant expressions have 3 states: unresolved, resolving and resolved.</p>
+<pre><code>const A = -27;
+      C = -D;
+      D = -C;
+      E = 5;</code></pre>
+<p>A number is initially resolved because it has an obvious value. A negate node can be evaluated by negating its subexpression value. A constant node needs to detect and invalidate circular constants by making use of the “resolving” state. A constant identifier should only ever be evaluated once (I believe).</p>
+<p>A similar circular definition can occur with types. They are handled in the same way.</p>
+<h2 id="the-interpreter">The Interpreter</h2>
+<p>In this course, we’re looking at two different ways of executing programs: an interpreter and code generation (for a stack machine).</p>
+<p>It makes use of the visitor pattern, but using values instead of nodes.</p>
+<p>For each procedure call, there is a stack frame which contains space for variables (entries), its procedure, and other information. There are various functions to visit different types of nodes, which return Value subclasses.</p>
+<ul>
+<li>The value returned for a variable is an address, which has a level and offset.</li>
+<li>The value of visiting a binary node is an integer value, resulting from the evaluation of the operation. Logical values are internally treated as 1 and 0.</li>
+<li>Similarly for a unary node, we evaluate return the result.</li>
+<li>A dereference node gets the left-value and evaluates it by locating its containing frame and offset. Unassigned variables are detected by null inside the frame.</li>
+<li>Visit a narrow subrange node evaluates the expression, then does a runtime check to ensure the value is within the subrange.</li>
+<li>Widen will always succeed so just returns the integer.</li>
+<li>Visitng a statement list node just calls ‘accept’ for each statement in the list.</li>
+<li>An assignment evaluates the left and right sides. Left should be an address and right should be an integer, then it assigns the variable to the left-value.</li>
+<li>Call sets up a new frame for the function’s variables, then executes the function block using ‘accept’. The previous frame is restored after exiting the function.</li>
+<li>An if statement evaluates the condition, then calls the appropriate block depending on if it was true or false.</li>
+<li>A while node is similar.</li>
+</ul>
+<h3 id="an-example-of-stack-frames">An example of stack frames</h3>
+<pre><code>var x : int;
+    y : int;
+procedure f() =
+    var y : int;
+    begin
+        y := x;
+        if x &gt; 0 then
+        begin
+            x := x-1;
+            call f();
+        end
+        else
+            y := x;
+        write y
+    end;
+begin
+    x := 2;
+    call f()
+end</code></pre>
+<p>Let’s look at the stack frame for this (nonsense) program. A stack frame contains a static link and dynamic link, then an array of variable entries.</p>
+<p>First, we assign 2 to <span class="math inline">x</span> within the Main frame:</p>
+<figure>
+<img src="/assets/image-20200325154412125.png" alt="" /><figcaption>image-20200325154412125</figcaption>
+</figure>
+<p>Then, we construct a new frame for <span class="math inline">f</span>. The static link here is a pointer to the closest program which directly includes it. Here, it will be a pointer up to the main frame. The dynamic link always points to the procedure or main program which called <span class="math inline">f</span>. In this case, it is also main.</p>
+<p>We find the value of <span class="math inline">x</span> by looking up the frames, then store that into <span class="math inline">y</span>. Then, we decrement <span class="math inline">x</span> because <span class="math inline">x &gt; 0</span>.</p>
+<figure>
+<img src="/assets/image-20200325154637816.png" alt="" /><figcaption>image-20200325154637816</figcaption>
+</figure>
+<p>We construct a new stack frame. The static link will be to main, the dynamic link will be to the first <span class="math inline">f</span> frame.</p>
+<p>Then we call <span class="math inline">f</span> again, with similar results. Now, <span class="math inline">x</span> is not <span class="math inline">&gt;0</span> so we assign <span class="math inline">x</span> to <span class="math inline">y</span>, then write out <span class="math inline">y</span> and return.</p>
+<figure>
+<img src="/assets/image-20200325154851187.png" alt="" /><figcaption>image-20200325154851187</figcaption>
+</figure>
+<p>When we return, that means we throw away the last frame, then go back and write <span class="math inline">y</span> in the 2nd <span class="math inline">f</span> frame, then go up and write <span class="math inline">y</span> in the 1st frame, then go back to main, then terminate.</p>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#lecture-9-left-factoring-and-left-recursion-removal">Lecture 9 — Left-Factoring and Left-Recursion Removal</a>
+<ul>
+<li><a href="#left-factors">Left factors</a></li>
+<li><a href="#left-recursion">Left recursion</a>
+<ul>
+<li><a href="#multiple-direct-left-recursions">Multiple (direct) left recursions</a></li>
+<li><a href="#indirect-left-recursions">Indirect left recursions</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="lecture-9-left-factoring-and-left-recursion-removal">Lecture 9 — Left-Factoring and Left-Recursion Removal</h1>
+<blockquote>
+<p>March 29, 2020</p>
+</blockquote>
+<p>This is important because if we want LL(1) RDP, any grammar with a common left factor between two alternatives or a left-recursion is unsuitable.</p>
+<h2 id="left-factors">Left factors</h2>
+<p>Consider</p>
+<blockquote>
+<p><em>IfStmt</em> → if ( <em>Cond</em> ) <em>Stmt</em> | if ( <em>Cond</em> ) <em>Stmt</em> else <em>Stmt</em></p>
+</blockquote>
+<p>which is unsuitable for RDP with one symbol look ahead because the two alternatives share a common prefix. This can be rewritten as</p>
+<blockquote>
+<p><em>IfStmt</em> → if ( <em>Cond</em> ) <em>Stmt</em> <em>ElsePart</em> <em>ElsePart</em> → <span class="math inline">\epsilon</span> | else <em>Stmt</em></p>
+</blockquote>
+<p>Remark: This still has the dangling else problem, which is resolved in the parser by selecting the else over the empty string. Also, in EBNF, this is equivalent to <em>IfStmt →</em> if ( <em>Cond</em> ) <em>Stmt</em> [ else <em>Stmt</em> ].</p>
+<p>In general, to remove a left factor of the form <em>A</em> → <span class="math inline">\alpha\ \beta ~|~ \alpha\  \gamma</span>, we can rewrite the production using an additional new non-terminal as</p>
+<blockquote>
+<p><em>A</em> → <span class="math inline">\alpha</span> <em>A’</em> <em>A’</em> → <span class="math inline">\beta</span> | <span class="math inline">\gamma</span></p>
+</blockquote>
+<h2 id="left-recursion">Left recursion</h2>
+<p>A production of the form <em>E → E</em> + <em>T</em> | <em>T</em> is unsuitable for recursive descent parsing because the left recursion always leads to itself, an infinite recursion. This production matches T, T+T, T+T+T, …. Then, the grammar can be rewritten as</p>
+<blockquote>
+<p><em>E</em> → <em>T</em> <em>E’</em> <em>E’</em> → <span class="math inline">\epsilon</span> | + <em>T</em> <em>E’</em></p>
+</blockquote>
+<p>which is <em>E</em> → <em>T</em> { + <em>T</em> } in EBNF.</p>
+<p>In general, <em>A</em> → <em>A</em> <span class="math inline">\alpha</span> | <span class="math inline">\beta</span> (which matches a <span class="math inline">\beta</span> followed by zero or more <span class="math inline">\alpha</span>’s) can be rewritten as</p>
+<blockquote>
+<p><em>A</em> → <span class="math inline">\beta</span> <em>A’</em> <em>A’</em> → <span class="math inline">\epsilon</span> | <span class="math inline">\alpha</span> <em>A’</em></p>
+</blockquote>
+<p>Note the similarities to the left factoring case.</p>
+<h3 id="multiple-direct-left-recursions">Multiple (direct) left recursions</h3>
+<p>The above rewriting rules can be used when <span class="math inline">\alpha</span> is replaced by <span class="math inline">\alpha_1 ~|~ \alpha_2 ~|~ \cdots</span> and <span class="math inline">\beta</span> is <span class="math inline">\beta_1 ~|~ \beta_2 ~|~ \cdots</span>, to rewrite left recursions of the form <em>A</em> → <em>A</em> <span class="math inline">\alpha_1</span> | <span class="math inline">\cdots</span> | <em>A</em> <span class="math inline">\alpha_n</span> | <span class="math inline">\beta_1</span> | <span class="math inline">\cdots</span> | <span class="math inline">\beta_m</span>.</p>
+<p>For example, <em>E</em> → <em>E</em> + <em>T</em> | <em>E</em> − <em>T</em> | <em>T</em> can be rewritten as</p>
+<blockquote>
+<p><em>E</em> → <em>T</em> <em>E’</em> <em>E’</em> → <span class="math inline">\epsilon</span> | + <em>T</em> | − <em>T</em></p>
+</blockquote>
+<h3 id="indirect-left-recursions">Indirect left recursions</h3>
+<p>Consider the following production for <em>A</em> which has both a direct left recursion and an indirect left recursion.</p>
+<blockquote>
+<p><em>A</em> → <em>A</em> <span class="math inline">\alpha_1</span> | <em>B</em> <span class="math inline">\alpha_2</span> <em>B</em> → <em>B</em> <span class="math inline">\beta_1</span> | <em>C</em> <span class="math inline">\beta_2</span> <em>C</em> → <em>A</em> <span class="math inline">\gamma_1</span> | <span class="math inline">\gamma_2</span></p>
+</blockquote>
+<p>First, re remove the <em>direct</em> left recursions for <em>A</em> and <em>B</em> with</p>
+<blockquote>
+<p><em>A</em> → <em>B</em> <span class="math inline">\alpha_2</span> <em>A’</em> <em>A’</em> → <span class="math inline">\epsilon</span> | <em>A’</em> <span class="math inline">\alpha_1</span> <em>B</em> → <em>C</em> <span class="math inline">\beta_2</span> <em>B’</em> <em>B’</em> → <span class="math inline">\epsilon</span> | <span class="math inline">\beta_1</span> <em>B’</em> <span class="math inline">C \to A\ \gamma_1~|~\gamma_2</span></p>
+</blockquote>
+<p>To replace the indirect left recursion through <span class="math inline">B</span>, we first replace the use of <span class="math inline">B</span> in the production of <span class="math inline">A</span> with its definition, then do the same for <span class="math inline">C</span>.</p>
+<blockquote>
+<p><em>A</em> → <em>C</em> <span class="math inline">\beta_2</span> <em>B’</em> <span class="math inline">\alpha_2</span> <em>A’</em> <em>A’</em> → <span class="math inline">\epsilon</span> | <em>A’</em> <span class="math inline">\alpha_1</span> <em>B’</em> → <span class="math inline">\epsilon</span> | <span class="math inline">\beta_1</span> <em>B’</em> <span class="math inline">C \to A\ \gamma_1~|~\gamma_2</span></p>
+</blockquote>
+<blockquote>
+<p><em>A</em> → <span class="math inline">(A\ \gamma_1~|~\gamma_2)</span> <span class="math inline">\beta_2</span> <em>B’</em> <span class="math inline">\alpha_2</span> <em>A’</em> <em>A’</em> → <span class="math inline">\epsilon</span> | <em>A’</em> <span class="math inline">\alpha_1</span> <em>B’</em> → <span class="math inline">\epsilon</span> | <span class="math inline">\beta_1</span> <em>B’</em></p>
+</blockquote>
+<p>Expanding the grouping parentheses, we can now see a direct left recursion which we rewrite as usual.</p>
+<blockquote>
+<p><em>A</em> → <span class="math inline">A\ \gamma_1\ \beta_2 B&#39;\ \alpha_2\ A&#39; ~|~ \gamma_2\ \beta_2\ B&#39;\ \alpha_2\ A&#39;</span> <em>A’</em> → <span class="math inline">\epsilon</span> | <em>A’</em> <span class="math inline">\alpha_1</span> <em>B’</em> → <span class="math inline">\epsilon</span> | <span class="math inline">\beta_1</span> <em>B’</em></p>
+</blockquote>
+<blockquote>
+<p><span class="math display">
+\begin{aligned}
+A &amp;\to \gamma_2\ \beta_2\ B&#39;\ \alpha_2\ A&#39;\ A&#39;&#39;\\
+A&#39;&#39; &amp;\to \epsilon ~|~ \gamma_1\ \beta_2 B&#39;\ \alpha_2\ A&#39;\ A&#39;&#39;\\
+A&#39; &amp;\to \epsilon ~|~ A&#39;\ \alpha_1 \\ 
+B&#39; &amp;\to \epsilon ~|~ \beta_1\ B&#39;
+\end{aligned}
+</span></p>
+</blockquote>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#lecture-10---first-and-follow-sets-ll-1-grammars">Lecture 10 - First and Follow Sets, LL-1 Grammars</a>
+<ul>
+<li><a href="#ll1-grammars">LL(1) grammars</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="lecture-10---first-and-follow-sets-ll-1-grammars">Lecture 10 - First and Follow Sets, LL-1 Grammars</h1>
+<blockquote>
+<p>March 30, 2020</p>
+</blockquote>
+<p>In predictive RDP, we need to choose between alternatives based on the current token. To do this, we need to know:</p>
+<ul>
+<li>what tokens each alternative can begin with, the <strong>first set</strong>, and</li>
+<li>if a construct is nullable, to choose between the empty string or a non-empty string, we need to know what symbols can <strong>follow</strong> this construct.</li>
+</ul>
+<p>The first set for a construct <span class="math inline">\alpha</span>, denoted <span class="math inline">\text{First}(\alpha)</span> records</p>
+<ul>
+<li>the set of terminal symbols which can start <span class="math inline">\alpha</span>, and</li>
+<li>if <span class="math inline">\alpha</span> is nullable, it additionally contains <span class="math inline">\epsilon</span>.</li>
+</ul>
+<p>Importantly, note that <span class="math inline">\epsilon</span> is not a terminal here. It is only included to signify a construct is nullable.</p>
+<p><strong>Definition (First set).</strong> If <span class="math inline">\alpha</span> is not nullable, the first set is <span class="math inline">\text{First}(\alpha) = \{ a : \text{Terminal} ~|~ \exists \beta : \alpha \overset *\Rightarrow a \beta\}</span>. If <span class="math inline">\alpha</span> is nullable, this set additionally contains <span class="math inline">\epsilon</span>.</p>
+<p>This can be computed quite intuitively. However, if we have a sequence <span class="math inline">S_1 S_2</span>, the first set is something like <span class="math display">
+\text{First}(S_1 S_2) = \text{First}(S_1) \setminus\{\epsilon\} \cup \text{First}(S_2) \setminus S_2 \cdots \cup \{\epsilon\}
+</span> Note that the later first sets are only included if all preceding symbols are nullable, and <span class="math inline">\epsilon</span> is only included in the final first set if the string as a whole is nullable. We exclude <span class="math inline">\epsilon</span> from the individual first sets of <span class="math inline">S_1</span>, etc, because nullability of <span class="math inline">S_1</span> does not imply nullability of <span class="math inline">S_1 S_2 \ldots</span>.</p>
+<p>Briefly, first sets can be computed algorithmically with the following basic rules:</p>
+<blockquote>
+<p><span class="math inline">\text{First}(S_1 | S_2) = \text{First}(S_1) \cup \text{First}(S_2)</span></p>
+</blockquote>
+<p><img src="/assets/image-20200416163528849.png" alt="image-20200416163528849" style="zoom: 25%;" /><img src="/assets/image-20200416163736496.png" alt="image-20200416163736496" /></p>
+<p><img src="/assets/image-20200416163736496.png" alt="image-20200416163736496" style="zoom: 25%;" /></p>
+<p><strong>Definition (Follow set).</strong> A non-terminal <span class="math inline">N</span> is followed by a terminal <span class="math inline">a</span> if there exists a derivation from <span class="math inline">S\$</span> in which <span class="math inline">a</span> follows <span class="math inline">N</span>. More formally, <span class="math display">
+\text{Follow}(N) = \{ a : \text{Terminal} ~|~ \exists \alpha, \beta : S$ \overset*\Rightarrow \alpha Na \beta\}.
+</span> Note that follow sets only include terminal symbols and may include <span class="math inline">\$</span>, which only appears at the end of an input string. Note that first sets never include EOF and follow sets never include <span class="math inline">\epsilon</span>.</p>
+<p>There are some simple rules:</p>
+<ul>
+<li><span class="math inline">\$ \subseteq \text{Follow}(S)</span>,</li>
+<li>if <span class="math inline">A \to \alpha N \beta</span>, then <span class="math inline">\text{First}(\beta) \setminus \{\epsilon\} \subseteq \text{Follow}(N)</span>,</li>
+<li>if <span class="math inline">A \to \alpha N \beta</span> and <span class="math inline">\beta</span> is nullable, <span class="math inline">\text{Follow}(A) \subseteq \text{Follow}(N)</span>.</li>
+</ul>
+<p><img src="/assets/image-20200417141018281.png" alt="image-20200417141018281" style="zoom:25%;" /></p>
+<p><img src="/assets/image-20200417141239370.png" alt="image-20200417141239370" style="zoom:25%;" /></p>
+<h2 id="ll1-grammars">LL(1) grammars</h2>
+<p>The class of grammars which can be parsed by recursive descent predictive parsing with single symbol lookahead is called LL(1).</p>
+<ul>
+<li>The first L refers to the fact that parsing is <em>left to right</em>.</li>
+<li>The second L refers to the fact that the parsing produces a <em>leftmost derivation</em> sequence.</li>
+<li>The 1 indicates the parser only looks ahead <em>one symbol</em>, the current token.</li>
+</ul>
+<p><strong>Definition (LL(1) grammar).</strong> A BNF grammar is LL(1) if for each non-terminal <span class="math inline">N</span> where <span class="math inline">N \to \alpha_1 ~|~ \cdots ~|~ \alpha_n</span>,</p>
+<ul>
+<li>the first sets of any two alternatives, <span class="math inline">\text{First}(\alpha_i)</span> and <span class="math inline">\text{First}(\alpha_j)</span>, are pairwise disjoint when <span class="math inline">i \ne j</span>, and</li>
+<li>if <span class="math inline">N</span> is nullable, <span class="math inline">\text{First}(N)</span> and <span class="math inline">\text{Follow}(N)</span> are disjoint.</li>
+</ul>
+<p>Because the first set contains <span class="math inline">\epsilon</span> if the alternative is nullable, the first constraint implies that at most one alternative can be nullable.</p>
+<p>Given an LL(1) grammar, during recursive descent parsing, the current token is either</p>
+<ul>
+<li>in the first set of exactly one alternative,</li>
+<li>in the follow set of <span class="math inline">N</span> and the (unique) nullable alternative is chosen, or</li>
+<li>invalid and hence a syntax error.</li>
+</ul>
+<p>An EBNF grammar is LL(1) if it is LL(1) when converted to a BNF grammar.</p>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#lecture-11---cup-and-jflex-example">Lecture 11 - CUP and JFlex Example</a></li>
+</ul>
+</nav>
+
+<h1 id="lecture-11---cup-and-jflex-example">Lecture 11 - CUP and JFlex Example</h1>
+<blockquote>
+<p>March 31, 2020</p>
+</blockquote>
+<p>Java-CUP takes a grammar in a particular format and generates code which, when given a sequence of tokens can construct an AST and evaluate it.</p>
+<p>JFlex takes token definitions as regular expressions and returns a tokeniser which will convert input into those tokens.</p>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#comp4403-notes">comp4403-notes</a></li>
+</ul>
+</nav>
+
+<h1 id="comp4403-notes">comp4403-notes</h1><header id="title-block-header">
+<h1 class="title"><strong>COMP4403</strong> — Revision Session</h1>
+<p class="author">Kenton Lam</p>
+<p class="date">19th June, 2020</p>
+</header>
+
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#revision">Revision</a>
+<ul>
+<li><a href="#likely-questions">Likely questions</a></li>
+<li><a href="#topics">Topics</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="revision">Revision</h1>
+<p>There are <strong>two parts</strong>. Part A is worth 30% and is a Blackboard quiz. Part B is 70% and to be done one paper.</p>
+<h3 id="likely-questions">Likely questions</h3>
+<ul>
+<li>Parsing theory, including regular expressions and context-free grammars.</li>
+<li>Deterministic and non-deterministic finite automata, translating regex to NFA and NFA to DFA.</li>
+<li>First and follow sets, top-down (LL(1)) and bottom-up (LR(0), LR(1), LALR(1)).</li>
+<li>RDP, including semantic actions.</li>
+<li>Runtime environment:
+<ul>
+<li>Stack organisation, frames, call, return, static/dynamic links, parameter and return mechanisms.</li>
+<li>Handling of objects: classes, subclasses, dynamic dispatch.</li>
+<li>Heap organisation: alloc/dealloc, GC, mark-and-sweep, stop-and-copy, generational.</li>
+</ul></li>
+<li>Static semantics: symbol tables, inference rules and derivations.</li>
+</ul>
+<h3 id="topics">Topics</h3>
+<ul>
+<li>…</li>
+<li>Type inference rules, well-formedness of statements.</li>
+<li>Remember that first sets can contain the empty string iff the construct is nullable.</li>
+</ul><header id="title-block-header">
+<h1 class="title">Tutorial 3 — RDP Exercise</h1>
+</header>
+
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#tutorial-3-rdp-exercise">Tutorial 3 — RDP Exercise</a></li>
+</ul>
+</nav>
+
+<h1 id="tutorial-3-rdp-exercise">Tutorial 3 — RDP Exercise</h1>
+<blockquote>
+<p><em>RepeatStatement → KW_REPEAT StatementList KW_UNTIL Condition</em></p>
+</blockquote>
+<div class="sourceCode" id="cb1"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="dt">void</span> <span class="fu">parseRepeatStatement</span>() {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>  tokens.<span class="fu">match</span>(Token.<span class="fu">KW_REPEAT</span>);</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>  <span class="fu">parseStatementList</span>();</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>  tokens.<span class="fu">match</span>(Token.<span class="fu">KW_UNTIL</span>);</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>  <span class="fu">parseCondition</span>();</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="dt">void</span> <span class="fu">parseRepeatStatement</span>(TokenSet recoverSet) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>  stmt.<span class="fu">parse</span>(<span class="st">&quot;RepeatStatement&quot;</span>, Token.<span class="fu">KW_REPEAT</span>, recoverSet, () -&gt; {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>    tokens.<span class="fu">match</span>(Token.<span class="fu">KW_REPEAT</span>, recoverSet.<span class="fu">union</span>(STATEMENT_START_SET));</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>    <span class="fu">parseStatementList</span>(recoverSet.<span class="fu">union</span>(Token.<span class="fu">KW_UNTIL</span>));</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>    tokens.<span class="fu">match</span>(Token.<span class="fu">KW_UNTIL</span>, recoverSet.<span class="fu">union</span>(CONDITION_START_SET));</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>    <span class="fu">parseCondition</span>(recoverSet);</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>  });</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>StatementNode <span class="fu">parseRepeatStatement</span>(Tokenset recoverSet) {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>  <span class="kw">return</span> exp.<span class="fu">parse</span>(<span class="st">&quot;RepeatStatement&quot;</span>, Token.<span class="fu">KW_REPEAT</span>, recoverSet, () -&gt; {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>    <span class="bu">Location</span> loc = tokens.<span class="fu">getLocation</span>();</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>    tokens.<span class="fu">match</span>(Token.<span class="fu">KW_REPEAT</span>, recoverSet.<span class="fu">union</span>(STATEMENT_START_SET));</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>    StatementNode body = <span class="fu">parseStatementList</span>(recoverSet.<span class="fu">union</span>(Token.<span class="fu">KW_UNTIL</span>));</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a>    tokens.<span class="fu">match</span>(Token.<span class="fu">KW_UNTIL</span>, recoverSet.<span class="fu">union</span>(CONDITION_START_SET));</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a>    ExpNode condition = <span class="fu">parseCondition</span>(recoverSet);</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a>    <span class="kw">return</span> <span class="kw">new</span> StatementNode.<span class="fu">RepeatNode</span>(loc, body, condition);</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a>  });</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a>}</span></code></pre></div>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#week-9-runtime-stack-organisation">Week 9 — Runtime Stack Organisation</a>
+<ul>
+<li><a href="#factorial-example">Factorial example</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="week-9-runtime-stack-organisation">Week 9 — Runtime Stack Organisation</h1>
+<p><img src="/assets/image-20200506131830454.png" alt="image-20200506131830454" style="zoom:33%;" /></p>
+<ul>
+<li>fp is a pointer to offset 0 from the frame pointer.</li>
+<li>It has a static link which points to the original procedure.</li>
+<li>The dynamic link points to the frame of the calling procedure.</li>
+<li>The return address points to the address after this expression.</li>
+<li>The rest of the frame is zero or more local variables.</li>
+</ul>
+<blockquote>
+<p>The <strong>static link</strong> is the base of the stack frame for the most recent activation (call) of the directly enclosing procedure.</p>
+</blockquote>
+<p>When we call a procedure, the following things happen:</p>
+<ol type="1">
+<li>Parameters (currently none) are pushed onto the stack, with first parameter pushed last.</li>
+<li>Static link is pushed.</li>
+<li>Dynamic link, parent frame’s frame pointer, is pushed.</li>
+<li>Return address is pushed.</li>
+<li>Program counter moved to procedure.</li>
+<li>Space for local variables is allocated.</li>
+</ol>
+<p>The <em>CALL</em> instruction implements steps 3–6.</p>
+<p>When we return, this happens:</p>
+<ol type="1">
+<li>Program counter set to return address</li>
+<li>Frame pointer set to dynamic link.</li>
+<li>Stack pointer set so that all space used for stack frame is popped.</li>
+<li>Execution continues at the new program counter.</li>
+<li>Calling procedure handles deallocating any parameters.</li>
+</ol>
+<h3 id="factorial-example">Factorial example</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode pascal"><code class="sourceCode pascal"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">var</span> n: int; f: int;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="kw">procedure</span> fact() =</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>    <span class="kw">begin</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>        <span class="kw">if</span> n = <span class="dv">0</span> <span class="kw">then</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>        f := <span class="dv">1</span> <span class="co">// 0! = 1</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>        <span class="kw">else</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>            <span class="kw">begin</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>            <span class="co">// calculate (n-1)!</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>            n := n - <span class="dv">1</span>;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>            call fact();</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>            n := n + <span class="dv">1</span>; <span class="co">// restore n</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a>            <span class="co">// calculate n!</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a>            f := f * n</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a>        <span class="kw">end</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a>    <span class="kw">end</span>; <span class="co">// fact</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a><span class="kw">begin</span> <span class="co">// Main</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a>    n := <span class="dv">2</span>;</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a>    call fact();</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a>    <span class="kw">write</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true"></a>    f</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true"></a><span class="kw">end</span></span></code></pre></div>
+<p>After fact has been called three times, we get to the case <span class="math inline">n=0</span> and the stack looks like this.</p>
+<p><img src="/assets/image-20200506132557109.png" alt="image-20200506132557109" style="zoom:33%;" /></p>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#week-10.1-parameter-passing-mechanisms">Week 10.1 — Parameter Passing Mechanisms</a></li>
+</ul>
+</nav>
+
+<h1 id="week-10.1-parameter-passing-mechanisms">Week 10.1 — Parameter Passing Mechanisms</h1>
+<p><strong>Formal parameters</strong> are the parameters used in the declaration of the procedure in its header. The <strong>actual parameters</strong> are the parameters actually passed to a procedure during a call. Formal parameter names are used to access the actual parameters while in a procedure body.</p>
+<p>For call-by-value parameters, the actual parameters are evaluated and, if necessary, coerced to the type of the formal parameter.</p>
+<p>The values of the actual parameters are loaded onto the stack before the new stack frame is set up. Then, the formal parameters can be accessed just like local variables but with negative offsets.</p>
+<p><em>Example:</em></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode pascal"><code class="sourceCode pascal"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">procedure</span> fact(n: int): int =</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>    <span class="kw">begin</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>    <span class="kw">if</span> n = <span class="dv">0</span> <span class="kw">then</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>        return <span class="dv">1</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>    <span class="kw">else</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>        return n*fact(n<span class="dv">-1</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>    <span class="kw">end</span>;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a><span class="kw">begin</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>    <span class="kw">write</span> fact(<span class="dv">2</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a><span class="kw">end</span></span></code></pre></div>
+<p>A function returns a <strong>result</strong> and that result can be used as part of a larger expression. In the stack machine, the result is left on top of the stack after removing all call information. For this reason, space for the result is allocated before the parameters, stack frame, and everything else.</p>
+<p>There are a number of parameter passing mechanisms:</p>
+<ul>
+<li><p><strong>Call by const</strong> is the same as call by value but the formal parameter is a <em>read only</em> local variable.</p></li>
+<li><p><strong>Call by value</strong>, as discussed earlier. Assigning to the formal parameter does not change the actual parameter.</p></li>
+<li><p><strong>Call by result</strong> is where a formal parameter acts as a local variable whose final value is assigned to the actual parameter variable. Here, the actual parameter must be an LValue of some type.</p></li>
+<li><p><strong>Call by value-result</strong> where a single parameter acts as both a value and result parameter (as discussed above). Think MATLAB.</p></li>
+<li><p><strong>Call by reference</strong> the formal parameter is actually an address of the actual parameter; all references to the formal parameter affect the actual parameter (immediately). This can be done in C by passing a pointer then interacting via *.</p></li>
+<li><p><strong>Call by sharing</strong> is just call by value but the value is a reference to an object rather than the object itself. This sounds like Java.</p></li>
+<li><p><strong>Call by name</strong> is where the actual parameter expression is evaluated every time the formal parameter is accessed (this sounds like a bad idea).</p></li>
+</ul>
+<p>More generally, we can pass and return procedures/functions.</p>
+<ul>
+<li>Passing procedures pass the the address of the procedure as well as the static link for the procedure’s environment, i.e. the static link to be used when calling the procedure.</li>
+<li>Returning procedures is a little more complicated. We return the address as well as the static link for the procedure’s environment. This can complicate things because the static link needs to remain valid, so the stack-based allocation of frames is no longer sufficient. Think functional programming and lambdas in Java.</li>
+</ul>
+<p>In the matrix multiplication example, call by value/result works as expected but call by reference can go astray.</p>
+<p>Variable aliasing can occur:</p>
+<ul>
+<li>Parameter aliasing in languages with call by reference is when the same variable is passed to multiple parameters; two formal parameter names for the same actual parameter variable.</li>
+<li>Global variable aliasing is if a global variable passed as a reference parameter.</li>
+</ul>
+<p>Pointer aliasing:</p>
+<ul>
+<li>Parameter aliasing in languages with call by sharing (like Java) is where two parameters are aliases for the same reference, called pointer aliasing.</li>
+<li>Similarly for global variable aliasing.</li>
+</ul>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#week-10.2-lexical-analysis-regex-nfa-dfa">Week 10.2 — Lexical Analysis, Regex, NFA, DFA</a>
+<ul>
+<li><a href="#regular-expressions">Regular expressions</a></li>
+<li><a href="#finite-automata">Finite automata</a>
+<ul>
+<li><a href="#converting-a-regular-expression-to-an-nfa">Converting a regular expression to an NFA</a></li>
+<li><a href="#converting-an-nfa-to-a-dfa">Converting an NFA to a DFA</a></li>
+<li><a href="#minimising-a-dfa">Minimising a DFA</a></li>
+<li><a href="#lexical-analysis">Lexical analysis</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="week-10.2-lexical-analysis-regex-nfa-dfa">Week 10.2 — Lexical Analysis, Regex, NFA, DFA</h1>
+<p>Lexical analysis is handled by JFlex using regular expressions. These are converted to a deterministic finite automata which recognises the tokens. DFA recognises are very fast, <span class="math inline">O(n)</span> in the length of the input. To create a DFA, it creates an intermediate NFA. The final DFA can be minimised to reduce its size.</p>
+<figure>
+<img src="/assets/image-20200703113857980.png" alt="" /><figcaption>image-20200703113857980</figcaption>
+</figure>
+<p>The difference between a DFA and an NFA is that a DFA does not allow empty transitions (transition on <span class="math inline">\epsilon</span>) or multiple transitions on the same symbol. The automata above both recognise the same language <span class="math inline">\text{a b} ~|~ \text c</span>.</p>
+<h2 id="regular-expressions">Regular expressions</h2>
+<p><strong>Definition (Regular expression).</strong> The syntax of regular expressions in BNF is <span class="math display">
+\textit e := \textit a \mid \epsilon \mid \emptyset \mid e\text{``|&quot;}e \mid e\,e\mid e\text{``*&quot;}\mid \text{``}(\text{&quot;} e\text{``}(\text{&quot;}
+</span> where <span class="math inline">\textit a</span> is some symbol from the alphabet <span class="math inline">\Sigma</span>. Repetition has higher precedence than concatenation, which has higher precedence than alternation.</p>
+<p><strong>Definition (Language of regular expressions).</strong> Given an alphabet <span class="math inline">\Sigma</span>, a regular expression defines a language (i.e. a set of strings from the alphabet). A regular expression has languages of these particular forms:</p>
+<figure>
+<img src="/assets/image-20200703114724103.png" alt="" /><figcaption>image-20200703114724103</figcaption>
+</figure>
+<p>Concatenation and iteration work the way we would expect. For example,</p>
+<figure>
+<img src="/assets/image-20200703114817788.png" alt="" /><figcaption>image-20200703114817788</figcaption>
+</figure>
+<p>Note that this language has infinitely many strings but does not include strings of infinite length.</p>
+<h2 id="finite-automata">Finite automata</h2>
+<p>A finite automaton is a finite state machine with labelled transitions between states. Each transition is labelled with a symbol or the empty string.</p>
+<p>For a deterministic finite automaton, empty transitions are not allowed and multiple transitions from the same state on the same symbol are not allowed.</p>
+<p><strong>Definition (DFA).</strong> A deterministic finite automaton <span class="math inline">D</span> consists of</p>
+<ul>
+<li>a finite alphabet <span class="math inline">\Sigma</span>,</li>
+<li>a finite set of states <span class="math inline">S</span>,</li>
+<li>a transition function <span class="math inline">T : \Sigma \times S \to S</span> which may be non total,</li>
+<li>a start state <span class="math inline">s_0</span>, and</li>
+<li>a set of final/accepting states <span class="math inline">F</span>.</li>
+</ul>
+<p><em>Example:</em> The DFA from above is defined as follows. Note the transition function is not defined for all combinations of state and symbol.</p>
+<figure>
+<img src="/assets/image-20200703115144078.png" alt="" /><figcaption>image-20200703115144078</figcaption>
+</figure>
+<p><strong>Definition (Language of a DFA).</strong> The language <span class="math inline">\mathcal L(D)</span> of a DFA is the set of finite strings of symbols from <span class="math inline">\Sigma</span> such that <span class="math inline">c \in \mathcal L(D)</span> if and only if there is some sequence of states such that <span class="math display">
+T(c_1, s_0) = s_1,\quad T(c_2, s_1)=s_1, \quad\ldots, \quad T(c_n, s_{n-1})=s_n
+</span> where <span class="math inline">s_0</span> is the start state, <span class="math inline">s_n</span> is an accepting state and <span class="math inline">n</span> is the length of the string.</p>
+<p><strong>Definition (NFA).</strong> A nondeterministic finite automaton <span class="math inline">D</span> consists of</p>
+<ul>
+<li>a finite alphabet <span class="math inline">\Sigma</span>,</li>
+<li>a finite set of states <span class="math inline">S</span>,</li>
+<li>a transition function <span class="math inline">T : (\Sigma\cup \left\{ \epsilon \right\})\times S \to \mathcal P(S)</span> which maps a symbol or <span class="math inline">\epsilon</span> to a set of possible next states,</li>
+<li>a start state <span class="math inline">s_0</span>, and</li>
+<li>a set of final/accepting states <span class="math inline">F</span>.</li>
+</ul>
+<p><em>Example:</em> The NFA example from above is defined as follows.</p>
+<figure>
+<img src="/assets/image-20200703115709096.png" alt="" /><figcaption>image-20200703115709096</figcaption>
+</figure>
+<p><strong>Definition (Language of a DFA).</strong> The language <span class="math inline">\mathcal L(D)</span> of a DFA is the set of finite strings of symbols from <span class="math inline">\Sigma</span> such that <span class="math inline">c \in \mathcal L(D)</span> if and only if there is some sequence of <span class="math inline">c_i&#39;\in (\Sigma \cup \left\{ \epsilon \right\})^*</span> states such that <span class="math display">
+T(c_1&#39;, s_0) = s_1,\quad T(c_2&#39;, s_1)=s_1, \quad\ldots, \quad T(c_n&#39;, s_{n-1})=s_n
+</span> where <span class="math inline">s_0</span> is the start state, <span class="math inline">s_n</span> is an accepting state and concatenating the <span class="math inline">c_i&#39;</span> gives us <span class="math inline">c</span>.</p>
+<h3 id="converting-a-regular-expression-to-an-nfa">Converting a regular expression to an NFA</h3>
+<p>We want to systematically convert regex to an NFA. This is based on the structure of the regular expression, as described above. For each of the syntaxes defined in the definition, we have an NFA of a particular form.</p>
+<blockquote>
+<p>Refer to RegularExpressions-handout.pdf for complete list. We list a few interesting examples here.</p>
+</blockquote>
+<p><em>Example:</em> The NFA of the regex <span class="math inline">(a\mid b)^*</span> is below. Note it is made up of the NFAs of its components. The final states are indicated with a double circle.</p>
+<figure>
+<img src="/assets/image-20200703121737862.png" alt="" /><figcaption>image-20200703121737862</figcaption>
+</figure>
+<p>By generating an NFA from a regex, it has a few properties which do not hold in general.</p>
+<ul>
+<li>The NFA has a single accepting state.</li>
+<li>The initial state has only outgoing transitions.</li>
+<li>The final state has only incoming transitions.</li>
+</ul>
+<h3 id="converting-an-nfa-to-a-dfa">Converting an NFA to a DFA</h3>
+<p>Recall a DFA cannot have more than one transition on the same symbol or empty transitions. an NFA can be translated to an equivalent DFA such that they have the same language.</p>
+<p>In doing so, the labels of states of the DFA will be <em>sets</em> of states from the NFA. The sets of states in this label are created by collecting states which can be reached from NFA states via empty transitions.</p>
+<p><strong>Definition (Empty closure of a state).</strong> The empty closure of a state <span class="math inline">x</span> in an NFA <span class="math inline">N</span>, <span class="math inline">ε\text{-closure}(x, N)</span>, is the set of states in <span class="math inline">N</span> that are reachable from <span class="math inline">x</span> via a sequence of zero or more empty transitions. The empty closure of a set of states is the union of the empty closures of its elements.</p>
+<figure>
+<img src="/assets/image-20200703122449231.png" alt="" /><figcaption>image-20200703122449231</figcaption>
+</figure>
+<p>The effect of labelling a NFA state is like merging these adjacent states into one. If any state in the empty closure is final, the NFA state will be final. The algorithm is as follows:</p>
+<ol type="1">
+<li>Start with <span class="math inline">s_0</span> and label it with its empty closure.</li>
+<li>For each non-empty symbol <span class="math inline">a</span> transitioning out of this merged state:
+<ol type="1">
+<li>Label that state with its empty closure.</li>
+<li>Recurse by considering transitions out of that state and restarting the process.</li>
+</ol></li>
+</ol>
+<figure>
+<img src="/assets/image-20200703122933650.png" alt="" /><figcaption>image-20200703122933650</figcaption>
+</figure>
+<h3 id="minimising-a-dfa">Minimising a DFA</h3>
+<p>Suppose we have the following DFA for <span class="math inline">(b \mid c)^∗\ a^*</span>. Now we want to minimise this by merging states which have the same transition to equivalent states. Note that within the ABC system, and <span class="math inline">b</span> goes to B, any <span class="math inline">a</span> goes to D and any <span class="math inline">c</span> goes to <span class="math inline">C</span>, we can merge them into a single state with self loops.</p>
+<figure>
+<img src="/assets/image-20200703123718511.png" alt="" /><figcaption>image-20200703123718511</figcaption>
+</figure>
+<p>The algorithm is something like this:</p>
+<ol type="1">
+<li>Partition states into a group of final states and a group of non-final states.</li>
+<li>For each transition from within a group <span class="math inline">G_1</span> on a particular symbol <span class="math inline">x</span> check if it goes to the same group <span class="math inline">G_2</span>.</li>
+<li>If there exists some transition out of <span class="math inline">G_1</span>, we split the group.</li>
+<li>Repeat the check with new groups until all groups are valid.</li>
+</ol>
+<h3 id="lexical-analysis">Lexical analysis</h3>
+<p>The lexical analyser generator JFlex translates regular expressions to DFAs to build a scanner. We provide it a list of regular expressions and associated actions. The generated lexical analyser matches:</p>
+<ul>
+<li>the longest prefix of matching regular expressions, or</li>
+<li>the first matching regular expression if matches have the same length.</li>
+</ul>
+<blockquote>
+<p>See PL0.flex for details.</p>
+</blockquote>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#week-6.1-more-java-cup-and-jflex-examples">Week 6.1 — More Java-CUP and JFlex Examples</a></li>
+</ul>
+</nav>
+
+<h1 id="week-6.1-more-java-cup-and-jflex-examples">Week 6.1 — More Java-CUP and JFlex Examples</h1>
+<p>We will consider a calculator extended with “let” expressions. It looks something like this:</p>
+<blockquote>
+<p>2 + let <span class="math inline">x</span> = 3 in let <span class="math inline">y = x+x</span> in <span class="math inline">x+y</span> end end</p>
+</blockquote>
+<p>Consider the CUP code handling a let expression:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>   |  KW_LET IDENTIFIER:id EQUAL E:def </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>      {:</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>         <span class="kw">if</span>( debug ) {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>             <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>( <span class="st">&quot;  Adding &quot;</span> + id + <span class="st">&quot; = &quot;</span> + def );</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>         }</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>         symtab.<span class="fu">add</span>( id, def );</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>      :}</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>      KW_IN E:e KW_END</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>      {:</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>         RESULT = e; </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>         <span class="bu">String</span> removed = symtab.<span class="fu">removeDef</span>();</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a>         <span class="kw">if</span>( debug ) {</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a>             <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>( <span class="st">&quot;  Removed &quot;</span> + removed );</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a>         }</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a>      :}</span></code></pre></div>
+<p>Note that we can split up the Java code so the symbol is inserted at the define token and removed after the end token. This allows the expression <code>E:e</code> to utilise the defined value but not anything after it.</p>
+<p>Ian has implemented a basic stack as a linked list to handle the symbol table entries. This has the benefit of allowing inner identifiers to shadow later identifiers, at the cost of slower access for identifiers defined earlier.</p>
+<p>Tutorial 6’s compiler is very similar to the compiler of the next assignment. It uses Java-CUP and code generation for a stack machine instead of the handwritten parser of assignment 1.</p>
+<p>Note that JFlex matches the longest token, then tokens top to bottom.</p>
+<p>In CUP, note that in a production rule like <code>LValue ::= IDENTIFIER:id</code> defines variables <code>idxleft</code> and <code>idxright</code> as the indices of left and right of the IDENTIFIER token.</p>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#week-6.2-stack-machine">Week 6.2 — Stack Machine</a>
+<ul>
+<li><a href="#evaluating-using-a-stack">Evaluating using a stack</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="week-6.2-stack-machine">Week 6.2 — Stack Machine</h1>
+<p>The stack machine is a very simple machine which uses a stack to evaluate expressions. This is much simpler than traditional ARM or x86 machines.</p>
+<p>Its stack has two areas: a stack which stores values of expressions and activation records.</p>
+<h2 id="evaluating-using-a-stack">Evaluating using a stack</h2>
+<p>Consider the expression <span class="math inline">2\ 3\ 4\ *\ +</span>, expressed in reverse Polish notation, which is generated from post-order traversal of an expression tree. This gets loaded into the following instructions:</p>
+<pre class="assembly"><code>LOADCON 2
+LOADCON 3
+LOADCON 4
+MUL
+ADD</code></pre>
+<p>After executing the first 3 commands, the stack has <span class="math inline">[2,3,4]</span> with <span class="math inline">4</span> at the top. MUL pops the top two values, then pushes <span class="math inline">3 \times 4=12</span> to make the stack <span class="math inline">[2,12]</span>. ADD then does the same to finish with <span class="math inline">[14]</span>.</p>
+<p>In general, after running code to evaluate an expression, that expression’s value will be on the top of the stack.</p>
+<p>Suppose we have a binary operation <span class="math inline">e_1 \circ e_2</span>. This will be represented by these instructions (each evaluate code may be multiple instructions):</p>
+<pre class="assembly"><code>evaluate e_1
+evaluate e_2
+ADD</code></pre>
+<p>Consider code for an assignment <span class="math inline">y:= x + 1</span>, assuming <span class="math inline">x = 42</span>. This would have the following instructions:</p>
+<pre class="assembly"><code>LOADCON 3  # pushes constant 3, the offset of variable x
+LOADFRAME  # goes to offset given by top of stack, and pushes it onto the stack
+LOADCON 1  # pushes constant 1
+ADD        # adds the value of x and 1, pushing it onto the stack
+LOADCON 4  # pushes 4, the offset of y
+STOREFRAME # pops an offset, the pops a value and stores that value into the offset</code></pre>
+<p>This works for local variables; non-local variables will be explained later.</p>
+<p><img src="/assets/image-20200418142656573.png" alt="image-20200418142656573" style="zoom:100%;" /></p>
+<p>For a more complex example, let’s look at</p>
+<blockquote>
+<p>if <span class="math inline">x &lt; 0</span> then <span class="math inline">z := -x</span> else <span class="math inline">x := x</span>.</p>
+</blockquote>
+<p>The code for this is made up of</p>
+<pre class="assembly"><code>evaluate x &lt; 0          # evaluates the condition
+(jump if false)         # if true, continues
+evaluate x := -x        # true branch
+(jump unconditionally)  # if we ran the true branch, skip false branch
+evaluate x := x         # false branch</code></pre>
+<p>Breaking down the evaluate segments the code is this:</p>
+<pre class="assembly"><code>LOADCON 3   # push offset of x
+LOADFRAME   # pop offset, push value of x
+ZERO        # push zero
+LESS        # pop x and 0, push x &lt; 0
+LOADCON 10  # push number of instructions to skip, 10
+BR_FALSE    # pop number to skip and jump if false, i.e. skip true branch
+LOADCON 3   # push offset of x
+LOADFRAME   # pop offset, push value of x
+NEGATE      # pop x, push -x
+LOADCON 4   # push offset of z
+STOREFRAME  # pop, store z
+LOADCON 6   # push skip size of 6
+BR          # always pop and skip 6, i.e. skip else branch
+LOADCON 3   
+LOADFRAME   
+LOADCON 4   
+STOREFRAME  </code></pre>
+<p><strong>Important:</strong> LOADCON instructions have a size of 2 (presumably because they have an opcode and an operand).</p>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#week-6.3-code-generation-for-pl0-expressions-and-statements">Week 6.3 — Code Generation for PL0 Expressions and Statements</a></li>
+</ul>
+</nav>
+
+<h1 id="week-6.3-code-generation-for-pl0-expressions-and-statements">Week 6.3 — Code Generation for PL0 Expressions and Statements</h1>
+<p>Consider a simple PL0 program:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode pascal"><code class="sourceCode pascal"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">var</span> x : int;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>    y : int;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="kw">begin</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>  <span class="kw">write</span> <span class="dv">12</span> + <span class="dv">13</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a><span class="kw">end</span></span></code></pre></div>
+<p>To generate the stack machine code, we have a new visitor CodeGenerator.java whose visit action is outputing the code for a particular node.</p>
+<p>Special care is taken to handle different sizes of instructions and branches. See the statement visitors.</p>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#week-7.1-bottom-up-shift-reduce-and-lr-parsing">Week 7.1 — Bottom-Up, Shift-Reduce and LR Parsing</a>
+<ul>
+<li><a href="#lr0-grammars">LR(0) grammars</a></li>
+<li><a href="#lr0-conflicts">LR(0) conflicts</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="week-7.1-bottom-up-shift-reduce-and-lr-parsing">Week 7.1 — Bottom-Up, Shift-Reduce and LR Parsing</h1>
+<blockquote>
+<p>April 21, 2020</p>
+</blockquote>
+<p>These are more general parsing than LL(1) RDP and lead to LR(1) and LALR parsing (LALR is used by Java-CUP).</p>
+<p>Shift/reduce parsers work bottom up starting from the terminal symbols and end with the start symbol. They make use of a parse stack with three actions:</p>
+<ul>
+<li><em>shift</em> which pushes the next input symbol onto the stack,</li>
+<li><em>reduce</em> which takes a sequence <span class="math inline">\alpha</span> on top of the stack matching the right hand side of some production <span class="math inline">N \to \alpha</span>, replacing <span class="math inline">\alpha</span> with <span class="math inline">N</span> (opposite of a production), and</li>
+<li><em>accept</em> which finishes parsing if the stack contains only the start symbol there is no additional input.</li>
+</ul>
+<p>Consider a simple grammar <span class="math display">
+\begin{aligned}S &amp;\to A \\ A &amp;\to (\ A\ ) \\ A &amp;\to \textrm{a}\end{aligned}
+</span> The process looks something like this. Note that the symbol $ is used for both the bottom of the stack and end of input.</p>
+<p><img src="/assets/image-20200426114735684.png" alt="image-20200426114735684" style="zoom:30%;" /></p>
+<p>Note that we need to be careful to shift or reduce appropriately (this will be discussed later).</p>
+<p>The trick to shift/reduce is knowing when to shift a terminal onto the stack or perform a reduction. There are many schemes for choosing between shift and reduce actions, including LR(0), SLR(1) (not in this course), LR(1), and LALR(1).</p>
+<h3 id="lr0-grammars">LR(0) grammars</h3>
+<p>The name is because we parse <em>left</em> to right, producing a <em>rightmost</em> derivation sequence, with zero symbols lookahead.</p>
+<p>An <strong>LR(0) parsing item</strong> is of the form <span class="math inline">N \to \alpha \bullet \beta</span>. This represents that we are trying to match <span class="math inline">N</span>, where have currently matched <span class="math inline">\alpha</span> and <span class="math inline">\beta</span> is yet to be matched.</p>
+<p>An <strong>LR(0) parsing automaton</strong> (state machine) consists of a finite set of states, each of which is a set of these LR(0) parsing items. The <em>kernel item</em> of the initial state is <span class="math inline">S&#39; \to \bullet S</span>.</p>
+<h4 id="derived-lr0-items">Derived LR(0) items</h4>
+<p>If a state has an item of the form <span class="math inline">N \to \alpha \bullet M \beta</span> with <span class="math inline">M \to \alpha_1 \mid \cdots \mid \alpha_m</span>, then the state also includes the <strong>derived items</strong>, <span class="math inline">M \to \bullet \alpha_1,\ \ldots,\ M \to \bullet \alpha_m</span>.</p>
+<h4 id="goto-states">Goto states</h4>
+<p>Suppose we are at a state <span class="math inline">s_i</span> with an item of the form <span class="math inline">N \to \alpha \bullet \textrm x \beta</span> where <span class="math inline">\textrm x</span> is a single (non-terminal or terminal) symbol. Then, there is a <strong>goto state</strong> <span class="math inline">s_j</span> from <span class="math inline">s_i</span> on <span class="math inline">\textrm x</span>. The state <span class="math inline">s_j</span> then has a kernel item of the form <span class="math inline">N \to \alpha \textrm x \bullet \beta</span>.</p>
+<p>If there are multiple items in <span class="math inline">s_i</span> with the same <span class="math inline">\textrm x</span> symbol immediately to the right of the <span class="math inline">\bullet</span> then the goto state <span class="math inline">s_j</span> includes <em>all</em> those items but with the <span class="math inline">\bullet</span> after the <span class="math inline">\textrm x</span>.</p>
+<h4 id="parsing-actions">Parsing actions</h4>
+<p>An LR(0) item of the form:</p>
+<ul>
+<li><span class="math inline">N \to \alpha \bullet \textrm a \beta</span> where <span class="math inline">\textrm a</span> is a terminal symbol, indicates the state containing the item has a <em>shift</em> parsing action.</li>
+<li><span class="math inline">S&#39; \to S \bullet</span> where <span class="math inline">S&#39;</span> is the (introduced) start symbol for the grammar, indicates the state containing the item has an <em>accept</em> action.</li>
+<li><span class="math inline">N \to \alpha \bullet</span> (i.e., there is nothing further to match on the right), where <span class="math inline">N</span> is not the start symbol, indicates the state has a parsing action <em>reduce <span class="math inline">N \to \alpha</span></em>.</li>
+</ul>
+<p>Note that <span class="math inline">N \to \alpha</span> is part is a necessary part of the reduce action name. A shift action at end-of-file is an <em>error</em>, as is an accept action when the input is not at end-of-file.</p>
+<h4 id="example">Example</h4>
+<p><img src="/assets/image-20200426122410940.png" alt="image-20200426122410940" style="zoom:33%;" /></p>
+<p>An example of the stack while parsing using this automaton:</p>
+<p><img src="/assets/image-20200426122612819.png" alt="image-20200426122612819" style="zoom:33%;" /></p>
+<p>The state is interleaved with the symbols on the stack. When shifting, we look at the current state and the symbol to determine the new state.</p>
+<p>When reducing, we pop the right hand side off the stack and ‘replace’ it with the left side, considering the preceding state to determine the next state. Compare the second and third reductions in the example and how they lead to <span class="math inline">A4</span> and <span class="math inline">A1</span> respectively.</p>
+<h3 id="lr0-conflicts">LR(0) conflicts</h3>
+<p>There is the possibility that our automaton is non-deterministic for each state. Not every grammar is LR(0). Possible conflicts are:</p>
+<ul>
+<li>shift/reduce conflict,</li>
+<li>reduce/reduce conflict (e.g. <span class="math inline">N \to \alpha</span> and <span class="math inline">M \to \beta</span>),</li>
+<li>shift/accept conflict,</li>
+<li>accept/reduct conflict.</li>
+</ul>
+<p>Note that a shift/shift conflict is impossible. A grammar is <strong>LR(0)</strong> if none of the states in its automaton contains a parsing action conflict.</p>
+<p><em>Example:</em> Below is an example of a state diagram with an accept/shift conflict, so the grammar is <em>not</em> LR(0).</p>
+<p><img src="/assets/image-20200426124009061.png" alt="image-20200426124009061" style="zoom:30%;" /></p>
+<p>Note that this grammar is not very complex which hints that LR(0) is not too powerful. We will look at more powerful LR(1) grammars.</p>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#week-7.2-lr1-and-lalr1">Week 7.2 — LR(1) and LALR(1)</a>
+<ul>
+<li><a href="#lr1-grammars-and-parsing">LR(1) grammars and parsing</a></li>
+<li><a href="#lalr1-grammars-and-parsing">LALR(1) grammars and parsing</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="week-7.2-lr1-and-lalr1">Week 7.2 — LR(1) and LALR(1)</h1>
+<p>Recall our LR(0) automaton which had a shift/accept conflict. In order to be LR(0), the action at each state needs to be unique.</p>
+<p><img src="/assets/image-20200426124009061.png" alt="image-20200426124009061" style="zoom:30%;" /></p>
+<h2 id="lr1-grammars-and-parsing">LR(1) grammars and parsing</h2>
+<p><strong>LR(1)</strong> grammars resolve this by adding some lookahead sets to each item. This informs when it should reduce or accept. The name is because:</p>
+<ul>
+<li>parsing is done <strong>left</strong> to right,</li>
+<li>the parser produces a <strong>rightmost</strong> derivation (in reverse), and</li>
+<li>the parser looks one symbol ahead.</li>
+</ul>
+<p><strong>Definition.</strong> An <strong>LR(1) parsing item</strong> is a pair <span class="math display">
+[N \to \alpha \bullet \beta,\ T]
+</span> where <span class="math inline">N \to \alpha \bullet \beta</span> is just an LR(0) parsing item and <span class="math inline">T</span> is a set of terminal symbols called a <em>look-ahead set</em>. This lookahead set may contain EOF.</p>
+<p>This means that we are trying to match <span class="math inline">N</span> in a context where <span class="math inline">N</span> may be followed by a terminal symbol in <span class="math inline">T</span>. As in LR(0), we have matched <span class="math inline">\alpha</span> and are expecting to match <span class="math inline">\beta</span>.</p>
+<p><strong>Definition.</strong> An <strong>LR(1) parsing automaton</strong> (state machine) consists of a finite set of states, each of which contains a set of LR(1) parsing items.</p>
+<p>The <strong>kernel item</strong> of the initial state is <span class="math display">
+[S&#39; \to \bullet S,\ \{\$\}]
+</span> where <span class="math inline">S</span> is the start symbol of the grammar and we introduce a replacement start symbol <span class="math inline">S&#39;</span>. This determines when parsing is completed.</p>
+<h4 id="lr1-state-machine-construction">LR(1) state machine construction</h4>
+<p>If a state has an LR(1) item of the form <span class="math display">
+[N \to \alpha \bullet M \beta,\ T] \quad \text{where}\quad M \to \alpha_1 \mid \cdots \mid \alpha_m.
+</span> and <span class="math inline">T = \{\textrm{a}_1, \ldots, \textrm a_n\}</span> then the state also includes the <strong>derived items</strong>: <span class="math display">
+\begin{aligned}
+&amp;[M \to \bullet \alpha_1,\ T&#39;] \\ 
+&amp;\qquad\quad\vdots\\
+&amp;[M \to \bullet \alpha_m,\ T&#39;] 
+\end{aligned}
+</span> Here, if <span class="math inline">\beta</span> is not nullable <span class="math inline">T&#39; = \operatorname{First} \beta</span> and if <span class="math inline">\beta</span> is nullable, <span class="math inline">T&#39; = \operatorname{First}\beta \setminus \{\epsilon\} \cup T</span>.</p>
+<p>If a state <span class="math inline">s_i</span> has an item of the form <span class="math inline">[N \to \alpha \bullet x \beta,\ T]</span> where <span class="math inline">x</span> is a (terminal or non-terminal) symbol, then there is a <strong>goto state</strong> <span class="math inline">s_j</span> from <span class="math inline">s_i</span> on <span class="math inline">x</span> which includes a kernel item of the form <span class="math display">
+[N \to \alpha x \bullet \beta,\ T].
+</span> If <span class="math inline">s_i</span> has multiple items with the same <span class="math inline">x</span> to the right of <span class="math inline">\bullet</span>, then <span class="math inline">s_j</span> includes all those items with the <span class="math inline">\bullet</span> moved after the <span class="math inline">x</span>.</p>
+<h4 id="parsing-actions">Parsing actions</h4>
+<p>Parsing actions depend on the next terminal symbol in the input, <span class="math inline">x</span>. Given LR(1) items of the form</p>
+<ul>
+<li><span class="math inline">[N \to \alpha\bullet \text a \beta, T]</span> with <span class="math inline">\text a</span> terminal, indicates a <strong>shift</strong> action if the next input is <span class="math inline">\text a</span>,</li>
+<li><span class="math inline">[S&#39; \to S \bullet, \{\$\}]</span> where <span class="math inline">S&#39;</span> is the added start symbol, indicates an <strong>accept</strong> action if we are at EOF, and</li>
+<li><span class="math inline">[N \to \alpha \bullet, T]</span>, where <span class="math inline">N&#39;</span> is not <span class="math inline">S</span>, the state has an action <strong>reduce <span class="math inline">N \to \alpha</span></strong> if the next input <span class="math inline">x</span> is in <span class="math inline">T</span>.</li>
+</ul>
+<p>If none of the above apply, the parsing action is an <strong>error</strong>.</p>
+<h4 id="example-1">Example 1</h4>
+<p><img src="/assets/image-20200502133550531.png" alt="image-20200502133550531" style="zoom:50%;" /></p>
+<p>Some notes:</p>
+<ul>
+<li>At 0, the only valid action is shift on n because we only shift on terminals.</li>
+<li>At 1, note that we accept/shift depending on the next input token.</li>
+<li>At 2, we reduce on $ or +.</li>
+<li>At 3, we shift only on n.</li>
+<li>At 4, we reduce on $ or +.</li>
+</ul>
+<h4 id="example-2">Example 2</h4>
+<p>This abstracts a common pattern in programming languages. <span class="math inline">S</span> is a statement which describes an assignment or call (without brackets).</p>
+<p><img src="/assets/image-20200502133921192.png" alt="image-20200502133921192" style="zoom:50%;" /></p>
+<ul>
+<li>State 0 has two derived items from <span class="math inline">S&#39;</span> and one from the second <span class="math inline">S</span> production. Note that because <span class="math inline">=</span> is not nullable, <span class="math inline">T&#39;</span> of the <span class="math inline">V</span> item is just <span class="math inline">=</span>.</li>
+<li>Transition 0 to 2 contains both items which have <span class="math inline">\text{id}</span> right of <span class="math inline">\bullet</span>.</li>
+<li>State 4 has derived items because non-terminal <span class="math inline">E</span> is to the right of <span class="math inline">\bullet</span>. This again has multiple derived items.</li>
+</ul>
+<p><img src="/assets/image-20200502134706219.png" alt="image-20200502134706219" style="zoom:50%;" /></p>
+<ul>
+<li>Note that we would have had a reduce/reduce conflict at state 2 with LR(0).</li>
+</ul>
+<h4 id="lr1-conflicts">LR(1) conflicts</h4>
+<p>We can still have conflicts. Here, they depend on the next input symbol. Possible conflicts are:</p>
+<ul>
+<li>shift/reduce conflict if a state has both a shift and reduce on the terminal <span class="math inline">\text b</span>,</li>
+<li>reduce/reduce for two reduce actions at the same terminal <span class="math inline">\text b</span>,</li>
+<li>shift/accept, and</li>
+<li>accept/reduce.</li>
+</ul>
+<p>Again, there is no shift/shift conflict because they are identical. A grammar is LR(1) if none of its states contain a parsing action conflict.</p>
+<h4 id="example-3">Example 3</h4>
+<p><img src="/assets/image-20200502141139039.png" alt="image-20200502141139039" style="zoom:50%;" /></p>
+<p><img src="/assets/image-20200502141117008.png" alt="image-20200502141117008" style="zoom:50%;" /></p>
+<p>There are no parsing action conflicts so this grammar is LR(1).</p>
+<h2 id="lalr1-grammars-and-parsing">LALR(1) grammars and parsing</h2>
+<p>LALR(1) is <strong>look-ahead</strong> merged <strong>LR(1)</strong> parsing. The states of an LALR(1) parsing automaton contain sets of LR(1) items.</p>
+<p>It is made from an LR(1) parsing automaton by merging states that have identical sets of LR(0) items but possibly different lookahead sets. The lookahead set is the union of all LR(1) parsing item lookahead sets.</p>
+<h4 id="example-3-as-lalr1">Example 3 as LALR(1)</h4>
+<p><img src="/assets/image-20200502142036949.png" alt="image-20200502142036949" style="zoom:50%;" /></p>
+<ul>
+<li>LALR merged states 2+7, 3+8, 4+9, 5+10, 6+11.</li>
+<li>Note that there are still no conflicts. We can only introduct conflicts if two states have different reduce actions.</li>
+<li>This has the same states as an LR(0) automaton, so if we wanted to construct a LR(0) state machine, we can just omit the lookahead sets.</li>
+</ul>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#week-8.1-java-cup-assignment-2">Week 8.1 — Java-CUP, Assignment 2</a>
+<ul>
+<li><a href="#java-cup-precedence">Java-CUP precedence</a></li>
+<li><a href="#assignment-2">Assignment 2</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="week-8.1-java-cup-assignment-2">Week 8.1 — Java-CUP, Assignment 2</h1>
+<p>Recall that an LALR(1) parsing automaton is made by merging states of LR(1) with the same parsing items but possibly different lookahead sets.</p>
+<h4 id="example-5">Example 5</h4>
+<p><img src="/assets/image-20200502150948494.png" alt="image-20200502150948494" style="zoom:50%;" /></p>
+<p><img src="/assets/image-20200505105924369.png" alt="image-20200505105924369" style="zoom:50%;" /></p>
+<h2 id="java-cup-precedence">Java-CUP precedence</h2>
+<p>We can specify precedence for alternatives by specifying something like this, which gives the if part higher precedence than the else part.</p>
+<pre><code>precedence nonassoc KW_IF;
+precedence nonassoc KW_ELSE;</code></pre>
+<h2 id="assignment-2">Assignment 2</h2>
+<p>Due Friday 15th May, weighted 25%.</p>
+<ul>
+<li>Add arrays, enum types and a for statement.</li>
+</ul>
+<p><strong>Enum types</strong> are a new type definition with discrete elements. They can have subranges, declared in the usual way. pred and succ define the preceding and successive elements when given an enum item (wraps around).</p>
+<p><strong>Array types</strong> are indexed by a subrange (of integers or enums) with a specified element type. They have fixed sizes. Elements in an array can be assigned appropriate values and then accessed. Arrays cannot have cyclic type.</p>
+<p><strong>For statements</strong> are a simple for statement over an inclusive range. The iterating variable is local to the for statement. Note that the bounds are evaluated exactly once.</p>
+<p>The parser is specified in <strong>PL0.cup</strong> and the lexical tokens are in <strong>PL0.flex</strong>.</p>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#week-8.2-symbol-table">Week 8.2 — Symbol Table</a></li>
+</ul>
+</nav>
+
+<h1 id="week-8.2-symbol-table">Week 8.2 — Symbol Table</h1>
+<p>Symbol table scopes are what we will look at. A symbol table has entries of the form:</p>
+<p><img src="/assets/image-20200506124025264.png" alt="image-20200506124025264" style="zoom:33%;" /></p>
+<h4 id="lecture-synopsis">Lecture synopsis</h4>
+<ul>
+<li>The overall symbol table structure consists of a tree of scopes (mini symbol tables), one for each nested <em>lexical scope</em>, i.e., nested procedure (or function).</li>
+<li>Each scope links to its parent scope.</li>
+<li>Each scope has at most one entry for each name and the entry has the relevant information about the name, i.e., whether it is a Constant, Type, Variable, or Procedure, and the additional information required for an entry of that kind.</li>
+<li>When looking up a name the current scope is searched, but if the name is not found its parent scope is searched and so on.</li>
+<li>Handling forward references in constant definitions</li>
+<li>Type.java: representation of type structures (e.g., ProcedureType).</li>
+<li>Handling forward references in type definitions and resolving cyclic type identifier references via IdRefType.</li>
+<li>Handling erroneous cyclic references within constant or type definitions using a status for each identifier of
+<ul>
+<li>Unresolved: not yet checked</li>
+<li>Resolving: in the process of resolving the definition, so that in resolving this identifier if we recall resolve for this identifier we have an erroneous cyclic definition</li>
+<li>Resolved: successfully resolved</li>
+</ul></li>
+<li>Referencing variables declared in the local scope or more globally
+<ul>
+<li>For every procedure we introduce a new scope for identifiers.</li>
+<li>All identifiers defined in a program have a <em>static level</em>.</li>
+<li>The static level of the declarations within a procedure is one higher than the static level of the procedure.</li>
+<li>The static level of the predefined identifiers (“int”, “boolean”, “true”, “false”) is 0.</li>
+<li>The static level of identifiers declared directly in the main program is 1.</li>
+<li>A procedure P declared in the main program has static level 1, but any identifiers defined directly within P have static level 2, and so on.</li>
+</ul></li>
+<li>ReferenceType (and AddressType) and resolution of base type</li>
+<li>ProcedureType and parameters and result type.</li>
+</ul>
+  </body>
+</html>

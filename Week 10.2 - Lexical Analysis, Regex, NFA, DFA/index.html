@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    
+    <title>Week 10.2 - Lexical Analysis, Regex, NFA, DFA</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
+    <!--<link rel="stylesheet" href="https://unpkg.com/mvp.css">-->
+    <!--<link rel="stylesheet" href="https://latex.now.sh/style.css">-->
+    <style>
+        code{white-space: pre-wrap;}
+        span.smallcaps{font-variant: small-caps;}
+        span.underline{text-decoration: underline;}
+        div.column{display: inline-block; vertical-align: top; width: 50%;}
+    </style>
+    <!--<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    var macros = [];
+    /*
+    const BATCH_SIZE = 100;
+    var i = 0;
+    while (i < mathElements.length) {
+      const start = i;
+      setTimeout(() => {
+        for (var j = 0; j < BATCH_SIZE; j++) {
+          const i = start + j;
+          if (i >= mathElements.length) break;
+
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }, 0);
+      i += BATCH_SIZE;
+    }
+    */
+    
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+      katex.render(texText.data, mathElements[i], {
+        displayMode: mathElements[i].classList.contains('display'),
+        throwOnError: false,
+        macros: macros,
+        fleqn: false
+      });
+    }}
+    
+    });
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#week-10.2-lexical-analysis-regex-nfa-dfa">Week 10.2 — Lexical Analysis, Regex, NFA, DFA</a>
+<ul>
+<li><a href="#regular-expressions">Regular expressions</a></li>
+<li><a href="#finite-automata">Finite automata</a>
+<ul>
+<li><a href="#converting-a-regular-expression-to-an-nfa">Converting a regular expression to an NFA</a></li>
+<li><a href="#converting-an-nfa-to-a-dfa">Converting an NFA to a DFA</a></li>
+<li><a href="#minimising-a-dfa">Minimising a DFA</a></li>
+<li><a href="#lexical-analysis">Lexical analysis</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="week-10.2-lexical-analysis-regex-nfa-dfa">Week 10.2 — Lexical Analysis, Regex, NFA, DFA</h1>
+<p>Lexical analysis is handled by JFlex using regular expressions. These are converted to a deterministic finite automata which recognises the tokens. DFA recognises are very fast, <span class="math inline">O(n)</span> in the length of the input. To create a DFA, it creates an intermediate NFA. The final DFA can be minimised to reduce its size.</p>
+<figure>
+<img src="/assets/image-20200703113857980.png" alt="" /><figcaption>image-20200703113857980</figcaption>
+</figure>
+<p>The difference between a DFA and an NFA is that a DFA does not allow empty transitions (transition on <span class="math inline">\epsilon</span>) or multiple transitions on the same symbol. The automata above both recognise the same language <span class="math inline">\text{a b} ~|~ \text c</span>.</p>
+<h2 id="regular-expressions">Regular expressions</h2>
+<p><strong>Definition (Regular expression).</strong> The syntax of regular expressions in BNF is <span class="math display">
+\textit e := \textit a \mid \epsilon \mid \emptyset \mid e\text{``|&quot;}e \mid e\,e\mid e\text{``*&quot;}\mid \text{``}(\text{&quot;} e\text{``}(\text{&quot;}
+</span> where <span class="math inline">\textit a</span> is some symbol from the alphabet <span class="math inline">\Sigma</span>. Repetition has higher precedence than concatenation, which has higher precedence than alternation.</p>
+<p><strong>Definition (Language of regular expressions).</strong> Given an alphabet <span class="math inline">\Sigma</span>, a regular expression defines a language (i.e. a set of strings from the alphabet). A regular expression has languages of these particular forms:</p>
+<figure>
+<img src="/assets/image-20200703114724103.png" alt="" /><figcaption>image-20200703114724103</figcaption>
+</figure>
+<p>Concatenation and iteration work the way we would expect. For example,</p>
+<figure>
+<img src="/assets/image-20200703114817788.png" alt="" /><figcaption>image-20200703114817788</figcaption>
+</figure>
+<p>Note that this language has infinitely many strings but does not include strings of infinite length.</p>
+<h2 id="finite-automata">Finite automata</h2>
+<p>A finite automaton is a finite state machine with labelled transitions between states. Each transition is labelled with a symbol or the empty string.</p>
+<p>For a deterministic finite automaton, empty transitions are not allowed and multiple transitions from the same state on the same symbol are not allowed.</p>
+<p><strong>Definition (DFA).</strong> A deterministic finite automaton <span class="math inline">D</span> consists of</p>
+<ul>
+<li>a finite alphabet <span class="math inline">\Sigma</span>,</li>
+<li>a finite set of states <span class="math inline">S</span>,</li>
+<li>a transition function <span class="math inline">T : \Sigma \times S \to S</span> which may be non total,</li>
+<li>a start state <span class="math inline">s_0</span>, and</li>
+<li>a set of final/accepting states <span class="math inline">F</span>.</li>
+</ul>
+<p><em>Example:</em> The DFA from above is defined as follows. Note the transition function is not defined for all combinations of state and symbol.</p>
+<figure>
+<img src="/assets/image-20200703115144078.png" alt="" /><figcaption>image-20200703115144078</figcaption>
+</figure>
+<p><strong>Definition (Language of a DFA).</strong> The language <span class="math inline">\mathcal L(D)</span> of a DFA is the set of finite strings of symbols from <span class="math inline">\Sigma</span> such that <span class="math inline">c \in \mathcal L(D)</span> if and only if there is some sequence of states such that <span class="math display">
+T(c_1, s_0) = s_1,\quad T(c_2, s_1)=s_1, \quad\ldots, \quad T(c_n, s_{n-1})=s_n
+</span> where <span class="math inline">s_0</span> is the start state, <span class="math inline">s_n</span> is an accepting state and <span class="math inline">n</span> is the length of the string.</p>
+<p><strong>Definition (NFA).</strong> A nondeterministic finite automaton <span class="math inline">D</span> consists of</p>
+<ul>
+<li>a finite alphabet <span class="math inline">\Sigma</span>,</li>
+<li>a finite set of states <span class="math inline">S</span>,</li>
+<li>a transition function <span class="math inline">T : (\Sigma\cup \left\{ \epsilon \right\})\times S \to \mathcal P(S)</span> which maps a symbol or <span class="math inline">\epsilon</span> to a set of possible next states,</li>
+<li>a start state <span class="math inline">s_0</span>, and</li>
+<li>a set of final/accepting states <span class="math inline">F</span>.</li>
+</ul>
+<p><em>Example:</em> The NFA example from above is defined as follows.</p>
+<figure>
+<img src="/assets/image-20200703115709096.png" alt="" /><figcaption>image-20200703115709096</figcaption>
+</figure>
+<p><strong>Definition (Language of a DFA).</strong> The language <span class="math inline">\mathcal L(D)</span> of a DFA is the set of finite strings of symbols from <span class="math inline">\Sigma</span> such that <span class="math inline">c \in \mathcal L(D)</span> if and only if there is some sequence of <span class="math inline">c_i&#39;\in (\Sigma \cup \left\{ \epsilon \right\})^*</span> states such that <span class="math display">
+T(c_1&#39;, s_0) = s_1,\quad T(c_2&#39;, s_1)=s_1, \quad\ldots, \quad T(c_n&#39;, s_{n-1})=s_n
+</span> where <span class="math inline">s_0</span> is the start state, <span class="math inline">s_n</span> is an accepting state and concatenating the <span class="math inline">c_i&#39;</span> gives us <span class="math inline">c</span>.</p>
+<h3 id="converting-a-regular-expression-to-an-nfa">Converting a regular expression to an NFA</h3>
+<p>We want to systematically convert regex to an NFA. This is based on the structure of the regular expression, as described above. For each of the syntaxes defined in the definition, we have an NFA of a particular form.</p>
+<blockquote>
+<p>Refer to RegularExpressions-handout.pdf for complete list. We list a few interesting examples here.</p>
+</blockquote>
+<p><em>Example:</em> The NFA of the regex <span class="math inline">(a\mid b)^*</span> is below. Note it is made up of the NFAs of its components. The final states are indicated with a double circle.</p>
+<figure>
+<img src="/assets/image-20200703121737862.png" alt="" /><figcaption>image-20200703121737862</figcaption>
+</figure>
+<p>By generating an NFA from a regex, it has a few properties which do not hold in general.</p>
+<ul>
+<li>The NFA has a single accepting state.</li>
+<li>The initial state has only outgoing transitions.</li>
+<li>The final state has only incoming transitions.</li>
+</ul>
+<h3 id="converting-an-nfa-to-a-dfa">Converting an NFA to a DFA</h3>
+<p>Recall a DFA cannot have more than one transition on the same symbol or empty transitions. an NFA can be translated to an equivalent DFA such that they have the same language.</p>
+<p>In doing so, the labels of states of the DFA will be <em>sets</em> of states from the NFA. The sets of states in this label are created by collecting states which can be reached from NFA states via empty transitions.</p>
+<p><strong>Definition (Empty closure of a state).</strong> The empty closure of a state <span class="math inline">x</span> in an NFA <span class="math inline">N</span>, <span class="math inline">ε\text{-closure}(x, N)</span>, is the set of states in <span class="math inline">N</span> that are reachable from <span class="math inline">x</span> via a sequence of zero or more empty transitions. The empty closure of a set of states is the union of the empty closures of its elements.</p>
+<figure>
+<img src="/assets/image-20200703122449231.png" alt="" /><figcaption>image-20200703122449231</figcaption>
+</figure>
+<p>The effect of labelling a NFA state is like merging these adjacent states into one. If any state in the empty closure is final, the NFA state will be final. The algorithm is as follows:</p>
+<ol type="1">
+<li>Start with <span class="math inline">s_0</span> and label it with its empty closure.</li>
+<li>For each non-empty symbol <span class="math inline">a</span> transitioning out of this merged state:
+<ol type="1">
+<li>Label that state with its empty closure.</li>
+<li>Recurse by considering transitions out of that state and restarting the process.</li>
+</ol></li>
+</ol>
+<figure>
+<img src="/assets/image-20200703122933650.png" alt="" /><figcaption>image-20200703122933650</figcaption>
+</figure>
+<h3 id="minimising-a-dfa">Minimising a DFA</h3>
+<p>Suppose we have the following DFA for <span class="math inline">(b \mid c)^∗\ a^*</span>. Now we want to minimise this by merging states which have the same transition to equivalent states. Note that within the ABC system, and <span class="math inline">b</span> goes to B, any <span class="math inline">a</span> goes to D and any <span class="math inline">c</span> goes to <span class="math inline">C</span>, we can merge them into a single state with self loops.</p>
+<figure>
+<img src="/assets/image-20200703123718511.png" alt="" /><figcaption>image-20200703123718511</figcaption>
+</figure>
+<p>The algorithm is something like this:</p>
+<ol type="1">
+<li>Partition states into a group of final states and a group of non-final states.</li>
+<li>For each transition from within a group <span class="math inline">G_1</span> on a particular symbol <span class="math inline">x</span> check if it goes to the same group <span class="math inline">G_2</span>.</li>
+<li>If there exists some transition out of <span class="math inline">G_1</span>, we split the group.</li>
+<li>Repeat the check with new groups until all groups are valid.</li>
+</ol>
+<h3 id="lexical-analysis">Lexical analysis</h3>
+<p>The lexical analyser generator JFlex translates regular expressions to DFAs to build a scanner. We provide it a list of regular expressions and associated actions. The generated lexical analyser matches:</p>
+<ul>
+<li>the longest prefix of matching regular expressions, or</li>
+<li>the first matching regular expression if matches have the same length.</li>
+</ul>
+<blockquote>
+<p>See PL0.flex for details.</p>
+</blockquote>
+  </body>
+</html>

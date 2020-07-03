@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    
+    <title>Week 7.2 - LR(1) and LALR(1)</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
+    <!--<link rel="stylesheet" href="https://unpkg.com/mvp.css">-->
+    <!--<link rel="stylesheet" href="https://latex.now.sh/style.css">-->
+    <style>
+        code{white-space: pre-wrap;}
+        span.smallcaps{font-variant: small-caps;}
+        span.underline{text-decoration: underline;}
+        div.column{display: inline-block; vertical-align: top; width: 50%;}
+    </style>
+    <!--<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    var macros = [];
+    /*
+    const BATCH_SIZE = 100;
+    var i = 0;
+    while (i < mathElements.length) {
+      const start = i;
+      setTimeout(() => {
+        for (var j = 0; j < BATCH_SIZE; j++) {
+          const i = start + j;
+          if (i >= mathElements.length) break;
+
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }, 0);
+      i += BATCH_SIZE;
+    }
+    */
+    
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+      katex.render(texText.data, mathElements[i], {
+        displayMode: mathElements[i].classList.contains('display'),
+        throwOnError: false,
+        macros: macros,
+        fleqn: false
+      });
+    }}
+    
+    });
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#week-7.2-lr1-and-lalr1">Week 7.2 — LR(1) and LALR(1)</a>
+<ul>
+<li><a href="#lr1-grammars-and-parsing">LR(1) grammars and parsing</a></li>
+<li><a href="#lalr1-grammars-and-parsing">LALR(1) grammars and parsing</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="week-7.2-lr1-and-lalr1">Week 7.2 — LR(1) and LALR(1)</h1>
+<p>Recall our LR(0) automaton which had a shift/accept conflict. In order to be LR(0), the action at each state needs to be unique.</p>
+<p><img src="/assets/image-20200426124009061.png" alt="image-20200426124009061" style="zoom:30%;" /></p>
+<h2 id="lr1-grammars-and-parsing">LR(1) grammars and parsing</h2>
+<p><strong>LR(1)</strong> grammars resolve this by adding some lookahead sets to each item. This informs when it should reduce or accept. The name is because:</p>
+<ul>
+<li>parsing is done <strong>left</strong> to right,</li>
+<li>the parser produces a <strong>rightmost</strong> derivation (in reverse), and</li>
+<li>the parser looks one symbol ahead.</li>
+</ul>
+<p><strong>Definition.</strong> An <strong>LR(1) parsing item</strong> is a pair <span class="math display">
+[N \to \alpha \bullet \beta,\ T]
+</span> where <span class="math inline">N \to \alpha \bullet \beta</span> is just an LR(0) parsing item and <span class="math inline">T</span> is a set of terminal symbols called a <em>look-ahead set</em>. This lookahead set may contain EOF.</p>
+<p>This means that we are trying to match <span class="math inline">N</span> in a context where <span class="math inline">N</span> may be followed by a terminal symbol in <span class="math inline">T</span>. As in LR(0), we have matched <span class="math inline">\alpha</span> and are expecting to match <span class="math inline">\beta</span>.</p>
+<p><strong>Definition.</strong> An <strong>LR(1) parsing automaton</strong> (state machine) consists of a finite set of states, each of which contains a set of LR(1) parsing items.</p>
+<p>The <strong>kernel item</strong> of the initial state is <span class="math display">
+[S&#39; \to \bullet S,\ \{\$\}]
+</span> where <span class="math inline">S</span> is the start symbol of the grammar and we introduce a replacement start symbol <span class="math inline">S&#39;</span>. This determines when parsing is completed.</p>
+<h4 id="lr1-state-machine-construction">LR(1) state machine construction</h4>
+<p>If a state has an LR(1) item of the form <span class="math display">
+[N \to \alpha \bullet M \beta,\ T] \quad \text{where}\quad M \to \alpha_1 \mid \cdots \mid \alpha_m.
+</span> and <span class="math inline">T = \{\textrm{a}_1, \ldots, \textrm a_n\}</span> then the state also includes the <strong>derived items</strong>: <span class="math display">
+\begin{aligned}
+&amp;[M \to \bullet \alpha_1,\ T&#39;] \\ 
+&amp;\qquad\quad\vdots\\
+&amp;[M \to \bullet \alpha_m,\ T&#39;] 
+\end{aligned}
+</span> Here, if <span class="math inline">\beta</span> is not nullable <span class="math inline">T&#39; = \operatorname{First} \beta</span> and if <span class="math inline">\beta</span> is nullable, <span class="math inline">T&#39; = \operatorname{First}\beta \setminus \{\epsilon\} \cup T</span>.</p>
+<p>If a state <span class="math inline">s_i</span> has an item of the form <span class="math inline">[N \to \alpha \bullet x \beta,\ T]</span> where <span class="math inline">x</span> is a (terminal or non-terminal) symbol, then there is a <strong>goto state</strong> <span class="math inline">s_j</span> from <span class="math inline">s_i</span> on <span class="math inline">x</span> which includes a kernel item of the form <span class="math display">
+[N \to \alpha x \bullet \beta,\ T].
+</span> If <span class="math inline">s_i</span> has multiple items with the same <span class="math inline">x</span> to the right of <span class="math inline">\bullet</span>, then <span class="math inline">s_j</span> includes all those items with the <span class="math inline">\bullet</span> moved after the <span class="math inline">x</span>.</p>
+<h4 id="parsing-actions">Parsing actions</h4>
+<p>Parsing actions depend on the next terminal symbol in the input, <span class="math inline">x</span>. Given LR(1) items of the form</p>
+<ul>
+<li><span class="math inline">[N \to \alpha\bullet \text a \beta, T]</span> with <span class="math inline">\text a</span> terminal, indicates a <strong>shift</strong> action if the next input is <span class="math inline">\text a</span>,</li>
+<li><span class="math inline">[S&#39; \to S \bullet, \{\$\}]</span> where <span class="math inline">S&#39;</span> is the added start symbol, indicates an <strong>accept</strong> action if we are at EOF, and</li>
+<li><span class="math inline">[N \to \alpha \bullet, T]</span>, where <span class="math inline">N&#39;</span> is not <span class="math inline">S</span>, the state has an action <strong>reduce <span class="math inline">N \to \alpha</span></strong> if the next input <span class="math inline">x</span> is in <span class="math inline">T</span>.</li>
+</ul>
+<p>If none of the above apply, the parsing action is an <strong>error</strong>.</p>
+<h4 id="example-1">Example 1</h4>
+<p><img src="/assets/image-20200502133550531.png" alt="image-20200502133550531" style="zoom:50%;" /></p>
+<p>Some notes:</p>
+<ul>
+<li>At 0, the only valid action is shift on n because we only shift on terminals.</li>
+<li>At 1, note that we accept/shift depending on the next input token.</li>
+<li>At 2, we reduce on $ or +.</li>
+<li>At 3, we shift only on n.</li>
+<li>At 4, we reduce on $ or +.</li>
+</ul>
+<h4 id="example-2">Example 2</h4>
+<p>This abstracts a common pattern in programming languages. <span class="math inline">S</span> is a statement which describes an assignment or call (without brackets).</p>
+<p><img src="/assets/image-20200502133921192.png" alt="image-20200502133921192" style="zoom:50%;" /></p>
+<ul>
+<li>State 0 has two derived items from <span class="math inline">S&#39;</span> and one from the second <span class="math inline">S</span> production. Note that because <span class="math inline">=</span> is not nullable, <span class="math inline">T&#39;</span> of the <span class="math inline">V</span> item is just <span class="math inline">=</span>.</li>
+<li>Transition 0 to 2 contains both items which have <span class="math inline">\text{id}</span> right of <span class="math inline">\bullet</span>.</li>
+<li>State 4 has derived items because non-terminal <span class="math inline">E</span> is to the right of <span class="math inline">\bullet</span>. This again has multiple derived items.</li>
+</ul>
+<p><img src="/assets/image-20200502134706219.png" alt="image-20200502134706219" style="zoom:50%;" /></p>
+<ul>
+<li>Note that we would have had a reduce/reduce conflict at state 2 with LR(0).</li>
+</ul>
+<h4 id="lr1-conflicts">LR(1) conflicts</h4>
+<p>We can still have conflicts. Here, they depend on the next input symbol. Possible conflicts are:</p>
+<ul>
+<li>shift/reduce conflict if a state has both a shift and reduce on the terminal <span class="math inline">\text b</span>,</li>
+<li>reduce/reduce for two reduce actions at the same terminal <span class="math inline">\text b</span>,</li>
+<li>shift/accept, and</li>
+<li>accept/reduce.</li>
+</ul>
+<p>Again, there is no shift/shift conflict because they are identical. A grammar is LR(1) if none of its states contain a parsing action conflict.</p>
+<h4 id="example-3">Example 3</h4>
+<p><img src="/assets/image-20200502141139039.png" alt="image-20200502141139039" style="zoom:50%;" /></p>
+<p><img src="/assets/image-20200502141117008.png" alt="image-20200502141117008" style="zoom:50%;" /></p>
+<p>There are no parsing action conflicts so this grammar is LR(1).</p>
+<h2 id="lalr1-grammars-and-parsing">LALR(1) grammars and parsing</h2>
+<p>LALR(1) is <strong>look-ahead</strong> merged <strong>LR(1)</strong> parsing. The states of an LALR(1) parsing automaton contain sets of LR(1) items.</p>
+<p>It is made from an LR(1) parsing automaton by merging states that have identical sets of LR(0) items but possibly different lookahead sets. The lookahead set is the union of all LR(1) parsing item lookahead sets.</p>
+<h4 id="example-3-as-lalr1">Example 3 as LALR(1)</h4>
+<p><img src="/assets/image-20200502142036949.png" alt="image-20200502142036949" style="zoom:50%;" /></p>
+<ul>
+<li>LALR merged states 2+7, 3+8, 4+9, 5+10, 6+11.</li>
+<li>Note that there are still no conflicts. We can only introduct conflicts if two states have different reduce actions.</li>
+<li>This has the same states as an LR(0) automaton, so if we wanted to construct a LR(0) state machine, we can just omit the lookahead sets.</li>
+</ul>
+  </body>
+</html>

@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    
+    <title>Week 6.2 - Stack Machine</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
+    <!--<link rel="stylesheet" href="https://unpkg.com/mvp.css">-->
+    <!--<link rel="stylesheet" href="https://latex.now.sh/style.css">-->
+    <style>
+        code{white-space: pre-wrap;}
+        span.smallcaps{font-variant: small-caps;}
+        span.underline{text-decoration: underline;}
+        div.column{display: inline-block; vertical-align: top; width: 50%;}
+    </style>
+    <!--<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    var macros = [];
+    /*
+    const BATCH_SIZE = 100;
+    var i = 0;
+    while (i < mathElements.length) {
+      const start = i;
+      setTimeout(() => {
+        for (var j = 0; j < BATCH_SIZE; j++) {
+          const i = start + j;
+          if (i >= mathElements.length) break;
+
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }, 0);
+      i += BATCH_SIZE;
+    }
+    */
+    
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+      katex.render(texText.data, mathElements[i], {
+        displayMode: mathElements[i].classList.contains('display'),
+        throwOnError: false,
+        macros: macros,
+        fleqn: false
+      });
+    }}
+    
+    });
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#week-6.2-stack-machine">Week 6.2 — Stack Machine</a>
+<ul>
+<li><a href="#evaluating-using-a-stack">Evaluating using a stack</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="week-6.2-stack-machine">Week 6.2 — Stack Machine</h1>
+<p>The stack machine is a very simple machine which uses a stack to evaluate expressions. This is much simpler than traditional ARM or x86 machines.</p>
+<p>Its stack has two areas: a stack which stores values of expressions and activation records.</p>
+<h2 id="evaluating-using-a-stack">Evaluating using a stack</h2>
+<p>Consider the expression <span class="math inline">2\ 3\ 4\ *\ +</span>, expressed in reverse Polish notation, which is generated from post-order traversal of an expression tree. This gets loaded into the following instructions:</p>
+<pre class="assembly"><code>LOADCON 2
+LOADCON 3
+LOADCON 4
+MUL
+ADD</code></pre>
+<p>After executing the first 3 commands, the stack has <span class="math inline">[2,3,4]</span> with <span class="math inline">4</span> at the top. MUL pops the top two values, then pushes <span class="math inline">3 \times 4=12</span> to make the stack <span class="math inline">[2,12]</span>. ADD then does the same to finish with <span class="math inline">[14]</span>.</p>
+<p>In general, after running code to evaluate an expression, that expression’s value will be on the top of the stack.</p>
+<p>Suppose we have a binary operation <span class="math inline">e_1 \circ e_2</span>. This will be represented by these instructions (each evaluate code may be multiple instructions):</p>
+<pre class="assembly"><code>evaluate e_1
+evaluate e_2
+ADD</code></pre>
+<p>Consider code for an assignment <span class="math inline">y:= x + 1</span>, assuming <span class="math inline">x = 42</span>. This would have the following instructions:</p>
+<pre class="assembly"><code>LOADCON 3  # pushes constant 3, the offset of variable x
+LOADFRAME  # goes to offset given by top of stack, and pushes it onto the stack
+LOADCON 1  # pushes constant 1
+ADD        # adds the value of x and 1, pushing it onto the stack
+LOADCON 4  # pushes 4, the offset of y
+STOREFRAME # pops an offset, the pops a value and stores that value into the offset</code></pre>
+<p>This works for local variables; non-local variables will be explained later.</p>
+<p><img src="/assets/image-20200418142656573.png" alt="image-20200418142656573" style="zoom:100%;" /></p>
+<p>For a more complex example, let’s look at</p>
+<blockquote>
+<p>if <span class="math inline">x &lt; 0</span> then <span class="math inline">z := -x</span> else <span class="math inline">x := x</span>.</p>
+</blockquote>
+<p>The code for this is made up of</p>
+<pre class="assembly"><code>evaluate x &lt; 0          # evaluates the condition
+(jump if false)         # if true, continues
+evaluate x := -x        # true branch
+(jump unconditionally)  # if we ran the true branch, skip false branch
+evaluate x := x         # false branch</code></pre>
+<p>Breaking down the evaluate segments the code is this:</p>
+<pre class="assembly"><code>LOADCON 3   # push offset of x
+LOADFRAME   # pop offset, push value of x
+ZERO        # push zero
+LESS        # pop x and 0, push x &lt; 0
+LOADCON 10  # push number of instructions to skip, 10
+BR_FALSE    # pop number to skip and jump if false, i.e. skip true branch
+LOADCON 3   # push offset of x
+LOADFRAME   # pop offset, push value of x
+NEGATE      # pop x, push -x
+LOADCON 4   # push offset of z
+STOREFRAME  # pop, store z
+LOADCON 6   # push skip size of 6
+BR          # always pop and skip 6, i.e. skip else branch
+LOADCON 3   
+LOADFRAME   
+LOADCON 4   
+STOREFRAME  </code></pre>
+<p><strong>Important:</strong> LOADCON instructions have a size of 2 (presumably because they have an opcode and an operand).</p>
+  </body>
+</html>

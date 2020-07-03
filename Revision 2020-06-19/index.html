@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    
+    <title>Revision 2020-06-19</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
+    <!--<link rel="stylesheet" href="https://unpkg.com/mvp.css">-->
+    <!--<link rel="stylesheet" href="https://latex.now.sh/style.css">-->
+    <style>
+        code{white-space: pre-wrap;}
+        span.smallcaps{font-variant: small-caps;}
+        span.underline{text-decoration: underline;}
+        div.column{display: inline-block; vertical-align: top; width: 50%;}
+    </style>
+    <!--<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    var macros = [];
+    /*
+    const BATCH_SIZE = 100;
+    var i = 0;
+    while (i < mathElements.length) {
+      const start = i;
+      setTimeout(() => {
+        for (var j = 0; j < BATCH_SIZE; j++) {
+          const i = start + j;
+          if (i >= mathElements.length) break;
+
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }, 0);
+      i += BATCH_SIZE;
+    }
+    */
+    
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+      katex.render(texText.data, mathElements[i], {
+        displayMode: mathElements[i].classList.contains('display'),
+        throwOnError: false,
+        macros: macros,
+        fleqn: false
+      });
+    }}
+    
+    });
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <header id="title-block-header">
+<h1 class="title"><strong>COMP4403</strong> — Revision Session</h1>
+<p class="author">Kenton Lam</p>
+<p class="date">19th June, 2020</p>
+</header>
+
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#revision">Revision</a>
+<ul>
+<li><a href="#likely-questions">Likely questions</a></li>
+<li><a href="#topics">Topics</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="revision">Revision</h1>
+<p>There are <strong>two parts</strong>. Part A is worth 30% and is a Blackboard quiz. Part B is 70% and to be done one paper.</p>
+<h3 id="likely-questions">Likely questions</h3>
+<ul>
+<li>Parsing theory, including regular expressions and context-free grammars.</li>
+<li>Deterministic and non-deterministic finite automata, translating regex to NFA and NFA to DFA.</li>
+<li>First and follow sets, top-down (LL(1)) and bottom-up (LR(0), LR(1), LALR(1)).</li>
+<li>RDP, including semantic actions.</li>
+<li>Runtime environment:
+<ul>
+<li>Stack organisation, frames, call, return, static/dynamic links, parameter and return mechanisms.</li>
+<li>Handling of objects: classes, subclasses, dynamic dispatch.</li>
+<li>Heap organisation: alloc/dealloc, GC, mark-and-sweep, stop-and-copy, generational.</li>
+</ul></li>
+<li>Static semantics: symbol tables, inference rules and derivations.</li>
+</ul>
+<h3 id="topics">Topics</h3>
+<ul>
+<li>…</li>
+<li>Type inference rules, well-formedness of statements.</li>
+<li>Remember that first sets can contain the empty string iff the construct is nullable.</li>
+</ul>
+  </body>
+</html>

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    
+    <title>Week 8.2 - Symbol Table</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
+    <!--<link rel="stylesheet" href="https://unpkg.com/mvp.css">-->
+    <!--<link rel="stylesheet" href="https://latex.now.sh/style.css">-->
+    <style>
+        code{white-space: pre-wrap;}
+        span.smallcaps{font-variant: small-caps;}
+        span.underline{text-decoration: underline;}
+        div.column{display: inline-block; vertical-align: top; width: 50%;}
+    </style>
+    <!--<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    var macros = [];
+    /*
+    const BATCH_SIZE = 100;
+    var i = 0;
+    while (i < mathElements.length) {
+      const start = i;
+      setTimeout(() => {
+        for (var j = 0; j < BATCH_SIZE; j++) {
+          const i = start + j;
+          if (i >= mathElements.length) break;
+
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }, 0);
+      i += BATCH_SIZE;
+    }
+    */
+    
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+      katex.render(texText.data, mathElements[i], {
+        displayMode: mathElements[i].classList.contains('display'),
+        throwOnError: false,
+        macros: macros,
+        fleqn: false
+      });
+    }}
+    
+    });
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#week-8.2-symbol-table">Week 8.2 — Symbol Table</a></li>
+</ul>
+</nav>
+
+<h1 id="week-8.2-symbol-table">Week 8.2 — Symbol Table</h1>
+<p>Symbol table scopes are what we will look at. A symbol table has entries of the form:</p>
+<p><img src="/assets/image-20200506124025264.png" alt="image-20200506124025264" style="zoom:33%;" /></p>
+<h4 id="lecture-synopsis">Lecture synopsis</h4>
+<ul>
+<li>The overall symbol table structure consists of a tree of scopes (mini symbol tables), one for each nested <em>lexical scope</em>, i.e., nested procedure (or function).</li>
+<li>Each scope links to its parent scope.</li>
+<li>Each scope has at most one entry for each name and the entry has the relevant information about the name, i.e., whether it is a Constant, Type, Variable, or Procedure, and the additional information required for an entry of that kind.</li>
+<li>When looking up a name the current scope is searched, but if the name is not found its parent scope is searched and so on.</li>
+<li>Handling forward references in constant definitions</li>
+<li>Type.java: representation of type structures (e.g., ProcedureType).</li>
+<li>Handling forward references in type definitions and resolving cyclic type identifier references via IdRefType.</li>
+<li>Handling erroneous cyclic references within constant or type definitions using a status for each identifier of
+<ul>
+<li>Unresolved: not yet checked</li>
+<li>Resolving: in the process of resolving the definition, so that in resolving this identifier if we recall resolve for this identifier we have an erroneous cyclic definition</li>
+<li>Resolved: successfully resolved</li>
+</ul></li>
+<li>Referencing variables declared in the local scope or more globally
+<ul>
+<li>For every procedure we introduce a new scope for identifiers.</li>
+<li>All identifiers defined in a program have a <em>static level</em>.</li>
+<li>The static level of the declarations within a procedure is one higher than the static level of the procedure.</li>
+<li>The static level of the predefined identifiers (“int”, “boolean”, “true”, “false”) is 0.</li>
+<li>The static level of identifiers declared directly in the main program is 1.</li>
+<li>A procedure P declared in the main program has static level 1, but any identifiers defined directly within P have static level 2, and so on.</li>
+</ul></li>
+<li>ReferenceType (and AddressType) and resolution of base type</li>
+<li>ProcedureType and parameters and result type.</li>
+</ul>
+  </body>
+</html>
