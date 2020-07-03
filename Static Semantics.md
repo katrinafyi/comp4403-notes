@@ -1,4 +1,8 @@
-# PL0 Static Semantics Cheat Sheet
+---
+title: PL0 Static Semantics Cheat Sheet
+author: Kenton Lam
+date: Friday July 3, 2020
+---
 
 A quick reference on static semantics of the PL0 programming language. This is meant to be read alongside `PL0-SSemantics.pdf`. Written by Kenton Lam.
 
@@ -36,9 +40,12 @@ With the above in mind, we define a few more high-level pieces.
 
 - $\textit{syms}$ is defined as a mapping $\textsf{id} \twoheadrightarrow \textit{SymEntry}$ of AST identifiers to symbol table entries, so $\operatorname*{dom}(\textit{syms})$ is the set of defined identifiers. A symbol table entry is a sum type defined as
   $$
-  \textit{SymEntry} ::= \textit{ConstEntry}(T, \mathbb Z) \mid \textit{TypeEntry}(T) \mid \textit{VarEntry}(T) \mid \textit{ProcEntry}(\textsf{block}).
+  \begin{aligned}
+  \textit{SymEntry} &::= \textit{ConstEntry}(T, \mathbb Z) \mid \textit{TypeEntry}(T) \\
+&\qquad\mid \textit{VarEntry}(T) \mid \textit{ProcEntry}(\textsf{block}).
+  \end{aligned}
   $$
-
+  
 - $\textit{syms} \vdash \textsf e : T$ means in the context of the symbol table $\textit{syms}$, the expression $\textsf e$ is well-typed and has the type $T$.
 
 ## Declarations
@@ -71,9 +78,7 @@ The function $\textit{uses}$ takes a declaration, type or constant expression an
 
 The $\textit{entryDecl}(\textit{syms}, \textsf{ds}, \textsf d)$ function _defines_ a symbol table entry for the declaration $\textsf{d}$ in a context of $\textit{syms}$ augmented with only the declarations from $\textsf{ds}$ which are used in $\textsf{d}$. The $\textit{uses}(\textsf{d})$ prevents mutual recursion in rule 6.2 between declarations in the same declaration list. Basically, this constructs a new context and offloads the work to $\textit{entry}$.
 
-The earlier $\textit{entry}$ function returns the appropriate symbol table entry for a given declaration in a given context. Importantly, this means that types and their SymEntries are constructed in the context they're defined.
-
-Putting this together, we get the following rules for well-formed blocks.
+The earlier $\textit{entry}$ function returns the appropriate symbol table entry for a given declaration in a given context. Importantly, this means that types and their SymEntries are constructed in the context they're defined. Putting this together, we get the following rules for well-formed blocks.
 
 ![image-20200703193012243](assets/image-20200703193012243.png)
 
@@ -118,3 +123,8 @@ A _program_ is well-formed if its block is well-formed in the context of the $\t
 ### Well-Formed Main Program
 
 <img src="assets/image-20200703200944338.png" alt="image-20200703200944338" style="zoom:50%;" />
+
+
+
+
+
