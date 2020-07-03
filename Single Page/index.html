@@ -518,29 +518,13 @@
 
 <h1>Lecture 1 — Compilers and Interpreters</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Lecture 1 — Compilers and Interpreters</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
 <header id="title-block-header">
 <h1 class="title">Lecture 1 — Compilers and Interpreters</h1>
 </header>
+-->
+
+
 <h1 id="lecture-1-compilers-and-interpreters">Lecture 1 — Compilers and Interpreters</h1>
 <p><strong>Ian Hayes</strong>: <a href="ian.hayes@uq.edu.au">ian.hayes@uq.edu.au</a>, 78-414 (GP South).</p>
 <h3 id="administrative-notes">Administrative notes</h3>
@@ -589,50 +573,15 @@
 <p>IdentiferNode is an intermediate node. It is either a constant defined in the source code (i.e. a literal) or a variable, which needs to be treated different. The reason why is a variable can be changed. A variable should be thought of as a reference or location which contains a mutable value.</p>
 <p>For example, we convert IdentifierNode(“x”) to VariableNode(“x”) with the type of ref(int). ConstNode(0) has the type int. However, because this is used as part of a BinaryNode with less-than, we need to dereference the left ref(int) to a int. This is done by inserting a DereferenceNode, giving us a int type.</p>
 <p>In the IdentiferNode(“z”) under AssignmentNode, it becomes a VariableNode(“z”) of type ref(int). It is important that the left hand size of an assignment is a reference. It doesn’t make sense to assign something to an integer.</p>
-<p><img src="/assets/Clipboard_2020-02-24-09-47-40.png" /></p>
-</body>
-</html>
-<h1>Lecture 2 — Context-Free Grammars (2)</h1>
+<p><img src="/assets/Clipboard_2020-02-24-09-47-40.png" /></p><h1>Lecture 2 — Context-Free Grammars (2)</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Lecture 2 — Context-Free Grammars</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
 <header id="title-block-header">
 <h1 class="title">Lecture 2 — Context-Free Grammars</h1>
 </header>
+-->
+
+
 <h1 id="lecture-2-context-free-grammars">Lecture 2 — Context-Free Grammars</h1>
 <p>Recall the phases of a compiler from last lecture. We’re going to be focusing on syntax analysis for the next few lectures.</p>
 <h2 id="context-free-grammars">Context-free grammars</h2>
@@ -706,112 +655,15 @@ E &amp;\to E\ ``+&quot;\ T ~|~T \\
 T &amp;\to T \ ``*&quot;\ F ~|~ F \\ 
 F &amp;\to N\ |\ ``(&quot;\, E\, ``)&quot;
 \end{aligned}
-</span> This grammar is unambiguous. That is, it treats <span class="math inline">+</span> as lower precedence than <span class="math inline">*</span> unless it is surrounded by parentheses.</p>
-</body>
-</html>
-<h1>Lecture 3 — Context-Free Grammars 2</h1>
+</span> This grammar is unambiguous. That is, it treats <span class="math inline">+</span> as lower precedence than <span class="math inline">*</span> unless it is surrounded by parentheses.</p><h1>Lecture 3 — Context-Free Grammars 2</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Lecture 3 — Context-Free Grammars 2</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {   }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
 <header id="title-block-header">
 <h1 class="title">Lecture 3 — Context-Free Grammars 2</h1>
 </header>
+-->
+
+
 <h1 id="lecture-3-context-free-grammars-2">Lecture 3 — Context-Free Grammars 2</h1>
 <p>Consider a grammar: <span class="math display">
 \begin{aligned}
@@ -932,112 +784,15 @@ S &amp;\to \textit{IfS} \ |\ \ldots \\
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true"></a>    <span class="fu">error</span>(<span class="st">&quot;Syntax error&quot;</span>);</span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true"></a>  }</span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true"></a>  <span class="kw">return</span> result;</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true"></a>}</span></code></pre></div>
-</body>
-</html>
-<h1>Lecture 4 — Recursive Descent Parsing 2 &amp; Abstract Syntax Trees</h1>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true"></a>}</span></code></pre></div><h1>Lecture 4 — Recursive Descent Parsing 2 &amp; Abstract Syntax Trees</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Lecture 4 — Recursive Descent Parsing 2 &amp; Abstract Syntax Trees</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {   }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
 <header id="title-block-header">
 <h1 class="title">Lecture 4 — Recursive Descent Parsing 2 &amp; Abstract Syntax Trees</h1>
 </header>
+-->
+
+
 <h1 id="lecture-4-recursive-descent-parsing-2-abstract-syntax-trees">Lecture 4 — Recursive Descent Parsing 2 &amp; Abstract Syntax Trees</h1>
 <p>We are continuing to take a grammar and write a Java parser for that grammar.</p>
 <p>Refer to <em>RecursiveDescentParsing.pdf</em> for examples of Java code for specific EBNF constructs.</p>
@@ -1106,96 +861,15 @@ S &amp;\to \textit{IfS} \ |\ \ldots \\
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true"></a>  result = <span class="fu">BinaryNode</span>(l4, DIV_OP, r2, f2);</span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true"></a><span class="kw">return</span> result;</span></code></pre></div>
 <h2 id="syntax-error-recovery">Syntax error recovery</h2>
-<p><em>Moved to lecture 5.</em></p>
-</body>
-</html>
-<h1>Lecture 5 — Syntax Error Recovery</h1>
+<p><em>Moved to lecture 5.</em></p><h1>Lecture 5 — Syntax Error Recovery</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Lecture 5 — Syntax Error Recovery</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {   }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-  </style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
 <header id="title-block-header">
 <h1 class="title">Lecture 5 — Syntax Error Recovery</h1>
 </header>
+-->
+
+
 <h1 id="lecture-5-syntax-error-recovery">Lecture 5 — Syntax Error Recovery</h1>
 <p>Remark: For this parsing method, the first symbols of any alternative must be pairwise disjoint.</p>
 <p>There are a few parts to syntax error recovery, such as when parsing and when matching. For example, when a syntax error is encountered it can throw away unexpected tokens or replace tokens with the correct token.</p>
@@ -1251,50 +925,15 @@ S &amp;\to \textit{IfS} \ |\ \ldots \\
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true"></a>    <span class="kw">return</span> result;</span>
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true"></a>  });</span>
 <span id="cb3-21"><a href="#cb3-21" aria-hidden="true"></a>}</span></code></pre></div>
-<p>Note that we must use <strong>tokens.match</strong> after building the constant node because it consumes the next number.</p>
-</body>
-</html>
-<h1>Lecture 6 — Static Semantic Analysis</h1>
+<p>Note that we must use <strong>tokens.match</strong> after building the constant node because it consumes the next number.</p><h1>Lecture 6 — Static Semantic Analysis</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Lecture 6 — Static Semantic Analysis</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
 <header id="title-block-header">
 <h1 class="title">Lecture 6 — Static Semantic Analysis</h1>
 </header>
+-->
+
+
 <h1 id="lecture-6-static-semantic-analysis">Lecture 6 — Static Semantic Analysis</h1>
 <p>At the top level, a program is just a block and a block contains declarations then the main body. Declarations are a mapping from an identifier to a declaration.</p>
 <p>Statements are assignments, writes, reads, calls, if, while, or statement lists.</p>
@@ -1311,31 +950,12 @@ var b : boolean;
 <p>Something like <span class="math inline">\textit{syms} ~\vdash n : \text{int}</span> (<strong>integer value</strong>) means that given a symbol table <em>syms</em>, any number is of type int.</p>
 <p><img src="/assets/Clipboard_2020-03-14-10-31-47.png" /></p>
 <p>There are other rules in the PL0-SSemantics.pdf document. Note that narrowing subranges may require a runtime check or more advanced static analysis.</p>
-<p><img src="/assets/Clipboard_2020-03-14-10-30-12.png" /></p>
-</body>
-</html>
-<h1>Lecture 7 - Static Semantic Analysis (2)</h1>
+<p><img src="/assets/Clipboard_2020-03-14-10-30-12.png" /></p><h1>Lecture 7 - Static Semantic Analysis (2)</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Lecture 7 - Static Semantic Analysis (2)</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
+-->
+
+
 <h1 id="lecture-7-static-semantic-analysis-2">Lecture 7 — Static Semantic Analysis (2)</h1>
 <p>Recall the type inference rules:</p>
 <p><img src="/assets/Clipboard_2020-03-14-10-31-47.png" /></p>
@@ -1358,47 +978,12 @@ var y : S;
 <h2 id="the-pl0-compiler-assignment">The PL0 Compiler (Assignment)</h2>
 <h3 id="visitor-pattern">Visitor Pattern</h3>
 <p>We need to write a class which visits each type of node.</p>
-<p>Tree nodes have a function <code>accept(Visitor v)</code> which calls <code>v.visitXTree()</code>, and the Visitor class has methods <code>visitXTree</code> which call accept on the relevant children.</p>
-</body>
-</html>
-<h1>Lecture 8 — Constant Expressions</h1>
+<p>Tree nodes have a function <code>accept(Visitor v)</code> which calls <code>v.visitXTree()</code>, and the Visitor class has methods <code>visitXTree</code> which call accept on the relevant children.</p><h1>Lecture 8 — Constant Expressions</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Lecture 8 — Constant Expressions</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
+-->
+
+
 <h1 id="lecture-8-constant-expressions">Lecture 8 — Constant Expressions</h1>
 <blockquote>
 <p>Assignment 1 deadline has been pushed back to Thursday, 9th April.</p>
@@ -1462,47 +1047,12 @@ end</code></pre>
 <figure>
 <img src="/assets/image-20200325154851187.png" alt="" /><figcaption>image-20200325154851187</figcaption>
 </figure>
-<p>When we return, that means we throw away the last frame, then go back and write <span class="math inline">y</span> in the 2nd <span class="math inline">f</span> frame, then go up and write <span class="math inline">y</span> in the 1st frame, then go back to main, then terminate.</p>
-</body>
-</html>
-<h1>Lecture 9 - Left-factoring and Left-recursion Removal</h1>
+<p>When we return, that means we throw away the last frame, then go back and write <span class="math inline">y</span> in the 2nd <span class="math inline">f</span> frame, then go up and write <span class="math inline">y</span> in the 1st frame, then go back to main, then terminate.</p><h1>Lecture 9 - Left-factoring and Left-recursion Removal</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Lecture 9 - Left-factoring and Left-recursion Removal</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
+-->
+
+
 <h1 id="lecture-9-left-factoring-and-left-recursion-removal">Lecture 9 — Left-Factoring and Left-Recursion Removal</h1>
 <blockquote>
 <p>March 29, 2020</p>
@@ -1568,47 +1118,12 @@ A&#39; &amp;\to \epsilon ~|~ A&#39;\ \alpha_1 \\
 B&#39; &amp;\to \epsilon ~|~ \beta_1\ B&#39;
 \end{aligned}
 </span></p>
-</blockquote>
-</body>
-</html>
-<h1>Lecture 10 - First and Follow Sets, LL-1 Parsing</h1>
+</blockquote><h1>Lecture 10 - First and Follow Sets, LL-1 Parsing</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Lecture 10 - First and Follow Sets, LL-1 Parsing</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
+-->
+
+
 <h1 id="lecture-10---first-and-follow-sets-ll-1-grammars">Lecture 10 - First and Follow Sets, LL-1 Grammars</h1>
 <blockquote>
 <p>March 30, 2020</p>
@@ -1664,92 +1179,34 @@ B&#39; &amp;\to \epsilon ~|~ \beta_1\ B&#39;
 <li>in the follow set of <span class="math inline">N</span> and the (unique) nullable alternative is chosen, or</li>
 <li>invalid and hence a syntax error.</li>
 </ul>
-<p>An EBNF grammar is LL(1) if it is LL(1) when converted to a BNF grammar.</p>
-</body>
-</html>
-<h1>Lecture 11 - CUP and JFlex Example</h1>
+<p>An EBNF grammar is LL(1) if it is LL(1) when converted to a BNF grammar.</p><h1>Lecture 11 - CUP and JFlex Example</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Lecture 11 - CUP and JFlex Example</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
+-->
+
+
 <h1 id="lecture-11---cup-and-jflex-example">Lecture 11 - CUP and JFlex Example</h1>
 <blockquote>
 <p>March 31, 2020</p>
 </blockquote>
 <p>Java-CUP takes a grammar in a particular format and generates code which, when given a sequence of tokens can construct an AST and evaluate it.</p>
-<p>JFlex takes token definitions as regular expressions and returns a tokeniser which will convert input into those tokens.</p>
-</body>
-</html>
-<h1>README</h1>
+<p>JFlex takes token definitions as regular expressions and returns a tokeniser which will convert input into those tokens.</p><h1>README</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>README</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
-<h1 id="comp4403-notes">comp4403-notes</h1>
-</body>
-</html>
-<h1>Revision 2020-06-19</h1>
+  <!--
+-->
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="author" content="Kenton Lam" />
-  <title>COMP4403 — Revision Session</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+
+<h1 id="comp4403-notes">comp4403-notes</h1><h1>Revision 2020-06-19</h1>
+
+  <!--
 <header id="title-block-header">
 <h1 class="title"><strong>COMP4403</strong> — Revision Session</h1>
 <p class="author">Kenton Lam</p>
 <p class="date">19th June, 2020</p>
 </header>
+-->
+
+
 <h1 id="revision">Revision</h1>
 <p>There are <strong>two parts</strong>. Part A is worth 30% and is a Blackboard quiz. Part B is 70% and to be done one paper.</p>
 <h3 id="likely-questions">Likely questions</h3>
@@ -1771,53 +1228,17 @@ B&#39; &amp;\to \epsilon ~|~ \beta_1\ B&#39;
 <li>…</li>
 <li>Type inference rules, well-formedness of statements.</li>
 <li>Remember that first sets can contain the empty string iff the construct is nullable.</li>
-</ul>
-</body>
-</html>
-<h1>Static Semantics</h1>
+</ul><h1>Static Semantics</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="author" content="Kenton Lam" />
-  <title>PL0 Static Semantics Cheat Sheet</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
 <header id="title-block-header">
 <h1 class="title">PL0 Static Semantics Cheat Sheet</h1>
 <p class="author">Kenton Lam</p>
 <p class="date">Friday July 3, 2020</p>
 </header>
+-->
+
+
 <p>A quick reference on static semantics of the PL0 programming language. This is meant to be read alongside <code>PL0-SSemantics.pdf</code>. Written by Kenton Lam.</p>
 <h2 id="abstract-syntax">Abstract Syntax</h2>
 <p><img src="/assets/image-20200703170905035.png" alt="image-20200703170905035" style="zoom:50%;" /></p>
@@ -1908,96 +1329,15 @@ B&#39; &amp;\to \epsilon ~|~ \beta_1\ B&#39;
 <img src="/assets/image-20200703200920326.png" alt="" /><figcaption>image-20200703200920326</figcaption>
 </figure>
 <h3 id="well-formed-main-program">Well-Formed Main Program</h3>
-<p><img src="/assets/image-20200703200944338.png" alt="image-20200703200944338" style="zoom:50%;" /></p>
-</body>
-</html>
-<h1>Tutorial 3 — RDP Exercise</h1>
+<p><img src="/assets/image-20200703200944338.png" alt="image-20200703200944338" style="zoom:50%;" /></p><h1>Tutorial 3 — RDP Exercise</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Tutorial 3 — RDP Exercise</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {   }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-  </style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
 <header id="title-block-header">
 <h1 class="title">Tutorial 3 — RDP Exercise</h1>
 </header>
+-->
+
+
 <h1 id="tutorial-3-rdp-exercise">Tutorial 3 — RDP Exercise</h1>
 <blockquote>
 <p><em>RepeatStatement → KW_REPEAT StatementList KW_UNTIL Condition</em></p>
@@ -2025,109 +1365,12 @@ B&#39; &amp;\to \epsilon ~|~ \beta_1\ B&#39;
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a>    ExpNode condition = <span class="fu">parseCondition</span>(recoverSet);</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a>    <span class="kw">return</span> <span class="kw">new</span> StatementNode.<span class="fu">RepeatNode</span>(loc, body, condition);</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a>  });</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a>}</span></code></pre></div>
-</body>
-</html>
-<h1>Week 9 - Runtime Stack</h1>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a>}</span></code></pre></div><h1>Week 9 - Runtime Stack</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Week 9 - Runtime Stack</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {   }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
+-->
+
+
 <h1 id="week-9-runtime-stack-organisation">Week 9 — Runtime Stack Organisation</h1>
 <p><img src="/assets/image-20200506131830454.png" alt="image-20200506131830454" style="zoom:33%;" /></p>
 <ul>
@@ -2181,93 +1424,12 @@ B&#39; &amp;\to \epsilon ~|~ \beta_1\ B&#39;
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true"></a>    f</span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true"></a><span class="kw">end</span></span></code></pre></div>
 <p>After fact has been called three times, we get to the case <span class="math inline">n=0</span> and the stack looks like this.</p>
-<p><img src="/assets/image-20200506132557109.png" alt="image-20200506132557109" style="zoom:33%;" /></p>
-</body>
-</html>
-<h1>Week 10.1 - Parameter Passing Mechanisms</h1>
+<p><img src="/assets/image-20200506132557109.png" alt="image-20200506132557109" style="zoom:33%;" /></p><h1>Week 10.1 - Parameter Passing Mechanisms</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Week 10.1 - Parameter Passing Mechanisms</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {   }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-  </style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
+-->
+
+
 <h1 id="week-10.1-parameter-passing-mechanisms">Week 10.1 — Parameter Passing Mechanisms</h1>
 <p><strong>Formal parameters</strong> are the parameters used in the declaration of the procedure in its header. The <strong>actual parameters</strong> are the parameters actually passed to a procedure during a call. Formal parameter names are used to access the actual parameters while in a procedure body.</p>
 <p>For call-by-value parameters, the actual parameters are evaluated and, if necessary, coerced to the type of the formal parameter.</p>
@@ -2309,47 +1471,12 @@ B&#39; &amp;\to \epsilon ~|~ \beta_1\ B&#39;
 <ul>
 <li>Parameter aliasing in languages with call by sharing (like Java) is where two parameters are aliases for the same reference, called pointer aliasing.</li>
 <li>Similarly for global variable aliasing.</li>
-</ul>
-</body>
-</html>
-<h1>Week 10.2 - Lexical Analysis, Regex, NFA, DFA</h1>
+</ul><h1>Week 10.2 - Lexical Analysis, Regex, NFA, DFA</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Week 10.2 - Lexical Analysis, Regex, NFA, DFA</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
+-->
+
+
 <h1 id="week-10.2-lexical-analysis-regex-nfa-dfa">Week 10.2 — Lexical Analysis, Regex, NFA, DFA</h1>
 <p>Lexical analysis is handled by JFlex using regular expressions. These are converted to a deterministic finite automata which recognises the tokens. DFA recognises are very fast, <span class="math inline">O(n)</span> in the length of the input. To create a DFA, it creates an intermediate NFA. The final DFA can be minimised to reduce its size.</p>
 <figure>
@@ -2456,59 +1583,21 @@ T(c_1&#39;, s_0) = s_1,\quad T(c_2&#39;, s_1)=s_1, \quad\ldots, \quad T(c_n&#39;
 </ul>
 <blockquote>
 <p>See PL0.flex for details.</p>
-</blockquote>
-</body>
-</html>
-<h1>Week 11.1 - Assignment 3</h1>
+</blockquote><h1>Week 11.1 - Assignment 3</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Week 11.1 - Assignment 3</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
+-->
+
+
 <h1 id="week-11.1-assignment-3">Week 11.1 — Assignment 3</h1>
 <blockquote>
 <p>This lecture explained the third programming assignment: implementing parameters, sets and operations on sets. At the time of writing, the assignment was submitted 4 weeks ago.</p>
-</blockquote>
-</body>
-</html>
-<h1>Week 11.2 - Memory Allocation and Garbage Collection</h1>
+</blockquote><h1>Week 11.2 - Memory Allocation and Garbage Collection</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Week 11.2 - Memory Allocation and Garbage Collection</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
+-->
+
+
 <h1 id="week-11.2-memory-allocation-and-garbage-collection">Week 11.2 — Memory Allocation and Garbage Collection</h1>
 <h2 id="memory-allocation">Memory allocation</h2>
 <p>Dynamic allocation is done on the heap. They have a lifetime longer than their containing procedure, in contrast to stack allocation.</p>
@@ -2552,47 +1641,12 @@ T(c_1&#39;, s_0) = s_1,\quad T(c_2&#39;, s_1)=s_1, \quad\ldots, \quad T(c_n&#39;
 <li>Garbage collection is complex and especially difficult when doing incremental or concurrent GC.</li>
 </ul>
 <p>Incremental GC does small amounts of garbage collection interleaved with execution of the program each time an object is allocated. This avoids large stops, reducing average response time.</p>
-<p>A concurrent garbage collector runs in a separate processor, which works well on multiple CPU cores in parallel. They are an “interesting challenge” to verify correctness. Debugging is difficult because they are highly non-deterministic and sensitive to timings.</p>
-</body>
-</html>
-<h1>Week 12.1 - Static Semantics of Declarations</h1>
+<p>A concurrent garbage collector runs in a separate processor, which works well on multiple CPU cores in parallel. They are an “interesting challenge” to verify correctness. Debugging is difficult because they are highly non-deterministic and sensitive to timings.</p><h1>Week 12.1 - Static Semantics of Declarations</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Week 12.1 - Static Semantics of Declarations</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
+-->
+
+
 <h1 id="week-12.1-static-semantics-of-declarations">Week 12.1 — Static Semantics of Declarations</h1>
 <p>Recall the abstract syntax of PL0. Here, the notation <span class="math inline">\text{id} \to\text{d}</span></p>
 <p><img src="/assets/image-20200703154234935.png" alt="image-20200703154234935" style="zoom:50%;" /></p>
@@ -2618,109 +1672,12 @@ T(c_1&#39;, s_0) = s_1,\quad T(c_2&#39;, s_1)=s_1, \quad\ldots, \quad T(c_n&#39;
 <p><img src="/assets/image-20200703160327700.png" alt="image-20200703160327700" style="zoom:50%;" /></p>
 <p>Looking at the rule for a well-formed block, it contains a block with declarations and statements. The statement must be well-formed in the context of the symbol table augmented with identifiers local to the block, denoted <span class="math inline">\oplus</span>.</p>
 <p>Below, the second lines means there is no identifier which uses its own identifier. The ds_uses is a set of mappings of <span class="math inline">\text{id} \to \text{id2}</span> where id uses id2. The <span class="math inline">+</span> notation denotes the transitive closure, including indirect uses.</p>
-<p><img src="/assets/image-20200703160447858.png" alt="image-20200703160447858" style="zoom:50%;" /></p>
-</body>
-</html>
-<h1>Week 6.1 - More CUP and JFlex</h1>
+<p><img src="/assets/image-20200703160447858.png" alt="image-20200703160447858" style="zoom:50%;" /></p><h1>Week 6.1 - More CUP and JFlex</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Week 6.1 - More CUP and JFlex</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {   }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
+-->
+
+
 <h1 id="week-6.1-more-java-cup-and-jflex-examples">Week 6.1 — More Java-CUP and JFlex Examples</h1>
 <p>We will consider a calculator extended with “let” expressions. It looks something like this:</p>
 <blockquote>
@@ -2746,47 +1703,12 @@ T(c_1&#39;, s_0) = s_1,\quad T(c_2&#39;, s_1)=s_1, \quad\ldots, \quad T(c_n&#39;
 <p>Ian has implemented a basic stack as a linked list to handle the symbol table entries. This has the benefit of allowing inner identifiers to shadow later identifiers, at the cost of slower access for identifiers defined earlier.</p>
 <p>Tutorial 6’s compiler is very similar to the compiler of the next assignment. It uses Java-CUP and code generation for a stack machine instead of the handwritten parser of assignment 1.</p>
 <p>Note that JFlex matches the longest token, then tokens top to bottom.</p>
-<p>In CUP, note that in a production rule like <code>LValue ::= IDENTIFIER:id</code> defines variables <code>idxleft</code> and <code>idxright</code> as the indices of left and right of the IDENTIFIER token.</p>
-</body>
-</html>
-<h1>Week 6.2 - Stack Machine</h1>
+<p>In CUP, note that in a production rule like <code>LValue ::= IDENTIFIER:id</code> defines variables <code>idxleft</code> and <code>idxright</code> as the indices of left and right of the IDENTIFIER token.</p><h1>Week 6.2 - Stack Machine</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Week 6.2 - Stack Machine</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
+-->
+
+
 <h1 id="week-6.2-stack-machine">Week 6.2 — Stack Machine</h1>
 <p>The stack machine is a very simple machine which uses a stack to evaluate expressions. This is much simpler than traditional ARM or x86 machines.</p>
 <p>Its stack has two areas: a stack which stores values of expressions and activation records.</p>
@@ -2840,93 +1762,12 @@ LOADCON 3
 LOADFRAME   
 LOADCON 4   
 STOREFRAME  </code></pre>
-<p><strong>Important:</strong> LOADCON instructions have a size of 2 (presumably because they have an opcode and an operand).</p>
-</body>
-</html>
-<h1>Week 6.3 - Code Generation for PL0</h1>
+<p><strong>Important:</strong> LOADCON instructions have a size of 2 (presumably because they have an opcode and an operand).</p><h1>Week 6.3 - Code Generation for PL0</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Week 6.3 - Code Generation for PL0</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {   }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-  </style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
+-->
+
+
 <h1 id="week-6.3-code-generation-for-pl0-expressions-and-statements">Week 6.3 — Code Generation for PL0 Expressions and Statements</h1>
 <p>Consider a simple PL0 program:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode pascal"><code class="sourceCode pascal"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">var</span> x : int;</span>
@@ -2935,47 +1776,12 @@ STOREFRAME  </code></pre>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>  <span class="kw">write</span> <span class="dv">12</span> + <span class="dv">13</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a><span class="kw">end</span></span></code></pre></div>
 <p>To generate the stack machine code, we have a new visitor CodeGenerator.java whose visit action is outputing the code for a particular node.</p>
-<p>Special care is taken to handle different sizes of instructions and branches. See the statement visitors.</p>
-</body>
-</html>
-<h1>Week 7.1 - Bottom-Up, Shift-Reduce and LR Parsing</h1>
+<p>Special care is taken to handle different sizes of instructions and branches. See the statement visitors.</p><h1>Week 7.1 - Bottom-Up, Shift-Reduce and LR Parsing</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Week 7.1 - Bottom-Up, Shift-Reduce and LR Parsing</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
+-->
+
+
 <h1 id="week-7.1-bottom-up-shift-reduce-and-lr-parsing">Week 7.1 — Bottom-Up, Shift-Reduce and LR Parsing</h1>
 <blockquote>
 <p>April 21, 2020</p>
@@ -3027,47 +1833,12 @@ STOREFRAME  </code></pre>
 <p>Note that a shift/shift conflict is impossible. A grammar is <strong>LR(0)</strong> if none of the states in its automaton contains a parsing action conflict.</p>
 <p><em>Example:</em> Below is an example of a state diagram with an accept/shift conflict, so the grammar is <em>not</em> LR(0).</p>
 <p><img src="/assets/image-20200426124009061.png" alt="image-20200426124009061" style="zoom:30%;" /></p>
-<p>Note that this grammar is not very complex which hints that LR(0) is not too powerful. We will look at more powerful LR(1) grammars.</p>
-</body>
-</html>
-<h1>Week 7.2 - LR(1) and LALR(1)</h1>
+<p>Note that this grammar is not very complex which hints that LR(0) is not too powerful. We will look at more powerful LR(1) grammars.</p><h1>Week 7.2 - LR(1) and LALR(1)</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Week 7.2 - LR(1) and LALR(1)</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
+-->
+
+
 <h1 id="week-7.2-lr1-and-lalr1">Week 7.2 — LR(1) and LALR(1)</h1>
 <p>Recall our LR(0) automaton which had a shift/accept conflict. In order to be LR(0), the action at each state needs to be unique.</p>
 <p><img src="/assets/image-20200426124009061.png" alt="image-20200426124009061" style="zoom:30%;" /></p>
@@ -3151,31 +1922,12 @@ STOREFRAME  </code></pre>
 <li>LALR merged states 2+7, 3+8, 4+9, 5+10, 6+11.</li>
 <li>Note that there are still no conflicts. We can only introduct conflicts if two states have different reduce actions.</li>
 <li>This has the same states as an LR(0) automaton, so if we wanted to construct a LR(0) state machine, we can just omit the lookahead sets.</li>
-</ul>
-</body>
-</html>
-<h1>Week 8.1 - Java CUP, Assignment 2</h1>
+</ul><h1>Week 8.1 - Java CUP, Assignment 2</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Week 8.1 - Java CUP, Assignment 2</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
+-->
+
+
 <h1 id="week-8.1-java-cup-assignment-2">Week 8.1 — Java-CUP, Assignment 2</h1>
 <p>Recall that an LALR(1) parsing automaton is made by merging states of LR(1) with the same parsing items but possibly different lookahead sets.</p>
 <h4 id="example-5">Example 5</h4>
@@ -3193,31 +1945,12 @@ precedence nonassoc KW_ELSE;</code></pre>
 <p><strong>Enum types</strong> are a new type definition with discrete elements. They can have subranges, declared in the usual way. pred and succ define the preceding and successive elements when given an enum item (wraps around).</p>
 <p><strong>Array types</strong> are indexed by a subrange (of integers or enums) with a specified element type. They have fixed sizes. Elements in an array can be assigned appropriate values and then accessed. Arrays cannot have cyclic type.</p>
 <p><strong>For statements</strong> are a simple for statement over an inclusive range. The iterating variable is local to the for statement. Note that the bounds are evaluated exactly once.</p>
-<p>The parser is specified in <strong>PL0.cup</strong> and the lexical tokens are in <strong>PL0.flex</strong>.</p>
-</body>
-</html>
-<h1>Week 8.2 - Symbol Table</h1>
+<p>The parser is specified in <strong>PL0.cup</strong> and the lexical tokens are in <strong>PL0.flex</strong>.</p><h1>Week 8.2 - Symbol Table</h1>
 
-  <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Week 8.2 - Symbol Table</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+  <!--
+-->
+
+
 <h1 id="week-8.2-symbol-table">Week 8.2 — Symbol Table</h1>
 <p>Symbol table scopes are what we will look at. A symbol table has entries of the form:</p>
 <p><img src="/assets/image-20200506124025264.png" alt="image-20200506124025264" style="zoom:33%;" /></p>
@@ -3248,9 +1981,6 @@ precedence nonassoc KW_ELSE;</code></pre>
 <li>ReferenceType (and AddressType) and resolution of base type</li>
 <li>ProcedureType and parameters and result type.</li>
 </ul>
-</body>
-</html>
-
     <p><small>Last updated .</small></p>
   </body>
 </html>

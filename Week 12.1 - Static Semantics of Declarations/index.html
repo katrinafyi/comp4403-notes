@@ -65,42 +65,10 @@
   <body>
     <h1>Week 12.1 - Static Semantics of Declarations</h1>
 
-    <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Week 12.1 - Static Semantics of Declarations</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+    <!--
+-->
+
+
 <h1 id="week-12.1-static-semantics-of-declarations">Week 12.1 — Static Semantics of Declarations</h1>
 <p>Recall the abstract syntax of PL0. Here, the notation <span class="math inline">\text{id} \to\text{d}</span></p>
 <p><img src="/assets/image-20200703154234935.png" alt="image-20200703154234935" style="zoom:50%;" /></p>
@@ -127,9 +95,6 @@
 <p>Looking at the rule for a well-formed block, it contains a block with declarations and statements. The statement must be well-formed in the context of the symbol table augmented with identifiers local to the block, denoted <span class="math inline">\oplus</span>.</p>
 <p>Below, the second lines means there is no identifier which uses its own identifier. The ds_uses is a set of mappings of <span class="math inline">\text{id} \to \text{id2}</span> where id uses id2. The <span class="math inline">+</span> notation denotes the transitive closure, including indirect uses.</p>
 <p><img src="/assets/image-20200703160447858.png" alt="image-20200703160447858" style="zoom:50%;" /></p>
-</body>
-</html>
-
     <p><small>Last updated .</small></p>
   </body>
 </html>

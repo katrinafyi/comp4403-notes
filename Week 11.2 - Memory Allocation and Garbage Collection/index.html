@@ -65,26 +65,10 @@
   <body>
     <h1>Week 11.2 - Memory Allocation and Garbage Collection</h1>
 
-    <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Week 11.2 - Memory Allocation and Garbage Collection</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+    <!--
+-->
+
+
 <h1 id="week-11.2-memory-allocation-and-garbage-collection">Week 11.2 — Memory Allocation and Garbage Collection</h1>
 <h2 id="memory-allocation">Memory allocation</h2>
 <p>Dynamic allocation is done on the heap. They have a lifetime longer than their containing procedure, in contrast to stack allocation.</p>
@@ -129,9 +113,6 @@
 </ul>
 <p>Incremental GC does small amounts of garbage collection interleaved with execution of the program each time an object is allocated. This avoids large stops, reducing average response time.</p>
 <p>A concurrent garbage collector runs in a separate processor, which works well on multiple CPU cores in parallel. They are an “interesting challenge” to verify correctness. Debugging is difficult because they are highly non-deterministic and sensitive to timings.</p>
-</body>
-</html>
-
     <p><small>Last updated .</small></p>
   </body>
 </html>

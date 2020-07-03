@@ -65,45 +65,13 @@
   <body>
     <h1>Lecture 2 — Context-Free Grammars (2)</h1>
 
-    <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Lecture 2 — Context-Free Grammars</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-   var mathElements = document.getElementsByClassName("math");
-   var macros = [];
-   for (var i = 0; i < mathElements.length; i++) {
-    var texText = mathElements[i].firstChild;
-    if (mathElements[i].tagName == "SPAN") {
-     katex.render(texText.data, mathElements[i], {
-      displayMode: mathElements[i].classList.contains('display'),
-      throwOnError: false,
-      macros: macros,
-      fleqn: false
-     });
-  }}});
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-</head>
-<body>
+    <!--
 <header id="title-block-header">
 <h1 class="title">Lecture 2 — Context-Free Grammars</h1>
 </header>
+-->
+
+
 <h1 id="lecture-2-context-free-grammars">Lecture 2 — Context-Free Grammars</h1>
 <p>Recall the phases of a compiler from last lecture. We’re going to be focusing on syntax analysis for the next few lectures.</p>
 <h2 id="context-free-grammars">Context-free grammars</h2>
@@ -178,9 +146,6 @@ T &amp;\to T \ ``*&quot;\ F ~|~ F \\
 F &amp;\to N\ |\ ``(&quot;\, E\, ``)&quot;
 \end{aligned}
 </span> This grammar is unambiguous. That is, it treats <span class="math inline">+</span> as lower precedence than <span class="math inline">*</span> unless it is surrounded by parentheses.</p>
-</body>
-</html>
-
     <p><small>Last updated .</small></p>
   </body>
 </html>
