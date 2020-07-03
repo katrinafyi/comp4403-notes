@@ -1,6 +1,6 @@
 # PL0 Static Semantics Cheat Sheet
 
-A quick reference on static semantics of the PL0 programming language. This is meant to be read alongside PL0-SSemantics.pdf.
+A quick reference on static semantics of the PL0 programming language. This is meant to be read alongside `PL0-SSemantics.pdf`. Written by Kenton Lam.
 
 ## Abstract Syntax
 
@@ -16,7 +16,7 @@ A quick reference on static semantics of the PL0 programming language. This is m
 
 ## Notation
 
-- Abstract syntax is written in sans-serif font. For example the expression `y+1` in code is written as $\textsf{y}+1$ here. This corresponds to expression nodes and statement nodes.
+- Abstract syntax is written in sans-serif font. For example the expression `y+1` in code is written as $\textsf {y} + 1$ here. This corresponds to expression nodes and statement nodes.
 - Semantic constructs are written in $\textit{italics}$. For example, the type $\operatorname{\textit{ref}}\,(T)$. These are most commonly types or other static checker constructs like the symbol table.
 - The use of arrows is very precise:
   - $\to$ denotes functions,
@@ -53,7 +53,7 @@ $$
 $$
 means that a declaration of the form $\textsf{var}(\textsf{t})$ should have a corresponding VarEntry table when interpreted in the context of $\textit{syms}$. 
 
-The declaration rules use pattern matching in their results, which means only expressions of a certain form can be well-formed declarations. This prevents us from declaring a type of, say, $1+10$.
+The declaration rules use pattern matching in their consequents, which means only expressions of a certain form can be well-formed declarations. This prevents us from declaring a type of, say, $1+10$.
 
 ## Types
 
