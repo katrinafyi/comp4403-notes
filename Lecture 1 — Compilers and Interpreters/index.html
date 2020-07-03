@@ -63,32 +63,29 @@
     <![endif]-->
   </head>
   <body>
-    <header id="title-block-header">
+    <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Lecture 1 — Compilers and Interpreters</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
 <h1 class="title">Lecture 1 — Compilers and Interpreters</h1>
 </header>
-
-<nav id="TOC" role="doc-toc">
-<ul>
-<li><a href="#lecture-1-compilers-and-interpreters">Lecture 1 — Compilers and Interpreters</a>
-<ul>
-<li><a href="#administrative-notes">Administrative notes</a></li>
-<li><a href="#introduction">Introduction</a>
-<ul>
-<li><a href="#resources">Resources</a></li>
-<li><a href="#assessment">Assessment</a></li>
-</ul></li>
-<li><a href="#phases-of-a-compiler">Phases of a compiler</a></li>
-<li><a href="#pl0-programming-language">PL0 programming language</a>
-<ul>
-<li><a href="#example">Example</a></li>
-<li><a href="#concrete-syntax-parse-tree">Concrete syntax parse tree</a></li>
-<li><a href="#abstract-syntax-tree">Abstract syntax tree</a></li>
-<li><a href="#type-checking">Type checking</a></li>
-</ul></li>
-</ul></li>
-</ul>
-</nav>
-
 <h1 id="lecture-1-compilers-and-interpreters">Lecture 1 — Compilers and Interpreters</h1>
 <p><strong>Ian Hayes</strong>: <a href="ian.hayes@uq.edu.au">ian.hayes@uq.edu.au</a>, 78-414 (GP South).</p>
 <h3 id="administrative-notes">Administrative notes</h3>
@@ -138,5 +135,8 @@
 <p>For example, we convert IdentifierNode(“x”) to VariableNode(“x”) with the type of ref(int). ConstNode(0) has the type int. However, because this is used as part of a BinaryNode with less-than, we need to dereference the left ref(int) to a int. This is done by inserting a DereferenceNode, giving us a int type.</p>
 <p>In the IdentiferNode(“z”) under AssignmentNode, it becomes a VariableNode(“z”) of type ref(int). It is important that the left hand size of an assignment is a reference. It doesn’t make sense to assign something to an integer.</p>
 <p><img src="/assets/Clipboard_2020-02-24-09-47-40.png" /></p>
+</body>
+</html>
+
   </body>
 </html>

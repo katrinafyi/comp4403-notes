@@ -63,19 +63,26 @@
     <![endif]-->
   </head>
   <body>
-    
-<nav id="TOC" role="doc-toc">
-<ul>
-<li><a href="#lecture-7-static-semantic-analysis-2">Lecture 7 — Static Semantic Analysis (2)</a>
-<ul>
-<li><a href="#the-pl0-compiler-assignment">The PL0 Compiler (Assignment)</a>
-<ul>
-<li><a href="#visitor-pattern">Visitor Pattern</a></li>
-</ul></li>
-</ul></li>
-</ul>
-</nav>
-
+    <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Lecture 7 - Static Semantic Analysis (2)</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
 <h1 id="lecture-7-static-semantic-analysis-2">Lecture 7 — Static Semantic Analysis (2)</h1>
 <p>Recall the type inference rules:</p>
 <p><img src="/assets/Clipboard_2020-03-14-10-31-47.png" /></p>
@@ -99,5 +106,8 @@ var y : S;
 <h3 id="visitor-pattern">Visitor Pattern</h3>
 <p>We need to write a class which visits each type of node.</p>
 <p>Tree nodes have a function <code>accept(Visitor v)</code> which calls <code>v.visitXTree()</code>, and the Visitor class has methods <code>visitXTree</code> which call accept on the relevant children.</p>
+</body>
+</html>
+
   </body>
 </html>

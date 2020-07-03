@@ -63,19 +63,42 @@
     <![endif]-->
   </head>
   <body>
-    
-<nav id="TOC" role="doc-toc">
-<ul>
-<li><a href="#lecture-8-constant-expressions">Lecture 8 — Constant Expressions</a>
-<ul>
-<li><a href="#the-interpreter">The Interpreter</a>
-<ul>
-<li><a href="#an-example-of-stack-frames">An example of stack frames</a></li>
-</ul></li>
-</ul></li>
-</ul>
-</nav>
-
+    <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Lecture 8 — Constant Expressions</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   var macros = [];
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      macros: macros,
+      fleqn: false
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
 <h1 id="lecture-8-constant-expressions">Lecture 8 — Constant Expressions</h1>
 <blockquote>
 <p>Assignment 1 deadline has been pushed back to Thursday, 9th April.</p>
@@ -140,5 +163,8 @@ end</code></pre>
 <img src="/assets/image-20200325154851187.png" alt="" /><figcaption>image-20200325154851187</figcaption>
 </figure>
 <p>When we return, that means we throw away the last frame, then go back and write <span class="math inline">y</span> in the 2nd <span class="math inline">f</span> frame, then go up and write <span class="math inline">y</span> in the 1st frame, then go back to main, then terminate.</p>
+</body>
+</html>
+
   </body>
 </html>

@@ -63,17 +63,42 @@
     <![endif]-->
   </head>
   <body>
-    
-<nav id="TOC" role="doc-toc">
-<ul>
-<li><a href="#week-7.2-lr1-and-lalr1">Week 7.2 — LR(1) and LALR(1)</a>
-<ul>
-<li><a href="#lr1-grammars-and-parsing">LR(1) grammars and parsing</a></li>
-<li><a href="#lalr1-grammars-and-parsing">LALR(1) grammars and parsing</a></li>
-</ul></li>
-</ul>
-</nav>
-
+    <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Week 7.2 - LR(1) and LALR(1)</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   var macros = [];
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      macros: macros,
+      fleqn: false
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
 <h1 id="week-7.2-lr1-and-lalr1">Week 7.2 — LR(1) and LALR(1)</h1>
 <p>Recall our LR(0) automaton which had a shift/accept conflict. In order to be LR(0), the action at each state needs to be unique.</p>
 <p><img src="/assets/image-20200426124009061.png" alt="image-20200426124009061" style="zoom:30%;" /></p>
@@ -158,5 +183,8 @@
 <li>Note that there are still no conflicts. We can only introduct conflicts if two states have different reduce actions.</li>
 <li>This has the same states as an LR(0) automaton, so if we wanted to construct a LR(0) state machine, we can just omit the lookahead sets.</li>
 </ul>
+</body>
+</html>
+
   </body>
 </html>

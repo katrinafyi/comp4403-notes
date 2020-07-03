@@ -63,16 +63,42 @@
     <![endif]-->
   </head>
   <body>
-    
-<nav id="TOC" role="doc-toc">
-<ul>
-<li><a href="#lecture-10---first-and-follow-sets-ll-1-grammars">Lecture 10 - First and Follow Sets, LL-1 Grammars</a>
-<ul>
-<li><a href="#ll1-grammars">LL(1) grammars</a></li>
-</ul></li>
-</ul>
-</nav>
-
+    <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Lecture 10 - First and Follow Sets, LL-1 Parsing</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   var macros = [];
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      macros: macros,
+      fleqn: false
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
 <h1 id="lecture-10---first-and-follow-sets-ll-1-grammars">Lecture 10 - First and Follow Sets, LL-1 Grammars</h1>
 <blockquote>
 <p>March 30, 2020</p>
@@ -129,5 +155,8 @@
 <li>invalid and hence a syntax error.</li>
 </ul>
 <p>An EBNF grammar is LL(1) if it is LL(1) when converted to a BNF grammar.</p>
+</body>
+</html>
+
   </body>
 </html>
