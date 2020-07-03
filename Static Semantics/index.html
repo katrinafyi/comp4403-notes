@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    
+    <title>Static Semantics</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
+    <!--<link rel="stylesheet" href="https://unpkg.com/mvp.css">-->
+    <!--<link rel="stylesheet" href="https://latex.now.sh/style.css">-->
+    <style>
+        code{white-space: pre-wrap;}
+        span.smallcaps{font-variant: small-caps;}
+        span.underline{text-decoration: underline;}
+        div.column{display: inline-block; vertical-align: top; width: 50%;}
+    </style>
+    <!--<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    var macros = [];
+    /*
+    const BATCH_SIZE = 100;
+    var i = 0;
+    while (i < mathElements.length) {
+      const start = i;
+      setTimeout(() => {
+        for (var j = 0; j < BATCH_SIZE; j++) {
+          const i = start + j;
+          if (i >= mathElements.length) break;
+
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }, 0);
+      i += BATCH_SIZE;
+    }
+    */
+    
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+      katex.render(texText.data, mathElements[i], {
+        displayMode: mathElements[i].classList.contains('display'),
+        throwOnError: false,
+        macros: macros,
+        fleqn: false
+      });
+    }}
+    
+    });
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#pl0-static-semantics-cheat-sheet">PL0 Static Semantics Cheat Sheet</a>
+<ul>
+<li><a href="#abstract-syntax">Abstract Syntax</a></li>
+<li><a href="#notation">Notation</a></li>
+<li><a href="#declarations">Declarations</a></li>
+<li><a href="#types">Types</a></li>
+<li><a href="#blocks">Blocks</a></li>
+<li><a href="#rules">Rules</a>
+<ul>
+<li><a href="#types-of-expressions">Types of Expressions</a></li>
+<li><a href="#well-formed-statements">Well-Formed Statements</a></li>
+<li><a href="#well-formed-declarations">Well-Formed Declarations</a></li>
+<li><a href="#well-formed-types">Well-Formed Types</a></li>
+<li><a href="#well-formed-blocks">Well-Formed Blocks</a></li>
+<li><a href="#well-formed-main-program">Well-Formed Main Program</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="pl0-static-semantics-cheat-sheet">PL0 Static Semantics Cheat Sheet</h1>
+<p>A quick reference on static semantics of the PL0 programming language. This is meant to be read alongside PL0-SSemantics.pdf.</p>
+<h2 id="abstract-syntax">Abstract Syntax</h2>
+<p><img src="/assets/image-20200703170905035.png" alt="image-20200703170905035" style="zoom:50%;" /></p>
+<p><img src="/assets/image-20200703170927076.png" alt="image-20200703170927076" style="zoom:50%;" /></p>
+<p><img src="/assets/image-20200703170959717.png" alt="image-20200703170959717" style="zoom:50%;" /></p>
+<p><img src="/assets/image-20200703171012542.png" alt="image-20200703171012542" style="zoom:50%;" /></p>
+<p><img src="/assets/image-20200703171023633.png" alt="image-20200703171023633" style="zoom:50%;" /></p>
+<h2 id="notation">Notation</h2>
+<ul>
+<li>Abstract syntax is written in sans-serif font. For example the expression <code>y+1</code> in code is written as <span class="math inline">\textsf{y}+1</span> here. This corresponds to expression nodes and statement nodes.</li>
+<li>Semantic constructs are written in <span class="math inline">\textit{italics}</span>. For example, the type <span class="math inline">\operatorname{\textit{ref}}\,(T)</span>. These are most commonly types or other static checker constructs like the symbol table.</li>
+<li>The use of arrows is very precise:
+<ul>
+<li><span class="math inline">\to</span> denotes functions,</li>
+<li><span class="math inline">\mapsto</span> denotes mapping values,</li>
+<li><span class="math inline">\overset e\to</span> denotes evaluates to, and</li>
+<li><span class="math inline">\to</span> with a vertical line in the centre denotes a mapping type (we will use <span class="math inline">\twoheadrightarrow</span> here because I can’t type it).</li>
+</ul></li>
+<li>A bullet <span class="math inline">\bullet</span> is used to separate quantifiers from their predicate.</li>
+<li><span class="math inline">=</span> denotes equivalence in the mathematical sense (a strong statement).</li>
+</ul>
+<p>With the above in mind, we define a few more high-level pieces.</p>
+<ul>
+<li><p>A mapping <span class="math inline">M</span> of <span class="math inline">a \twoheadrightarrow b</span> has some operations defined:</p>
+<ul>
+<li><span class="math inline">\operatorname*{dom}(M)</span> returns the set of <span class="math inline">a</span> keys in the mapping,</li>
+<li><span class="math inline">M(a)</span> returns the <span class="math inline">b</span> value mapped to by the key <span class="math inline">a</span>, and</li>
+<li><span class="math inline">M_1 \oplus M_2</span> returns a mapping containing the entries of both <span class="math inline">M_1</span> and <span class="math inline">M_2</span>, with entries in <span class="math inline">M_2</span> overriding <span class="math inline">M_1</span> if both are present.</li>
+</ul></li>
+<li><p><span class="math inline">\textit{syms}</span> is defined as a mapping <span class="math inline">\textsf{id} \twoheadrightarrow \textit{SymEntry}</span> of AST identifiers to symbol table entries, so <span class="math inline">\operatorname*{dom}(\textit{syms})</span> is the set of defined identifiers. A symbol table entry is a sum type defined as <span class="math display">
+\textit{SymEntry} ::= \textit{ConstEntry}(T, \mathbb Z) \mid \textit{TypeEntry}(T) \mid \textit{VarEntry}(T) \mid \textit{ProcEntry}(\textsf{block}).
+</span></p></li>
+<li><p><span class="math inline">\textit{syms} \vdash \textsf e : T</span> means in the context of the symbol table <span class="math inline">\textit{syms}</span>, the expression <span class="math inline">\textsf e</span> is well-typed and has the type <span class="math inline">T</span>.</p></li>
+</ul>
+<h2 id="declarations">Declarations</h2>
+<p>There are four forms of declarations: constants, types, variables, and procedures. The notation <span class="math inline">\textit{syms} \vdash \textit{WFDeclaration}(\textsf d)</span> means that <span class="math inline">\textsf d</span> is a well-formed declaration in the context of <span class="math inline">\textit{syms}</span>. Furthermore, <span class="math display">
+\textit{entry}(\textit{syms}, \textsf d)=\textit{ent}
+</span> is used to assign <span class="math inline">\textit{ent}</span> to the symbol table entry of <span class="math inline">\textsf d</span>. This formally assigns a SymEntry to a particular declaration form <span class="math inline">\textsf{d}</span>. Perhaps more rigorously, the statement <span class="math display">
+\textit{entry}(\textit{syms}, \textsf{var}(\textsf{t})) = \textit{VarEntry}(\textit{ref}(T))
+</span> means that a declaration of the form <span class="math inline">\textsf{var}(\textsf{t})</span> should have a corresponding VarEntry table when interpreted in the context of <span class="math inline">\textit{syms}</span>.</p>
+<p>The declaration rules use pattern matching in their results, which means only expressions of a certain form can be well-formed declarations. This prevents us from declaring a type of, say, <span class="math inline">1+10</span>.</p>
+<h2 id="types">Types</h2>
+<p>These rules concern the definition of types in PL0 program (e.g. type aliases and subrange types).</p>
+<p>We introduce a function <span class="math inline">\textit{typeof}</span> such that <span class="math inline">\textit{typeof}(\textsf{e}) =T</span> means the given expression <strong>is</strong> (i.e. defines) the type <span class="math inline">T</span>. This is at a higher level of abstraction than <span class="math inline">\textsf{e} : T</span> which means <span class="math inline">\textsf{e}</span> is a value of type <span class="math inline">T</span>.</p>
+<h2 id="blocks">Blocks</h2>
+<p>These are perhaps the most complex because they must consider everything discussed already, as well as locally declared types, variables, and scope.</p>
+<p>Note that a well-formed block cannot define an identifier more than once. This is represented (theoretically) by <span class="math inline">\textsf{ds}</span> being a mapping. A block defines a new scope in which its local declarations shadow its parents identifiers if they have the same name. In doing so, it constructs symbol table entries from its declaration list.</p>
+<p>The function <span class="math inline">\textit{uses}</span> takes a declaration, type or constant expression and returns the identifiers used by its types. For example, <span class="math inline">\textit{uses}(\textsf{id})=\{\textsf{id}\}</span> and <span class="math inline">\textit{uses}(\textsf{var}(\textsf{t}))=\textit{uses}(\textsf t)</span>.</p>
+<p>The <span class="math inline">\textit{entryDecl}(\textit{syms}, \textsf{ds}, \textsf d)</span> function <em>defines</em> a symbol table entry for the declaration <span class="math inline">\textsf{d}</span> in a context of <span class="math inline">\textit{syms}</span> augmented with only the declarations from <span class="math inline">\textsf{ds}</span> which are used in <span class="math inline">\textsf{d}</span>. The <span class="math inline">\textit{uses}(\textsf{d})</span> prevents mutual recursion in rule 6.2 between declarations in the same declaration list. Basically, this constructs a new context and offloads the work to <span class="math inline">\textit{entry}</span>.</p>
+<p>The earlier <span class="math inline">\textit{entry}</span> function returns the appropriate symbol table entry for a given declaration in a given context. Importantly, this means that types and their SymEntries are constructed in the context they’re defined.</p>
+<p>Putting this together, we get the following rules for well-formed blocks.</p>
+<figure>
+<img src="/assets/image-20200703193012243.png" alt="" /><figcaption>image-20200703193012243</figcaption>
+</figure>
+<p>Intuitively, the predicate of rule 6.1 does the following:</p>
+<ul>
+<li>Constructs a mapping of identifiers to the identifiers they use and computes its transitive closure (denoted by superscript <span class="math inline">+</span>).</li>
+<li>Ensures that no identifier uses itself directly or indirectly, preventing recursion in the types.</li>
+<li>Constructs a new scope <span class="math inline">\textit{syms}&#39;</span> by adding the new declarations and computing their symbol table entries using <span class="math inline">\textit{entryDecl}</span> (discussed above).</li>
+<li>Ensures that every new declaration is well-formed in the new context.</li>
+<li>Ensures that in the new context, the statement list is well-formed.</li>
+</ul>
+<p>If all of the above hold, the block as a whole is well-formed.</p>
+<p>A <em>program</em> is well-formed if its block is well-formed in the context of the <span class="math inline">\textit{predefined}</span> context.</p>
+<h2 id="rules">Rules</h2>
+<h3 id="types-of-expressions">Types of Expressions</h3>
+<figure>
+<img src="/assets/image-20200703200702094.png" alt="" /><figcaption>image-20200703200702094</figcaption>
+</figure>
+<h3 id="well-formed-statements">Well-Formed Statements</h3>
+<figure>
+<img src="/assets/image-20200703200722065.png" alt="" /><figcaption>image-20200703200722065</figcaption>
+</figure>
+<h3 id="well-formed-declarations">Well-Formed Declarations</h3>
+<figure>
+<img src="/assets/image-20200703200753360.png" alt="" /><figcaption>image-20200703200753360</figcaption>
+</figure>
+<h4 id="constant-evaluation-rules">Constant Evaluation Rules</h4>
+<p><img src="/assets/image-20200703200827441.png" alt="image-20200703200827441" style="zoom:50%;" /></p>
+<h3 id="well-formed-types">Well-Formed Types</h3>
+<figure>
+<img src="/assets/image-20200703200904388.png" alt="" /><figcaption>image-20200703200904388</figcaption>
+</figure>
+<h3 id="well-formed-blocks">Well-Formed Blocks</h3>
+<figure>
+<img src="/assets/image-20200703200920326.png" alt="" /><figcaption>image-20200703200920326</figcaption>
+</figure>
+<h3 id="well-formed-main-program">Well-Formed Main Program</h3>
+<p><img src="/assets/image-20200703200944338.png" alt="image-20200703200944338" style="zoom:50%;" /></p>
+  </body>
+</html>

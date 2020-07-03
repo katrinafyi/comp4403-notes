@@ -299,6 +299,57 @@
                 </ol>
             		</li>
 
+                    <li><a href="#pl0-static-semantics-cheat-sheet">PL0 Static Semantics Cheat Sheet</a>
+            
+                <ol>
+                    
+                    <li><a href="#abstract-syntax">Abstract Syntax</a>
+            		</li>
+
+                    <li><a href="#notation">Notation</a>
+            		</li>
+
+                    <li><a href="#declarations">Declarations</a>
+            		</li>
+
+                    <li><a href="#types">Types</a>
+            		</li>
+
+                    <li><a href="#blocks">Blocks</a>
+            		</li>
+
+                    <li><a href="#rules">Rules</a>
+            
+                <ol>
+                    
+                    <li><a href="#types-of-expressions">Types of Expressions</a>
+            		</li>
+
+                    <li><a href="#well-formed-statements">Well-Formed Statements</a>
+            		</li>
+
+                    <li><a href="#well-formed-declarations">Well-Formed Declarations</a>
+            
+                <ol>
+                    
+                    <li><a href="#constant-evaluation-rules">Constant Evaluation Rules</a>
+            		</li>
+                </ol>
+            		</li>
+
+                    <li><a href="#well-formed-types">Well-Formed Types</a>
+            		</li>
+
+                    <li><a href="#well-formed-blocks">Well-Formed Blocks</a>
+            		</li>
+
+                    <li><a href="#well-formed-main-program">Well-Formed Main Program</a>
+            		</li>
+                </ol>
+            		</li>
+                </ol>
+            		</li>
+
                     <li><a href="#tutorial-3-rdp-exercise">Tutorial 3 — RDP Exercise</a>
             		</li>
 
@@ -339,6 +390,27 @@
                 </ol>
             		</li>
                 </ol>
+            		</li>
+
+                    <li><a href="#week-11.1-assignment-3">Week 11.1 — Assignment 3</a>
+            		</li>
+
+                    <li><a href="#week-11.2-memory-allocation-and-garbage-collection">Week 11.2 — Memory Allocation and Garbage Collection</a>
+            
+                <ol>
+                    
+                    <li><a href="#memory-allocation">Memory allocation</a>
+            		</li>
+
+                    <li><a href="#memory-deallocation">Memory deallocation</a>
+            		</li>
+
+                    <li><a href="#garbage-collection-techniques">Garbage collection techniques</a>
+            		</li>
+                </ol>
+            		</li>
+
+                    <li><a href="#week-12.1-static-semantics-of-declarations">Week 12.1 — Static Semantics of Declarations</a>
             		</li>
 
                     <li><a href="#week-6.1-more-java-cup-and-jflex-examples">Week 6.1 — More Java-CUP and JFlex Examples</a>
@@ -1249,7 +1321,119 @@ B&#39; &amp;\to \epsilon ~|~ \beta_1\ B&#39;
 <li>…</li>
 <li>Type inference rules, well-formedness of statements.</li>
 <li>Remember that first sets can contain the empty string iff the construct is nullable.</li>
-</ul><header id="title-block-header">
+</ul>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#pl0-static-semantics-cheat-sheet">PL0 Static Semantics Cheat Sheet</a>
+<ul>
+<li><a href="#abstract-syntax">Abstract Syntax</a></li>
+<li><a href="#notation">Notation</a></li>
+<li><a href="#declarations">Declarations</a></li>
+<li><a href="#types">Types</a></li>
+<li><a href="#blocks">Blocks</a></li>
+<li><a href="#rules">Rules</a>
+<ul>
+<li><a href="#types-of-expressions">Types of Expressions</a></li>
+<li><a href="#well-formed-statements">Well-Formed Statements</a></li>
+<li><a href="#well-formed-declarations">Well-Formed Declarations</a></li>
+<li><a href="#well-formed-types">Well-Formed Types</a></li>
+<li><a href="#well-formed-blocks">Well-Formed Blocks</a></li>
+<li><a href="#well-formed-main-program">Well-Formed Main Program</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="pl0-static-semantics-cheat-sheet">PL0 Static Semantics Cheat Sheet</h1>
+<p>A quick reference on static semantics of the PL0 programming language. This is meant to be read alongside PL0-SSemantics.pdf.</p>
+<h2 id="abstract-syntax">Abstract Syntax</h2>
+<p><img src="/assets/image-20200703170905035.png" alt="image-20200703170905035" style="zoom:50%;" /></p>
+<p><img src="/assets/image-20200703170927076.png" alt="image-20200703170927076" style="zoom:50%;" /></p>
+<p><img src="/assets/image-20200703170959717.png" alt="image-20200703170959717" style="zoom:50%;" /></p>
+<p><img src="/assets/image-20200703171012542.png" alt="image-20200703171012542" style="zoom:50%;" /></p>
+<p><img src="/assets/image-20200703171023633.png" alt="image-20200703171023633" style="zoom:50%;" /></p>
+<h2 id="notation">Notation</h2>
+<ul>
+<li>Abstract syntax is written in sans-serif font. For example the expression <code>y+1</code> in code is written as <span class="math inline">\textsf{y}+1</span> here. This corresponds to expression nodes and statement nodes.</li>
+<li>Semantic constructs are written in <span class="math inline">\textit{italics}</span>. For example, the type <span class="math inline">\operatorname{\textit{ref}}\,(T)</span>. These are most commonly types or other static checker constructs like the symbol table.</li>
+<li>The use of arrows is very precise:
+<ul>
+<li><span class="math inline">\to</span> denotes functions,</li>
+<li><span class="math inline">\mapsto</span> denotes mapping values,</li>
+<li><span class="math inline">\overset e\to</span> denotes evaluates to, and</li>
+<li><span class="math inline">\to</span> with a vertical line in the centre denotes a mapping type (we will use <span class="math inline">\twoheadrightarrow</span> here because I can’t type it).</li>
+</ul></li>
+<li>A bullet <span class="math inline">\bullet</span> is used to separate quantifiers from their predicate.</li>
+<li><span class="math inline">=</span> denotes equivalence in the mathematical sense (a strong statement).</li>
+</ul>
+<p>With the above in mind, we define a few more high-level pieces.</p>
+<ul>
+<li><p>A mapping <span class="math inline">M</span> of <span class="math inline">a \twoheadrightarrow b</span> has some operations defined:</p>
+<ul>
+<li><span class="math inline">\operatorname*{dom}(M)</span> returns the set of <span class="math inline">a</span> keys in the mapping,</li>
+<li><span class="math inline">M(a)</span> returns the <span class="math inline">b</span> value mapped to by the key <span class="math inline">a</span>, and</li>
+<li><span class="math inline">M_1 \oplus M_2</span> returns a mapping containing the entries of both <span class="math inline">M_1</span> and <span class="math inline">M_2</span>, with entries in <span class="math inline">M_2</span> overriding <span class="math inline">M_1</span> if both are present.</li>
+</ul></li>
+<li><p><span class="math inline">\textit{syms}</span> is defined as a mapping <span class="math inline">\textsf{id} \twoheadrightarrow \textit{SymEntry}</span> of AST identifiers to symbol table entries, so <span class="math inline">\operatorname*{dom}(\textit{syms})</span> is the set of defined identifiers. A symbol table entry is a sum type defined as <span class="math display">
+\textit{SymEntry} ::= \textit{ConstEntry}(T, \mathbb Z) \mid \textit{TypeEntry}(T) \mid \textit{VarEntry}(T) \mid \textit{ProcEntry}(\textsf{block}).
+</span></p></li>
+<li><p><span class="math inline">\textit{syms} \vdash \textsf e : T</span> means in the context of the symbol table <span class="math inline">\textit{syms}</span>, the expression <span class="math inline">\textsf e</span> is well-typed and has the type <span class="math inline">T</span>.</p></li>
+</ul>
+<h2 id="declarations">Declarations</h2>
+<p>There are four forms of declarations: constants, types, variables, and procedures. The notation <span class="math inline">\textit{syms} \vdash \textit{WFDeclaration}(\textsf d)</span> means that <span class="math inline">\textsf d</span> is a well-formed declaration in the context of <span class="math inline">\textit{syms}</span>. Furthermore, <span class="math display">
+\textit{entry}(\textit{syms}, \textsf d)=\textit{ent}
+</span> is used to assign <span class="math inline">\textit{ent}</span> to the symbol table entry of <span class="math inline">\textsf d</span>. This formally assigns a SymEntry to a particular declaration form <span class="math inline">\textsf{d}</span>. Perhaps more rigorously, the statement <span class="math display">
+\textit{entry}(\textit{syms}, \textsf{var}(\textsf{t})) = \textit{VarEntry}(\textit{ref}(T))
+</span> means that a declaration of the form <span class="math inline">\textsf{var}(\textsf{t})</span> should have a corresponding VarEntry table when interpreted in the context of <span class="math inline">\textit{syms}</span>.</p>
+<p>The declaration rules use pattern matching in their results, which means only expressions of a certain form can be well-formed declarations. This prevents us from declaring a type of, say, <span class="math inline">1+10</span>.</p>
+<h2 id="types">Types</h2>
+<p>These rules concern the definition of types in PL0 program (e.g. type aliases and subrange types).</p>
+<p>We introduce a function <span class="math inline">\textit{typeof}</span> such that <span class="math inline">\textit{typeof}(\textsf{e}) =T</span> means the given expression <strong>is</strong> (i.e. defines) the type <span class="math inline">T</span>. This is at a higher level of abstraction than <span class="math inline">\textsf{e} : T</span> which means <span class="math inline">\textsf{e}</span> is a value of type <span class="math inline">T</span>.</p>
+<h2 id="blocks">Blocks</h2>
+<p>These are perhaps the most complex because they must consider everything discussed already, as well as locally declared types, variables, and scope.</p>
+<p>Note that a well-formed block cannot define an identifier more than once. This is represented (theoretically) by <span class="math inline">\textsf{ds}</span> being a mapping. A block defines a new scope in which its local declarations shadow its parents identifiers if they have the same name. In doing so, it constructs symbol table entries from its declaration list.</p>
+<p>The function <span class="math inline">\textit{uses}</span> takes a declaration, type or constant expression and returns the identifiers used by its types. For example, <span class="math inline">\textit{uses}(\textsf{id})=\{\textsf{id}\}</span> and <span class="math inline">\textit{uses}(\textsf{var}(\textsf{t}))=\textit{uses}(\textsf t)</span>.</p>
+<p>The <span class="math inline">\textit{entryDecl}(\textit{syms}, \textsf{ds}, \textsf d)</span> function <em>defines</em> a symbol table entry for the declaration <span class="math inline">\textsf{d}</span> in a context of <span class="math inline">\textit{syms}</span> augmented with only the declarations from <span class="math inline">\textsf{ds}</span> which are used in <span class="math inline">\textsf{d}</span>. The <span class="math inline">\textit{uses}(\textsf{d})</span> prevents mutual recursion in rule 6.2 between declarations in the same declaration list. Basically, this constructs a new context and offloads the work to <span class="math inline">\textit{entry}</span>.</p>
+<p>The earlier <span class="math inline">\textit{entry}</span> function returns the appropriate symbol table entry for a given declaration in a given context. Importantly, this means that types and their SymEntries are constructed in the context they’re defined.</p>
+<p>Putting this together, we get the following rules for well-formed blocks.</p>
+<figure>
+<img src="/assets/image-20200703193012243.png" alt="" /><figcaption>image-20200703193012243</figcaption>
+</figure>
+<p>Intuitively, the predicate of rule 6.1 does the following:</p>
+<ul>
+<li>Constructs a mapping of identifiers to the identifiers they use and computes its transitive closure (denoted by superscript <span class="math inline">+</span>).</li>
+<li>Ensures that no identifier uses itself directly or indirectly, preventing recursion in the types.</li>
+<li>Constructs a new scope <span class="math inline">\textit{syms}&#39;</span> by adding the new declarations and computing their symbol table entries using <span class="math inline">\textit{entryDecl}</span> (discussed above).</li>
+<li>Ensures that every new declaration is well-formed in the new context.</li>
+<li>Ensures that in the new context, the statement list is well-formed.</li>
+</ul>
+<p>If all of the above hold, the block as a whole is well-formed.</p>
+<p>A <em>program</em> is well-formed if its block is well-formed in the context of the <span class="math inline">\textit{predefined}</span> context.</p>
+<h2 id="rules">Rules</h2>
+<h3 id="types-of-expressions">Types of Expressions</h3>
+<figure>
+<img src="/assets/image-20200703200702094.png" alt="" /><figcaption>image-20200703200702094</figcaption>
+</figure>
+<h3 id="well-formed-statements">Well-Formed Statements</h3>
+<figure>
+<img src="/assets/image-20200703200722065.png" alt="" /><figcaption>image-20200703200722065</figcaption>
+</figure>
+<h3 id="well-formed-declarations">Well-Formed Declarations</h3>
+<figure>
+<img src="/assets/image-20200703200753360.png" alt="" /><figcaption>image-20200703200753360</figcaption>
+</figure>
+<h4 id="constant-evaluation-rules">Constant Evaluation Rules</h4>
+<p><img src="/assets/image-20200703200827441.png" alt="image-20200703200827441" style="zoom:50%;" /></p>
+<h3 id="well-formed-types">Well-Formed Types</h3>
+<figure>
+<img src="/assets/image-20200703200904388.png" alt="" /><figcaption>image-20200703200904388</figcaption>
+</figure>
+<h3 id="well-formed-blocks">Well-Formed Blocks</h3>
+<figure>
+<img src="/assets/image-20200703200920326.png" alt="" /><figcaption>image-20200703200920326</figcaption>
+</figure>
+<h3 id="well-formed-main-program">Well-Formed Main Program</h3>
+<p><img src="/assets/image-20200703200944338.png" alt="image-20200703200944338" style="zoom:50%;" /></p><header id="title-block-header">
 <h1 class="title">Tutorial 3 — RDP Exercise</h1>
 </header>
 
@@ -1521,6 +1705,103 @@ T(c_1&#39;, s_0) = s_1,\quad T(c_2&#39;, s_1)=s_1, \quad\ldots, \quad T(c_n&#39;
 <blockquote>
 <p>See PL0.flex for details.</p>
 </blockquote>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#week-11.1-assignment-3">Week 11.1 — Assignment 3</a></li>
+</ul>
+</nav>
+
+<h1 id="week-11.1-assignment-3">Week 11.1 — Assignment 3</h1>
+<blockquote>
+<p>This lecture explained the third programming assignment: implementing parameters, sets and operations on sets. At the time of writing, the assignment was submitted 4 weeks ago.</p>
+</blockquote>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#week-11.2-memory-allocation-and-garbage-collection">Week 11.2 — Memory Allocation and Garbage Collection</a>
+<ul>
+<li><a href="#memory-allocation">Memory allocation</a></li>
+<li><a href="#memory-deallocation">Memory deallocation</a></li>
+<li><a href="#garbage-collection-techniques">Garbage collection techniques</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="week-11.2-memory-allocation-and-garbage-collection">Week 11.2 — Memory Allocation and Garbage Collection</h1>
+<h2 id="memory-allocation">Memory allocation</h2>
+<p>Dynamic allocation is done on the heap. They have a lifetime longer than their containing procedure, in contrast to stack allocation.</p>
+<ul>
+<li><p>This is allocated via new in Java and malloc in C. There are many techniques for allocating memory, including sequential allocation and free list techniques.</p></li>
+<li><p>All references to an object may be removed. In this case, the object still uses space but cannot be accessed; this is <em>garbage</em>.</p></li>
+<li><p>In Java, memory is typed but this is not the case in C.</p></li>
+</ul>
+<figure>
+<img src="/assets/image-20200703141234111.png" alt="" /><figcaption>image-20200703141234111</figcaption>
+</figure>
+<h2 id="memory-deallocation">Memory deallocation</h2>
+<p>There are two main forms of memory deallocation in programming languages:</p>
+<ul>
+<li><strong>explicit deallocation</strong> where there is a function to deallocate an object (free in C), or</li>
+<li><strong>garbage collection</strong> where the space used by unreachable objects is automatically freed by the garbage collector.</li>
+</ul>
+<p>With explicit memory deallocation, freed memory is returned to the free list and adjacent free blocks are merged to reduce fragmentation.</p>
+<p>There are many problems with explicit deallocation:</p>
+<ul>
+<li><strong>Dangling references</strong> (use after free) cause many problems when the invalid reference is reused, which can lead to diabolical bugs (see CSSE2310).</li>
+<li><strong>Memory leaks</strong> (memory unreachable but not freed), which will cause out of memory errors in long-running programs.</li>
+<li><strong>Memory fragmentation</strong> (free memory is sparse and split up) which means there may be many small chunks of free memory but no position for large objects. Memory compaction (defragmentation) is not possible in languages which use fixed addresses like C or C++.</li>
+<li><strong>Locality of reference</strong> (fragmentation leads to memory being more spread out) in a virtual memory system means more pages of real memory are required. Ideally, related objects would be allocated together which improves cache performance.</li>
+</ul>
+<h2 id="garbage-collection-techniques">Garbage collection techniques</h2>
+<p>Some of these issues can be resolved by using a garbage collector. The GC automatically frees unreachable memory and some compact memory to reduce fragmentation and improve locality of reference. An object is accessible if it can be reached directly or via a reference from some other accessible object.</p>
+<p>We will look at three garbage collection strategies:</p>
+<ul>
+<li><p><strong>Mark and sweep</strong>: Made up of a phase which marks all accessible objects then sweeps the unmarked objects into the free list. In the sweep phase, we unmark marked blocks and we free unmarked blocks.</p></li>
+<li><p><strong>Stop and copy</strong> uses two large spaces of memory for the heap. Memory is allocated sequentially within one space until it runs out. When space runs out, we stop and copy all accessible memory sequentially into the other space.</p>
+<p>During copying, we copy one block at a time. Then, for each pointer in the copied block we determine if it has been copied. If it has not been moved, copy it over then fix the pointer and mark it as copied.</p>
+<p>Some disadvantages are the moving could be slow if objects are large.</p></li>
+<li><p><strong>Generational schemes</strong> use multiple spaces, organised by the length of time objects have survived. The age is measured in the number of times an object has been garbage collected. This means that old objects tend to survive longer, without being moved.</p></li>
+</ul>
+<p>Garbage collection does have some drawbacks:</p>
+<ul>
+<li>It has a greater overhead than explicit deallocation.</li>
+<li>Response time can vary because garbage collection can happen at unexpected times and can take some period of time.</li>
+<li>Real-time response is hard to guarantee. This can be mitigated by preallocating objects, using incremental GC, or using a concurrent GC.</li>
+<li>Garbage collection is complex and especially difficult when doing incremental or concurrent GC.</li>
+</ul>
+<p>Incremental GC does small amounts of garbage collection interleaved with execution of the program each time an object is allocated. This avoids large stops, reducing average response time.</p>
+<p>A concurrent garbage collector runs in a separate processor, which works well on multiple CPU cores in parallel. They are an “interesting challenge” to verify correctness. Debugging is difficult because they are highly non-deterministic and sensitive to timings.</p>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#week-12.1-static-semantics-of-declarations">Week 12.1 — Static Semantics of Declarations</a></li>
+</ul>
+</nav>
+
+<h1 id="week-12.1-static-semantics-of-declarations">Week 12.1 — Static Semantics of Declarations</h1>
+<p>Recall the abstract syntax of PL0. Here, the notation <span class="math inline">\text{id} \to\text{d}</span></p>
+<p><img src="/assets/image-20200703154234935.png" alt="image-20200703154234935" style="zoom:50%;" /></p>
+<p><img src="/assets/image-20200703154247286.png" alt="image-20200703154247286" style="zoom:50%;" /></p>
+<p><img src="/assets/image-20200703154530909.png" alt="image-20200703154530909" style="zoom:33%;" /></p>
+<p><img src="/assets/image-20200703154538432.png" alt="image-20200703154538432" style="zoom:33%;" /></p>
+<p>Above, we can see that the declarations contain the global variables and the procedure. The entry <span class="math inline">q</span> is a procedure, with its own declaration of the variable <span class="math inline">x</span>.</p>
+<p>In PL0 we have these types (internally):</p>
+<ul>
+<li>Scalar types int, boolean, subrange.</li>
+<li>Reference to <span class="math inline">T</span>.</li>
+<li>Product type <span class="math inline">T_1 \times T_2</span>.</li>
+<li>Function types <span class="math inline">T_1 \to T_2</span>.</li>
+</ul>
+<p>Recall that a symbol table entry has the form <span class="math display">
+\operatorname*{SymEntry} := \operatorname*{ConstEntry}(T, \mathbb Z) \mid \operatorname*{TypeEntry}(T) \mid \operatorname*{VarEntry}(T) \mid \operatorname*{ProcEntry}(\text{block}).
+</span> and so, <span class="math inline">\text{syms} \in \text{id} \mapsto \operatorname*{SymEntry}</span>.</p>
+<p>In addition to the static semantic rules we have, we can also evaluate expressions in the following way, with the notation <span class="math inline">\overset{e}\to</span>.</p>
+<p><img src="/assets/image-20200703155157800.png" alt="image-20200703155157800" style="zoom:50%;" /></p>
+<p>We have different rules for determining if a declaration is well-formed and evaluating the entry, using the entry() notation. Note that the entry uses concrete values and the statement form uses symbolic names.</p>
+<p><img src="/assets/image-20200703155820138.png" alt="image-20200703155820138" style="zoom:50%;" /></p>
+<p>Cycles in dependencies are bad. We define a function uses which when given an expression or type returns the set of identifiers used by the argument. For example,</p>
+<p><img src="/assets/image-20200703160327700.png" alt="image-20200703160327700" style="zoom:50%;" /></p>
+<p>Looking at the rule for a well-formed block, it contains a block with declarations and statements. The statement must be well-formed in the context of the symbol table augmented with identifiers local to the block, denoted <span class="math inline">\oplus</span>.</p>
+<p>Below, the second lines means there is no identifier which uses its own identifier. The ds_uses is a set of mappings of <span class="math inline">\text{id} \to \text{id2}</span> where id uses id2. The <span class="math inline">+</span> notation denotes the transitive closure, including indirect uses.</p>
+<p><img src="/assets/image-20200703160447858.png" alt="image-20200703160447858" style="zoom:50%;" /></p>
 <nav id="TOC" role="doc-toc">
 <ul>
 <li><a href="#week-6.1-more-java-cup-and-jflex-examples">Week 6.1 — More Java-CUP and JFlex Examples</a></li>
