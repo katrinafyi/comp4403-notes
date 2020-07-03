@@ -63,13 +63,16 @@
     <![endif]-->
   </head>
   <body>
+    <h1>Static Semantics</h1>
+
     <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Static Semantics</title>
+  <meta name="author" content="Kenton Lam" />
+  <title>PL0 Static Semantics Cheat Sheet</title>
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -99,7 +102,11 @@
   <![endif]-->
 </head>
 <body>
-<h1 id="pl0-static-semantics-cheat-sheet">PL0 Static Semantics Cheat Sheet</h1>
+<header id="title-block-header">
+<h1 class="title">PL0 Static Semantics Cheat Sheet</h1>
+<p class="author">Kenton Lam</p>
+<p class="date">Friday July 3, 2020</p>
+</header>
 <p>A quick reference on static semantics of the PL0 programming language. This is meant to be read alongside <code>PL0-SSemantics.pdf</code>. Written by Kenton Lam.</p>
 <h2 id="abstract-syntax">Abstract Syntax</h2>
 <p><img src="/assets/image-20200703170905035.png" alt="image-20200703170905035" style="zoom:50%;" /></p>
@@ -130,7 +137,10 @@
 <li><span class="math inline">M_1 \oplus M_2</span> returns a mapping containing the entries of both <span class="math inline">M_1</span> and <span class="math inline">M_2</span>, with entries in <span class="math inline">M_2</span> overriding <span class="math inline">M_1</span> if both are present.</li>
 </ul></li>
 <li><p><span class="math inline">\textit{syms}</span> is defined as a mapping <span class="math inline">\textsf{id} \twoheadrightarrow \textit{SymEntry}</span> of AST identifiers to symbol table entries, so <span class="math inline">\operatorname*{dom}(\textit{syms})</span> is the set of defined identifiers. A symbol table entry is a sum type defined as <span class="math display">
-\textit{SymEntry} ::= \textit{ConstEntry}(T, \mathbb Z) \mid \textit{TypeEntry}(T) \mid \textit{VarEntry}(T) \mid \textit{ProcEntry}(\textsf{block}).
+\begin{aligned}
+\textit{SymEntry} &amp;::= \textit{ConstEntry}(T, \mathbb Z) \mid \textit{TypeEntry}(T) \\
+&amp;\qquad\mid \textit{VarEntry}(T) \mid \textit{ProcEntry}(\textsf{block}).
+\end{aligned}
 </span></p></li>
 <li><p><span class="math inline">\textit{syms} \vdash \textsf e : T</span> means in the context of the symbol table <span class="math inline">\textit{syms}</span>, the expression <span class="math inline">\textsf e</span> is well-typed and has the type <span class="math inline">T</span>.</p></li>
 </ul>
@@ -149,8 +159,7 @@
 <p>Note that a well-formed block cannot define an identifier more than once. This is represented (theoretically) by <span class="math inline">\textsf{ds}</span> being a mapping. A block defines a new scope in which its local declarations shadow its parents identifiers if they have the same name. In doing so, it constructs symbol table entries from its declaration list.</p>
 <p>The function <span class="math inline">\textit{uses}</span> takes a declaration, type or constant expression and returns the identifiers used by its types. For example, <span class="math inline">\textit{uses}(\textsf{id})=\{\textsf{id}\}</span> and <span class="math inline">\textit{uses}(\textsf{var}(\textsf{t}))=\textit{uses}(\textsf t)</span>.</p>
 <p>The <span class="math inline">\textit{entryDecl}(\textit{syms}, \textsf{ds}, \textsf d)</span> function <em>defines</em> a symbol table entry for the declaration <span class="math inline">\textsf{d}</span> in a context of <span class="math inline">\textit{syms}</span> augmented with only the declarations from <span class="math inline">\textsf{ds}</span> which are used in <span class="math inline">\textsf{d}</span>. The <span class="math inline">\textit{uses}(\textsf{d})</span> prevents mutual recursion in rule 6.2 between declarations in the same declaration list. Basically, this constructs a new context and offloads the work to <span class="math inline">\textit{entry}</span>.</p>
-<p>The earlier <span class="math inline">\textit{entry}</span> function returns the appropriate symbol table entry for a given declaration in a given context. Importantly, this means that types and their SymEntries are constructed in the context they’re defined.</p>
-<p>Putting this together, we get the following rules for well-formed blocks.</p>
+<p>The earlier <span class="math inline">\textit{entry}</span> function returns the appropriate symbol table entry for a given declaration in a given context. Importantly, this means that types and their SymEntries are constructed in the context they’re defined. Putting this together, we get the following rules for well-formed blocks.</p>
 <figure>
 <img src="/assets/image-20200703193012243.png" alt="" /><figcaption>image-20200703193012243</figcaption>
 </figure>
@@ -192,5 +201,6 @@
 </body>
 </html>
 
+    <p><small>Last updated .</small></p>
   </body>
 </html>
