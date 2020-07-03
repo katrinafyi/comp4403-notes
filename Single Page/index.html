@@ -1790,7 +1790,7 @@ B&#39; &amp;\to \epsilon ~|~ \beta_1\ B&#39;
 </head>
 <body>
 <h1 id="pl0-static-semantics-cheat-sheet">PL0 Static Semantics Cheat Sheet</h1>
-<p>A quick reference on static semantics of the PL0 programming language. This is meant to be read alongside PL0-SSemantics.pdf.</p>
+<p>A quick reference on static semantics of the PL0 programming language. This is meant to be read alongside <code>PL0-SSemantics.pdf</code>. Written by Kenton Lam.</p>
 <h2 id="abstract-syntax">Abstract Syntax</h2>
 <p><img src="/assets/image-20200703170905035.png" alt="image-20200703170905035" style="zoom:50%;" /></p>
 <p><img src="/assets/image-20200703170927076.png" alt="image-20200703170927076" style="zoom:50%;" /></p>
@@ -1799,7 +1799,7 @@ B&#39; &amp;\to \epsilon ~|~ \beta_1\ B&#39;
 <p><img src="/assets/image-20200703171023633.png" alt="image-20200703171023633" style="zoom:50%;" /></p>
 <h2 id="notation">Notation</h2>
 <ul>
-<li>Abstract syntax is written in sans-serif font. For example the expression <code>y+1</code> in code is written as <span class="math inline">\textsf{y}+1</span> here. This corresponds to expression nodes and statement nodes.</li>
+<li>Abstract syntax is written in sans-serif font. For example the expression <code>y+1</code> in code is written as <span class="math inline">\textsf {y} + 1</span> here. This corresponds to expression nodes and statement nodes.</li>
 <li>Semantic constructs are written in <span class="math inline">\textit{italics}</span>. For example, the type <span class="math inline">\operatorname{\textit{ref}}\,(T)</span>. These are most commonly types or other static checker constructs like the symbol table.</li>
 <li>The use of arrows is very precise:
 <ul>
@@ -1830,7 +1830,7 @@ B&#39; &amp;\to \epsilon ~|~ \beta_1\ B&#39;
 </span> is used to assign <span class="math inline">\textit{ent}</span> to the symbol table entry of <span class="math inline">\textsf d</span>. This formally assigns a SymEntry to a particular declaration form <span class="math inline">\textsf{d}</span>. Perhaps more rigorously, the statement <span class="math display">
 \textit{entry}(\textit{syms}, \textsf{var}(\textsf{t})) = \textit{VarEntry}(\textit{ref}(T))
 </span> means that a declaration of the form <span class="math inline">\textsf{var}(\textsf{t})</span> should have a corresponding VarEntry table when interpreted in the context of <span class="math inline">\textit{syms}</span>.</p>
-<p>The declaration rules use pattern matching in their results, which means only expressions of a certain form can be well-formed declarations. This prevents us from declaring a type of, say, <span class="math inline">1+10</span>.</p>
+<p>The declaration rules use pattern matching in their consequents, which means only expressions of a certain form can be well-formed declarations. This prevents us from declaring a type of, say, <span class="math inline">1+10</span>.</p>
 <h2 id="types">Types</h2>
 <p>These rules concern the definition of types in PL0 program (e.g. type aliases and subrange types).</p>
 <p>We introduce a function <span class="math inline">\textit{typeof}</span> such that <span class="math inline">\textit{typeof}(\textsf{e}) =T</span> means the given expression <strong>is</strong> (i.e. defines) the type <span class="math inline">T</span>. This is at a higher level of abstraction than <span class="math inline">\textsf{e} : T</span> which means <span class="math inline">\textsf{e}</span> is a value of type <span class="math inline">T</span>.</p>
