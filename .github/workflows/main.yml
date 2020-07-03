@@ -22,24 +22,9 @@ jobs:
       
     - uses: kentonlam/compendium@master
       id: compendium
-      
-    - name: Commit files to gh-pages
-      run: |
-        git switch -c gh-pages
-        git fetch --all
-        rm -rv *
-        mv -vf ${{ steps.compendium.outputs.site }}/* .
-        git config --local user.name "GitHub Actions"
-        git add *
-        git commit -m "Update site after commit $GITHUB_SHA" -a
-    
-    - uses: ad-m/github-push-action@master
-      with:
-        branch: gh-pages
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-          
+
     - uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_branch: gh-pages
-        publish_dir: .
+        publish_dir: ${{ steps.compendium.outputs.site }}
