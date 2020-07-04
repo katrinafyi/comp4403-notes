@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    
+    <title>Week 12.2 - Runtime Representation of Objects and Classes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
+    <!--<link rel="stylesheet" href="https://unpkg.com/mvp.css">-->
+    <!--<link rel="stylesheet" href="https://latex.now.sh/style.css">-->
+    <style>
+        code{white-space: pre-wrap;}
+        span.smallcaps{font-variant: small-caps;}
+        span.underline{text-decoration: underline;}
+        div.column{display: inline-block; vertical-align: top; width: 50%;}
+    </style>
+    <!--<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    var macros = [];
+    /*
+    const BATCH_SIZE = 100;
+    var i = 0;
+    while (i < mathElements.length) {
+      const start = i;
+      setTimeout(() => {
+        for (var j = 0; j < BATCH_SIZE; j++) {
+          const i = start + j;
+          if (i >= mathElements.length) break;
+
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }, 0);
+      i += BATCH_SIZE;
+    }
+    */
+    
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+      katex.render(texText.data, mathElements[i], {
+        displayMode: mathElements[i].classList.contains('display'),
+        throwOnError: false,
+        macros: macros,
+        fleqn: false
+      });
+    }}
+    
+    });
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <h1>Week 12.2 - Runtime Representation of Objects and Classes</h1>
+
+    <!--
+-->
+
+
+<h1 id="week-12.2-runtime-representation-of-objects-and-classes">Week 12.2 — Runtime Representation of Objects and Classes</h1>
+<p>Objects are allocated dynamically on the heap (see previous lecture). This means the lifetime of the object may be longer than the lifetime of the containing method. For objects of a particular class type <span class="math inline">T</span>, every field <span class="math inline">f</span> is at a fixed offset from the start of that object. This makes accessing fields efficient and consistent.</p>
+<p>If we say “class S extends T”, then S is a subclass of T. It inherits all the fields and methods of T, and the offsets of these inherited fields are the same as T. Additional fields follow and have fixed offsets as well. If S declares a field with the same name as an existing field, it shadows but does not replace T’s field.</p>
+<p>Consider the following class structure:</p>
+<p><img src="/assets/image-20200704125610541.png" alt="image-20200704125610541" style="zoom:50%;" /></p>
+<p>After instantiating these classes, we might get the following heap:</p>
+<p><img src="/assets/image-20200704125643390.png" alt="image-20200704125643390" style="zoom:50%;" /></p>
+<p>We continue with the “class S extends T” example. In this case,</p>
+<ul>
+<li>the subclass S inherits all methods of T but it may override some with new implementations,</li>
+<li>S can add new methods,</li>
+<li>a variable declared to be of type T has a <em>static</em> (declared) type of T and a dynamic (actual) type of T, some subtype of T, or is null, and</li>
+<li>when a non-static method is called, the <em>dynamic</em> type which determines which method is called.</li>
+</ul>
+<p>In the above example, calling m on p, q and r calls the m method from A, B and C respectively.</p>
+<h2 id="dynamic-dispatch-table">Dynamic dispatch table</h2>
+<p>Each class has a dynamic dispatch table.</p>
+<ul>
+<li>It has an entry for every method of the class, including inherited methods.</li>
+<li>The entry returns the address of the method’s code.</li>
+<li>The entries are at a fixed offset for a particular name.</li>
+<li>Entries for inherited and overridden methods are at the same offsets as their parent.</li>
+<li>The table also contains a pointer to the DDT for its superclass, which is used for super references.</li>
+</ul>
+<p>Each object has a reference to the dispatch table for its dynamic type, and the DDT is used to resolve the method at runtime. An example is below. Note that Object is the root type and the DDTs for A, B and C would also include Object’s methods (omitted for brevity).</p>
+<p><img src="/assets/image-20200704130505882.png" alt="image-20200704130505882" style="zoom:50%;" /></p>
+<h2 id="this-reference">this reference</h2>
+<p>The identifier “this” is a reference to the object on which a method was called. It is passed implicitly (or explicitly in Python) as a parameter to the instance method.</p>
+<h2 id="super-reference">super reference</h2>
+<p>If “class S extends T”, the “super” refers to methods or fields of T. It can be used as a constructor to execute T’s constructor, or as an identifier to reference T’s fields or methods.</p>
+<p>This can be resolved <em>statically</em> at compile time. Note that the DDT does not need an entry for the constructor, because the constructor is known at compile time before the program is run.</p>
+<h2 id="instanceof-operator">instanceof operator</h2>
+<p>The expression “x instanceof T” checks if the dynamic type of x is an instance of T or some subtype of T. This is done by following the DDT’s parent link until we reach T and return true or reach the end and return false. The null pointer is not an instance of any type (yet another reason why null should never be used).</p>
+<h2 id="static-fields-and-methods">Static fields and methods</h2>
+<p>Static properties are resolved statically at compile time (hence the name). There is one instance shared by all objects of that class. Static methods are not associated with an instantiated object and so cannot refer to this or call any non-static methods.</p>
+<h2 id="interfaces">Interfaces</h2>
+<p>Interfaces provide a specification for some methods. They allow multiple inheritance (in Java) because a class can implement multiple interfaces but can only extend at most one class. They have a more complex runtime implementation.</p>
+<p>Each class that implements an interface (effectively) provides a DDT for that interface which needs to be resolved from both the object’s dynamic type and the interface type. Dynamic loading of classes further complicate this.</p>
+    <p><small>Last updated .</small></p>
+  </body>
+</html>

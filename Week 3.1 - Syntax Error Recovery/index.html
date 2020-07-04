@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    
+    <title>Week 3.1 - Syntax Error Recovery</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
+    <!--<link rel="stylesheet" href="https://unpkg.com/mvp.css">-->
+    <!--<link rel="stylesheet" href="https://latex.now.sh/style.css">-->
+    <style>
+        code{white-space: pre-wrap;}
+        span.smallcaps{font-variant: small-caps;}
+        span.underline{text-decoration: underline;}
+        div.column{display: inline-block; vertical-align: top; width: 50%;}
+    </style>
+    <!--<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    var macros = [];
+    /*
+    const BATCH_SIZE = 100;
+    var i = 0;
+    while (i < mathElements.length) {
+      const start = i;
+      setTimeout(() => {
+        for (var j = 0; j < BATCH_SIZE; j++) {
+          const i = start + j;
+          if (i >= mathElements.length) break;
+
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }, 0);
+      i += BATCH_SIZE;
+    }
+    */
+    
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+      katex.render(texText.data, mathElements[i], {
+        displayMode: mathElements[i].classList.contains('display'),
+        throwOnError: false,
+        macros: macros,
+        fleqn: false
+      });
+    }}
+    
+    });
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <h1>Week 3.1 - Syntax Error Recovery</h1>
+
+    <!--
+<header id="title-block-header">
+<h1 class="title">Lecture 5 — Syntax Error Recovery</h1>
+</header>
+-->
+
+
+<h1 id="lecture-5-syntax-error-recovery">Lecture 5 — Syntax Error Recovery</h1>
+<p>Remark: For this parsing method, the first symbols of any alternative must be pairwise disjoint.</p>
+<p>There are a few parts to syntax error recovery, such as when parsing and when matching. For example, when a syntax error is encountered it can throw away unexpected tokens or replace tokens with the correct token.</p>
+<blockquote>
+<p><em>WhileStatement → KW_WHILE Condition KW_DO Statement</em></p>
+</blockquote>
+<div class="sourceCode" id="cb1"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="dt">void</span> <span class="fu">parseWhileStatement</span>(TokenSet recoverSet) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>  <span class="co">// String is used for error messages and debugging.</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>  stmt.<span class="fu">parse</span>(<span class="st">&quot;WhileStatement&quot;</span>, Token.<span class="fu">KW_WHILE</span>, recoverSet, () -&gt; { <span class="co">// (2)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>    <span class="co">// CONDITION_START_SET is the set of tokens which start conditions</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>    tokens.<span class="fu">match</span>(Token.<span class="fu">KW_WHILE</span>, CONDITION_START_SET); <span class="co">// (1)</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>    <span class="fu">parseCondition</span>(recoverSet.<span class="fu">union</span>(Token.<span class="fu">KW_DO</span>));</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>    tokens.<span class="fu">match</span>(Token.<span class="fu">KW_DO</span>, STATEMENT_START_SET);</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>    <span class="fu">parseCondition</span>(recoverSet);</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>  });</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>}</span></code></pre></div>
+<p>Here, <strong>tokens.match</strong> takes a second argument. This is what tokens are expected to immediately follow a <code>while</code>.</p>
+<p>When matching terminals with <strong>(1)</strong>, if the next token is not <code>while</code>, it will emit an error message and see if the current token is in the start set. If it <em>is</em> in the set, it assumes the <code>while</code> token is missing and will implicitly insert it. If it is not, it will discard the token and repeat. (This is a very local way of recovering.)</p>
+<p>The other part is to do with matching non-terminals such as <strong>(2)</strong>. This looks to see if the next token is the <code>while</code> keyword. If it is, it executes the given function. If it is not, it will start skipping tokens until either a token is <code>while</code> <em>or</em> it finds something in the <em>recover set</em>. The recover set is a set of tokens expected to come after the entire while statement. In this case, it gives up and returns a dummy error node.</p>
+<p>For <strong>parseCondition</strong>, if it doesn’t match a condition, it will skip until a valid condition or anything in the passed recover set (which will also include <code>do</code>). This is the set of things which can follow the condition.</p>
+<p>Now, consider a parser for a <em>RelCondition</em>:</p>
+<blockquote>
+<p><em>RelCondition → Exp</em> [ <em>RelOp Exp</em> ]</p>
+</blockquote>
+<div class="sourceCode" id="cb2"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="dt">void</span> <span class="fu">parseRelCondition</span>(TokenSet recoverSet) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>  exp.<span class="fu">parse</span>(<span class="st">&quot;RelCondition&quot;</span>, EXP_START_SET, recoverSet, () -&gt; {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>    <span class="fu">parseExp</span>(recoverSet.<span class="fu">union</span>(REL_OP_SET));</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>    <span class="kw">if</span> (tokens.<span class="fu">isIn</span>(REL_OP_SET)) {</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>      <span class="fu">parseRelOp</span>(recoverSet.<span class="fu">union</span>(EXP_START_SET));</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>      <span class="fu">parseExp</span>(recoverSet); <span class="co">// because this is optional, not repetition.</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>    }</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>  });</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a>}</span></code></pre></div>
+<p>Let’s parse factors! &gt; <em>Factor → LPAREN Condition RPAREN</em> | <em>NUMBER</em> | <em>LValue</em></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>ExpNode <span class="fu">parseFactor</span>(TokenSet recoverSet) {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>  <span class="kw">return</span> exp.<span class="fu">parse</span>(<span class="st">&quot;Factor&quot;</span>, FACTOR_START_SET, recoverSet, () -&gt; {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>    ExpNode result = <span class="kw">null</span>;</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>    <span class="kw">if</span> (tokens.<span class="fu">isMatch</span>(Token.<span class="fu">LPAREN</span>)) {</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>      tokens.<span class="fu">match</span>(Token.<span class="fu">LPAREN</span>); <span class="co">// cannot fail</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a>      result = <span class="fu">parseCondition</span>(recoverSet.<span class="fu">union</span>(Token.<span class="fu">RPAREN</span>));</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a>      tokens.<span class="fu">match</span>(Token.<span class="fu">RPAREN</span>, recoverSet);</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a>    } <span class="kw">else</span> <span class="kw">if</span> (tokens.<span class="fu">isMatch</span>(Token.<span class="fu">NUMBER</span>)) {</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a>      result = <span class="kw">new</span> ExpNode.<span class="fu">ConstNode</span>(tokens.<span class="fu">getLocation</span>(), </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a>        Predefined.<span class="fu">INTEGER_TYPE</span>, tokens.<span class="fu">getIntValue</span>());</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true"></a>      tokens.<span class="fu">match</span>(Token.<span class="fu">NUMBER</span>); <span class="co">// cannot fail</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true"></a>    } <span class="kw">else</span> <span class="kw">if</span> (tokens.<span class="fu">isMatch</span>(Token.<span class="fu">IDENTIFIER</span>)) {</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true"></a>      result = <span class="fu">parseLValue</span>(recoverSet);</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true"></a>    } <span class="kw">else</span> {</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true"></a>      <span class="co">// will never occur because .parse() only calls this code</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true"></a>      <span class="co">// when a FACTOR_START_SET item is found.</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true"></a>      <span class="fu">fatal</span>(<span class="st">&quot;internal error in parseFactor&quot;</span>);</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true"></a>    }</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true"></a>    <span class="kw">return</span> result;</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true"></a>  });</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true"></a>}</span></code></pre></div>
+<p>Note that we must use <strong>tokens.match</strong> after building the constant node because it consumes the next number.</p>
+    <p><small>Last updated .</small></p>
+  </body>
+</html>

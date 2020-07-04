@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    
+    <title>Week 2.2 - Recursive Descent Parsing 2 &amp; Abstract Syntax Trees</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
+    <!--<link rel="stylesheet" href="https://unpkg.com/mvp.css">-->
+    <!--<link rel="stylesheet" href="https://latex.now.sh/style.css">-->
+    <style>
+        code{white-space: pre-wrap;}
+        span.smallcaps{font-variant: small-caps;}
+        span.underline{text-decoration: underline;}
+        div.column{display: inline-block; vertical-align: top; width: 50%;}
+    </style>
+    <!--<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    var macros = [];
+    /*
+    const BATCH_SIZE = 100;
+    var i = 0;
+    while (i < mathElements.length) {
+      const start = i;
+      setTimeout(() => {
+        for (var j = 0; j < BATCH_SIZE; j++) {
+          const i = start + j;
+          if (i >= mathElements.length) break;
+
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }, 0);
+      i += BATCH_SIZE;
+    }
+    */
+    
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+      katex.render(texText.data, mathElements[i], {
+        displayMode: mathElements[i].classList.contains('display'),
+        throwOnError: false,
+        macros: macros,
+        fleqn: false
+      });
+    }}
+    
+    });
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <h1>Week 2.2 - Recursive Descent Parsing 2 &amp; Abstract Syntax Trees</h1>
+
+    <!--
+<header id="title-block-header">
+<h1 class="title">Lecture 4 — Recursive Descent Parsing 2 &amp; Abstract Syntax Trees</h1>
+</header>
+-->
+
+
+<h1 id="lecture-4-recursive-descent-parsing-2-abstract-syntax-trees">Lecture 4 — Recursive Descent Parsing 2 &amp; Abstract Syntax Trees</h1>
+<p>We are continuing to take a grammar and write a Java parser for that grammar.</p>
+<p>Refer to <em>RecursiveDescentParsing.pdf</em> for examples of Java code for specific EBNF constructs.</p>
+<p>Let’s look at Terms now. <span class="math inline">\textit{TERM} \to \textit{Factor }\{ \textit{ (TIMES | DIVIDE) Factor }\}</span>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="dt">int</span> <span class="fu">parseTerm</span>() {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>  <span class="dt">int</span> result;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>  result = <span class="fu">parseFactor</span>();</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>  <span class="kw">while</span> (tokens.<span class="fu">isIn</span>(TERM_OPS_SET)) { <span class="co">// set of times and divide</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>    <span class="dt">boolean</span> times;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>    <span class="kw">if</span> (tokens.<span class="fu">isMatch</span>(Token.<span class="fu">TIMES</span>)) {</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>      times = <span class="kw">true</span>;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>      tokens.<span class="fu">match</span>(Token.<span class="fu">TIMES</span>);</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>    } <span class="kw">else</span> <span class="kw">if</span> (tokens.<span class="fu">isMatch</span>(Token.<span class="fu">DIVIDE</span>)) {</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>      times = <span class="kw">false</span>;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>      tokens.<span class="fu">match</span>(Token.<span class="fu">DIVIDE</span>);</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a>    } <span class="kw">else</span> {</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a>      <span class="fu">fatal</span>(<span class="st">&quot;unknown term operator in set&quot;</span>);</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a>    }</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a>    <span class="dt">int</span> factor = <span class="fu">parseFactor</span>();</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a>    <span class="kw">if</span> (times) {</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a>      result *= factor;</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a>    } <span class="kw">else</span> {</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a>      result /= factor;</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true"></a>    }</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true"></a>  }</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true"></a>  <span class="kw">return</span> result;</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true"></a>}</span></code></pre></div>
+<h2 id="constructing-an-abstract-syntax-tree">Constructing an abstract syntax tree</h2>
+<p>Using the same example from above, we will parse a <em>Term</em> into an AST.</p>
+<blockquote>
+<p><em>Term</em> → <em>Factor</em> { (<em>TIMES</em> | <em>DIVIDE</em>) <em>Factor</em> }.</p>
+</blockquote>
+<div class="sourceCode" id="cb2"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>ExpNode <span class="fu">parseTerm</span>() {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>  ExpNode result = <span class="fu">parseFactor</span>();</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>  <span class="kw">while</span> (tokens.<span class="fu">isIn</span>(TERM_OPS_SET)) { <span class="co">// set of times and divide</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>    Operator op = Operator.<span class="fu">INVALID_OP</span>;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>    <span class="bu">Location</span> opLoc = tokens.<span class="fu">getLocation</span>();</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>    <span class="dt">boolean</span> times;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>    <span class="kw">if</span> (tokens.<span class="fu">isMatch</span>(Token.<span class="fu">TIMES</span>)) {</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>      op = Operator.<span class="fu">MUL_OP</span>;</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a>      tokens.<span class="fu">match</span>(Token.<span class="fu">TIMES</span>);</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a>    } <span class="kw">else</span> <span class="kw">if</span> (tokens.<span class="fu">isMatch</span>(Token.<span class="fu">DIVIDE</span>)) {</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a>      op = Operator.<span class="fu">DIV_OP</span>;</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a>      tokens.<span class="fu">match</span>(Token.<span class="fu">DIVIDE</span>);</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a>    } <span class="kw">else</span> {</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true"></a>      <span class="fu">fatal</span>(<span class="st">&quot;unknown term operator in set&quot;</span>);</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true"></a>    }</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true"></a>    ExpNode factor = <span class="fu">parseFactor</span>();</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true"></a>    result = <span class="kw">new</span> ExpNode.<span class="fu">BinaryNode</span>(opLoc, op, result, factor);</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true"></a>  }</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true"></a>  <span class="kw">return</span> result;</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true"></a>}</span></code></pre></div>
+<p>Let’s start with an expression <code>2 * 3 / 4</code>. Tracing the variables, with indentation roughly matching the code’s indentation,</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>result = <span class="fu">ConstNode</span>(l1, INTEGER_TYPE, <span class="dv">2</span>); <span class="co">// r1</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>  <span class="co">// enter while loop, first</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>  op = INVALID_OP;</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>  opLoc = l2;</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>    op = MUL_OP;</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a>  factor = <span class="fu">ConstNode</span>(l3, INTEGER_TYPE, <span class="dv">3</span>); <span class="co">// f1</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a>  result = <span class="fu">BinaryNode</span>(l2, MUL_OP, r1, f1); <span class="co">// r2</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a>  <span class="co">// while loop, second</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a>  op = INVALID_OP;</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a>  opLoc = l4;</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true"></a>    op = DIV_OP;</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true"></a>  factor = <span class="fu">ConstNode</span>(l5, INTEGER_TYPE, <span class="dv">4</span>); <span class="co">// f2</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true"></a>  result = <span class="fu">BinaryNode</span>(l4, DIV_OP, r2, f2);</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true"></a><span class="kw">return</span> result;</span></code></pre></div>
+<h2 id="syntax-error-recovery">Syntax error recovery</h2>
+<p><em>Moved to lecture 5.</em></p>
+    <p><small>Last updated .</small></p>
+  </body>
+</html>
