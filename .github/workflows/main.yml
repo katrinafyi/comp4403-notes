@@ -22,7 +22,9 @@ jobs:
       
     - uses: kentonlam/compendium@master
       id: compendium
-
+      with:
+        pandoc-glob: ./*.md
+        
     - name: Copy generated files
       run: |
         mkdir -p ./_site
