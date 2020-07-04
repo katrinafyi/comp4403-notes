@@ -13,6 +13,7 @@
         span.smallcaps{font-variant: small-caps;}
         span.underline{text-decoration: underline;}
         div.column{display: inline-block; vertical-align: top; width: 50%;}
+        .katex { font-size: 1.1em; }
     </style>
     <!--<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
@@ -121,6 +122,6 @@
 <p>For example, we convert IdentifierNode(“x”) to VariableNode(“x”) with the type of ref(int). ConstNode(0) has the type int. However, because this is used as part of a BinaryNode with less-than, we need to dereference the left ref(int) to a int. This is done by inserting a DereferenceNode, giving us a int type.</p>
 <p>In the IdentiferNode(“z”) under AssignmentNode, it becomes a VariableNode(“z”) of type ref(int). It is important that the left hand size of an assignment is a reference. It doesn’t make sense to assign something to an integer.</p>
 <p><img src="/assets/Clipboard_2020-02-24-09-47-40.png" /></p>
-    <p><small>Last updated 7/4/2020.</small></p>
+    <p><small>Generated at 7/4/2020, 6:35:57 AM.</small></p>
   </body>
 </html>
