@@ -100,13 +100,26 @@ E &amp;\Rightarrow E\ Op\ E\\
 &amp;\Rightarrow 3\ -\ 4\ -\ 2\\
 \end{aligned}
 </span> The leftmost nonterminal is expanded at each stage.</p>
-<p>The process of expanding <span class="math inline">3-4</span> goes something like this: 1. Start with the start symbol. Which of the 3 alternatives do we choose? The first (somewhat arbitrarily). 2. Then, we expand the left <span class="math inline">E</span> to the number 3. 3. And so on.</p>
+<p>The process of expanding <span class="math inline">3-4</span> goes something like this:</p>
+<ol type="1">
+<li>Start with the start symbol. Which of the 3 alternatives do we choose? The first (somewhat arbitrarily).</li>
+<li>Then, we expand the left <span class="math inline">E</span> to the number 3.</li>
+<li>And so on.</li>
+</ol>
 <h3 id="derivations">Derivations</h3>
 <p>Given a production <span class="math inline">N \to \gamma</span>, a <strong>direct derivation</strong> is <span class="math display">
 \alpha N \beta \Rightarrow \alpha \gamma \beta.
 </span> A <strong>derivation</strong> is a sequence of 0 or more direct derivations. It is written <span class="math inline">\alpha \xRightarrow * \beta</span> and read “<span class="math inline">\alpha</span> derives <span class="math inline">\beta</span>”.</p>
 <h3 id="nullables">Nullables</h3>
-<p>A possibly empty sequence <span class="math inline">\alpha</span> is <strong>nullable</strong> if it can derive the empty string, often denoted <span class="math inline">\epsilon</span>. There are some rules: - <span class="math inline">\epsilon</span> is nullable, - any terminal is non-nullable, - a sequence is nullable only if all items are nullable, - a set of alternatives is nullable if any is alternative nullable, - EBNF optionals and repetitions are nullable, and - a non-terminal <span class="math inline">N</span> is nullable if some production of <span class="math inline">N</span> has a nullable right-hand side.</p>
+<p>A possibly empty sequence <span class="math inline">\alpha</span> is <strong>nullable</strong> if it can derive the empty string, often denoted <span class="math inline">\epsilon</span>. There are some rules:</p>
+<ul>
+<li><span class="math inline">\epsilon</span> is nullable,</li>
+<li>any terminal is non-nullable,</li>
+<li>a sequence is nullable only if all items are nullable,</li>
+<li>a set of alternatives is nullable if any is alternative nullable,</li>
+<li>EBNF optionals and repetitions are nullable, and</li>
+<li>a non-terminal <span class="math inline">N</span> is nullable if some production of <span class="math inline">N</span> has a nullable right-hand side.</li>
+</ul>
 <h3 id="languages-and-sentences">Languages and sentences</h3>
 <p>The <strong>formal language</strong> <span class="math inline">\mathcal L(G)</span> of some grammar <span class="math inline">G</span> is the set of all finite sequences of terminals derivable from the start symbol <span class="math inline">S</span> of <span class="math inline">G</span>. That is, <span class="math display">
 \mathcal L(G) = \{t \in \operatorname{seq}\Sigma ~|~ S \xRightarrow *t\}.
