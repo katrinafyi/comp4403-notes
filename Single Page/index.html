@@ -76,6 +76,18 @@
                 <ol>
                     
                     <li><a href="#comp4403-notes">comp4403-notes</a>
+            
+                <ol>
+                    
+                    <li><a href="#grammars">Grammars</a>
+            		</li>
+
+                    <li><a href="#context-free-grammars">Context-free grammars</a>
+            		</li>
+
+                    <li><a href="#recursive-descent-parsing">Recursive descent parsing</a>
+            		</li>
+                </ol>
             		</li>
 
                     <li><a href="#revision">Revision</a>
@@ -324,7 +336,175 @@
 -->
 
 
-<h1 id="comp4403-notes">comp4403-notes</h1><h1>Revision 2020-06-19</h1>
+<h1 id="comp4403-notes">comp4403-notes</h1><h1>Recursive Descent Parsing</h1>
+
+  <!--
+<header id="title-block-header">
+<h1 class="title">Recursive Descent Parsing</h1>
+<p class="author">Kenton Lam</p>
+<p class="date">Saturday July 4, 2020</p>
+</header>
+-->
+
+
+<p>This is an overview of context-free grammars, recursive descent parsing, and syntax error recovery. It is based on the CFG-handout.pdf, RecursiveDescentParsing.pdf, and FirstFollow-handout.pdf handouts. Written by Kenton Lam.</p>
+<h2 id="grammars">Grammars</h2>
+<p>Here, nonterminal symbols are uppercase and terminals are lowercase. Greek letters signify possibly empty sequences of terminals or non-terminals.</p>
+<ul>
+<li><strong>Type 3</strong>: Left (or right) linear grammars: <span class="math inline">A \to \epsilon\ |\ aB\ |\ a</span>, with <span class="math inline">B</span> in the same form.</li>
+<li><strong>Type 2</strong>: Context-free grammars: <span class="math inline">A \to \alpha</span>.</li>
+<li><strong>Type 1</strong>: Context-sensitive grammars: <span class="math inline">\beta A \gamma \to \beta \alpha \gamma</span>.</li>
+<li><strong>Type 0</strong>: Unrestricted grammars: <span class="math inline">\alpha \to \beta</span>, where <span class="math inline">\alpha \ne \epsilon</span>.</li>
+</ul>
+<p>Note that each type is a superset of the previous. Type 3 left linear grammars are, in fact, regular expressions. Type 1 is called context-sensitive because we can only replace <span class="math inline">A</span> with <span class="math inline">\alpha</span> when it is surrounded by the appropriate symbols. In type 0, anything goes.</p>
+<p>There are some correspondences between these types and more familiar conventions:</p>
+<ul>
+<li><strong>Type 3</strong>: finite automaton (state machines), regular expressions, left/right linear grammars.</li>
+<li><strong>Type 2</strong>: pushdown automaton (with a stack), context-free grammar.</li>
+<li><strong>Type 1</strong>: context-sensitive grammar.</li>
+<li><strong>Type 0</strong>: unrestricted grammar, Turing machine equivalent, general computation.</li>
+</ul>
+<h3 id="bnf-and-ebnf">BNF and EBNF</h3>
+<p><strong>Backus Naur form</strong> (BNF) allows us to define context-free grammars in terms of productions. It only allows productions of the form <span class="math inline">N \to \alpha_1 \mid \cdots \alpha_n</span>, where <span class="math inline">\alpha_i</span> is a (possibly empty) sequence of terminals and non-terminals.</p>
+<p><strong>Extended Backus Naur form</strong> (EBNF) is a notational convenience and extends BNF with</p>
+<ul>
+<li>optional constructs written as <span class="math inline">[\ \alpha\ ]</span>,</li>
+<li>repetition (zero or more times) as <span class="math inline">\left\{ \ \alpha\ \right\}</span>, and</li>
+<li>grouping with <span class="math inline">(\ \alpha\ )</span>.</li>
+</ul>
+<p>EBNF does not extend the capabilities of the language itself and is only to simplify defining productions. There are simple rules for rewriting these as BNF. <span class="math display">
+\begin{aligned}
+\textit{OptS}\to[\ S\ ] &amp;\implies \textit{OptS} \to S\mid \epsilon \\ 
+\textit{RepS} \to \left\{ \ S \ \right\} &amp;\implies \textit{RepS} \to S \ \textit{RepS} \mid \epsilon \\ 
+\textit{GrpS} \to (\ S\ ) &amp;\implies \textit{GrpS} \to S
+\end{aligned}
+</span></p>
+<h2 id="context-free-grammars">Context-free grammars</h2>
+<p>A <strong>context-free grammar</strong> consists of</p>
+<ul>
+<li>a finite set of terminal symbols <span class="math inline">\Sigma</span>,</li>
+<li>a finite, non-empty set of nonterminal symbols (disjoint from the terminals),</li>
+<li>a finite, non-empty set of productions <span class="math inline">A \to \alpha</span>, where <span class="math inline">A</span> is a nonterminal and <span class="math inline">\alpha</span> is a possibly empty sequence of nonterminal or terminal symbols, and</li>
+<li>a start symbol which is nonterminal.</li>
+</ul>
+<p>The “context-free” is because the left-hand side of a production cannot contain other symbols.</p>
+<ul>
+<li><p>A <strong>direct derivation</strong> step is a transformation of the form <span class="math inline">\alpha N \beta \Rightarrow \alpha \gamma \beta</span>, assuming there is a production <span class="math inline">N \to \gamma</span>.</p></li>
+<li><p>A <strong>derivation</strong> is zero or more direct derivation steps, and is written <span class="math inline">\alpha \overset * \Rightarrow \beta</span>.</p></li>
+<li><p>A sequence <span class="math inline">\alpha</span> is <strong>nullable</strong> if <span class="math inline">\alpha \overset * \Rightarrow \epsilon</span>.</p></li>
+<li><p>The <strong>formal language</strong> of a grammar <span class="math inline">G</span> is the set of all sequences derivable from the start symbol <span class="math inline">S</span>, denoted <span class="math inline">\mathcal L(G) = \left\{ t \in \operatorname*{seq}\Sigma \mid S \overset * \Rightarrow t \right\}</span>.</p></li>
+<li><p>A <strong>sentence</strong> <span class="math inline">t</span> is a sequence of terminals derivable from <span class="math inline">S</span>.</p></li>
+<li><p>A <strong>sentential form</strong> is a sequence of terminals or non-terminals derivable from <span class="math inline">S</span>.</p></li>
+</ul>
+<h3 id="ambiguous-grammars">Ambiguous grammars</h3>
+<h4 id="associativity">Associativity</h4>
+<p>A grammar is <strong>ambiguous</strong> if there exists a sentence <span class="math inline">t</span> with multiple parse trees. To remove ambiguity, we can enforce left or right associativity via (respectively): <span class="math display">
+\begin{aligned}
+E &amp;\to E \text{ ``-&quot; }T &amp; E &amp;\to T \text{ ``-&quot; } E \\ 
+E &amp;\to T &amp; E  &amp;\to T \\ 
+T &amp;\to N &amp; T &amp;\to N
+\end{aligned}
+</span></p>
+<h4 id="precedence">Precedence</h4>
+<p>A grammar could also be ambiguous because the precedence is unspecified. This can be fixed by moving the higher precedence expressions into new productions, so the root only has the lowest precedence operators. For example, <span class="math display">
+\begin{aligned}
+E &amp;\to E + T \mid T \\ 
+T &amp;\to T * F \mid F \\ 
+F &amp;\to N \mid (~ E~)
+\end{aligned}
+</span> This treats <span class="math inline">+</span> as lower precedence than <span class="math inline">*</span> and allows parentheses to have highest precedence of all. Intuitively, the alternatives of a production exist at the same “level” of precedence.</p>
+<h4 id="recursion">Recursion</h4>
+<p>The grammar <span class="math inline">L \to LL \mid x \mid \epsilon</span> is ambiguous because the expansion of <span class="math inline">\epsilon</span> could occur anywhere. To mane this unambiguous, we force the literal <span class="math inline">x</span> to occur at either the start or end, for example <span class="math display">
+L \to L\,x \mid \epsilon.
+</span> This is equivalent because <span class="math inline">\mathcal L(G)</span> is unchanged but it is now unambiguous.</p>
+<h2 id="recursive-descent-parsing">Recursive descent parsing</h2>
+<p>If we want to do LL(1) recursive descent parsing (which we do), any grammar with a common left factor between alternatives or left recursion is unsuitable. These lead to ambiguity in possible alternatives, and infinite recursion (respectively).</p>
+<h3 id="left-factors">Left factors</h3>
+<p>For example, <span class="math display">
+\textit{IfStmt} \to  \text{if}\ (\ \textit{Cond}\ )\ \textit{Stmt} \mid \text{if}\ ( \textit{Cond} \ )\ \text{else}\ \textit{Stmt}
+</span> is unsuitable because of the common left prefix between alternatives. To resolve this, we factor out the prefix and write <span class="math display">
+\textit{IfStmt} \to  \text{if}\ (\ \textit{Cond}\ )\ \textit{ElsePart},\quad \textit{ElsePart}\to \epsilon \mid  \text{else}\ \textit{Stmt}.
+</span> In general, to remove a left factor, we rewrite a production like so: <span class="math display">
+A \to \alpha \beta \mid \alpha \gamma \quad\implies\quad A \to \alpha\ A&#39;,\ A&#39; \to \beta \mid \gamma.
+</span> Note that this is <span class="math inline">A \to \alpha\ (\beta \mid \gamma)</span> in EBNF.</p>
+<h3 id="direct-left-recursion">Direct left-recursion</h3>
+<p>A production like <span class="math inline">E \to E + T \mid T</span> causes left recursion because the RDP will always attempt to expand <span class="math inline">E</span> while parsing <span class="math inline">E</span>. Looking at the language, this production derives <span class="math inline">\left\{ T, T+T, \ldots \right\}</span>. We can rewrite this by forcing the leftmost term to be a simplified non-terminal, like <span class="math display">
+E \to T\ E&#39;, \quad E&#39; \to \epsilon \mid  +\ T\ E&#39;
+</span> or <span class="math inline">E \to T \left\{+T \right\}</span> in EBNF. In general, we force the base case of the left-recursion to happen first, otherwise we go to a new non-terminal, so <span class="math display">
+A \to A\ \alpha \mid \beta \quad \implies \quad A \to \beta\ A&#39;,\ A&#39; \to\epsilon\mid \alpha\ A&#39;
+</span> which is <span class="math inline">A \to \beta \left\{ \alpha \right\}</span> in EBNF.</p>
+<p>This can be extended to rewrite left-recursion of the form <span class="math inline">A \to A \alpha_1 \mid \cdots \mid A \alpha_n \mid \beta_1\mid \cdots \mid\beta_m</span> in much the same way by using grouped alternatives in place of <span class="math inline">\alpha</span> and <span class="math inline">\beta</span>.</p>
+<h3 id="indirect-left-recursion">Indirect left-recursion</h3>
+<p>Indirect left-recursion poses the same problems but is trickier to solve. The process goes something like this:</p>
+<ol type="1">
+<li>Remove direct left-recursion.</li>
+<li>Replace productions which cause left-recursion by their definitions, then remove the production.</li>
+<li>Repeat previous step until we see a direct left recursion.</li>
+<li>Repeat from 1 as necessary.</li>
+</ol>
+<h3 id="first-and-follow-sets">First and follow sets</h3>
+<p>In recursive descent parsing, we need to choose between alternatives based on the current token and the next token (one symbol lookahead). To do this, we construct two sets for each production:</p>
+<ul>
+<li>the <strong>first set</strong>, the tokens which each alternative can begin with, and</li>
+<li>the <strong>follow set</strong>, the tokens which can follow a construct.</li>
+</ul>
+<h4 id="first-set">First set</h4>
+<p>The first set of a construct <span class="math inline">\alpha</span> is denoted <span class="math inline">\operatorname*{First}(\alpha)</span> and contains the terminals which can start <span class="math inline">\alpha</span> and <span class="math inline">\epsilon</span> if <span class="math inline">\alpha</span> is nullable. The first set of a sequence is constructed from the union of the first sets of its <em>nullable</em> prefixes except <span class="math inline">\epsilon</span>. For non-nullable <span class="math inline">\alpha</span>, <span class="math display">
+\operatorname*{First}(\alpha)=\left\{ \text{a} \in \operatorname*{terminals} \mid \exists\ \beta : \alpha \overset * \Rightarrow \text a\,\beta \right\}
+</span> If the entire sequence <span class="math inline">\alpha</span> is nullable, <span class="math inline">\epsilon</span> is added to the first set.</p>
+<h4 id="follow-set">Follow set</h4>
+<p>By definition, a non-terminal <span class="math inline">N</span> is followed by a terminal <span class="math inline">a</span> if there exists a derivation from <span class="math inline">S\$</span> in which <span class="math inline">a</span> follows <span class="math inline">N</span>. Thus, <span class="math display">
+\operatorname*{Follow}(N) = \left\{ \text a \in \text{terminals} \mid \exists \ \alpha, \beta : S\,\$\overset *\Rightarrow \alpha\, N\,\text  a\,\beta \right\}
+</span> where <span class="math inline">\beta</span> is a nullable sequence.</p>
+<p>As a consequence of this definition, a follow set <em>may</em> contain <span class="math inline">\$</span>, first sets <em>never</em> contain <span class="math inline">\$</span>, and follow sets <em>never</em> contain <span class="math inline">\epsilon</span>.</p>
+<p>There are some simple rules which can be used for calculating follow sets.</p>
+<ul>
+<li><span class="math inline">\$ \in \operatorname*{Follow}(S)</span> for all <span class="math inline">S</span>,</li>
+<li>if <span class="math inline">A \to \alpha N \beta</span>, then <span class="math inline">\operatorname*{First}(\beta)\setminus \left\{ \epsilon \right\} \subseteq \operatorname*{Follow}(N)</span> (i.e. anything that starts <span class="math inline">\beta</span> could follow <span class="math inline">N</span>), and</li>
+<li>if <span class="math inline">A \to \alpha N \beta</span> and <span class="math inline">\beta</span> is nullable, then <span class="math inline">\operatorname*{Follow}(A) \subseteq \operatorname*{Follow}(N)</span> (i.e. anything that follows <span class="math inline">A</span> could follow <span class="math inline">N</span>).</li>
+</ul>
+<h3 id="ll1-grammars">LL(1) grammars</h3>
+<p>A grammar is <strong>LL(1)</strong> if for each non-terminal <span class="math inline">N</span> where <span class="math inline">N \to \alpha_1 \mid \cdots \mid \alpha_n</span>,</p>
+<ul>
+<li>the first sets are pairwise disjoint: <span class="math inline">i \ne j \implies \operatorname*{First}(\alpha_i)\cap \operatorname*{First}(\alpha_j) = \emptyset</span>, and</li>
+<li>if <span class="math inline">N</span> is nullable, <span class="math inline">\operatorname*{First}(N)</span> and <span class="math inline">\operatorname*{Follow}(N)</span> are disjoint.</li>
+</ul>
+<p>Together, this lets us uniquely select an alternative based on the next token. Note that the first sets being pairwise disjoint means at most one alternative can be nullable. Given an LL(1) grammar, during recursive descent parsing the current token is either:</p>
+<ul>
+<li>in the first set of just one alternative and that alternative is chosen, or</li>
+<li>in the Follow set of N, and the (unique) nullable alternative for N is chosen,</li>
+<li>otherwise there is a syntax error.</li>
+</ul>
+<h3 id="syntax-error-recovery">Syntax error recovery</h3>
+<p>Syntax error recovery attempts to recover from simple programmer errors. This is done by local error recovery on a single token and synchronising the input stream at the start of each parse method.</p>
+<h4 id="local-error-recovery">Local error recovery</h4>
+<p>This is the error recovery done by <span class="math inline">\texttt{tokens.match()}</span>. It handles the following cases:</p>
+<ul>
+<li><p>a single token missing from input,</p></li>
+<li><p>an additional invalid token inserted into the input,</p></li>
+<li><p>a single invalid token replacing the expected token.</p></li>
+</ul>
+<p>To do this, the parse method for a token <span class="math inline">T</span> takes a “recover set” which is the set of tokens possibly following <span class="math inline">T</span> in the context it’s being matched in. When encountering an invalid token <span class="math inline">I</span> when we are trying to match <span class="math inline">T</span>, three cases can occur:</p>
+<ul>
+<li><span class="math inline">I</span> is in the recover set and we assume <span class="math inline">T</span> was omitted,</li>
+<li><span class="math inline">I&#39;</span> (the token following <span class="math inline">I</span>) is <span class="math inline">T</span>, so we assume <span class="math inline">I</span> was erroneously inserted and matches on <span class="math inline">I&#39;</span>, or</li>
+<li><span class="math inline">I&#39;</span> is still not <span class="math inline">T</span>, we assume <span class="math inline">I</span> erroneously replaced <span class="math inline">T</span> in the input.</li>
+</ul>
+<h4 id="parse-synchronisation">Parse synchronisation</h4>
+<p>This concerns error recovery of <span class="math inline">\texttt{parseStatement()}</span> and similar methods. This synchronises the current token both before and after a parse method is run. Before parsing a non-terminal <span class="math inline">N</span>, it ensure that the current token <span class="math inline">T</span></p>
+<ul>
+<li>can start <span class="math inline">N</span> (i.e. is in <span class="math inline">\operatorname*{First}(N)</span>), or</li>
+<li>if <span class="math inline">N</span> is nullable, <span class="math inline">T</span> can follow <span class="math inline">N</span> (i.e. is in recover set).</li>
+</ul>
+<p>Before parsing, the error recovery discards tokens until the current token can start <span class="math inline">N</span> and then executes the parse, or until the current token is in the recover set of <span class="math inline">N</span> then it assumes <span class="math inline">N</span> was skipped and returns an error node.</p>
+<p>After parsing, it discards until the current token is in the recover set, reporting error messages if one or more tokens were discarded.</p>
+<p>The <span class="math inline">\texttt{parseN()}</span> pass their recover set unioned with extra symbols to other <span class="math inline">\texttt{parseM()}</span> methods, but only use specific sets for <span class="math inline">\texttt{tokens.match()}</span> recover sets. For example:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="dt">void</span> <span class="fu">parseWhileStatement</span>(TokenSet recoverSet) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>    tokens.<span class="fu">match</span>(Token.<span class="fu">KW_WHILE</span>, CONDITION_START_SET);</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>    <span class="fu">parseCondition</span>(recoverSet.<span class="fu">union</span>(Token.<span class="fu">KW_DO</span>));</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>    tokens.<span class="fu">match</span>(Token.<span class="fu">KW_DO</span>, STATEMENT_START_SET);</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>    <span class="fu">parseStatement</span>(recoverSet);</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>}</span></code></pre></div><h1>Revision 2020-06-19</h1>
 
   <!--
 <header id="title-block-header">
