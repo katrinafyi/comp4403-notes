@@ -38,7 +38,7 @@ This is because at this state, we can start matching an alternative of $M$. It i
 
 If a state $s_0$ has an item of the form $N \to \alpha \bullet x \beta$ where $x$ is any symbol, then there is a transition from $s_0$ to a **goto state** $s_1$ on $x$. This new state $s_1$ has a kernel item of the form $N \to \alpha x \bullet \beta$, used to generate its derived items.
 
-If multiple items in $s_0$ have $x$ to the right of $\bullet$, the goto state $s_1$ contains all those items with $\bullet$ moved after the $x$. If states have the same kernel item, they can be treated as equivalent.
+If multiple items in $s_0$ have $x$ to the right of $\bullet$, the goto state $s_1$ contains *all those items* with $\bullet$ moved after the $x$ as kernel items. If states have the same kernel item, they can be treated as equivalent.
 
 ### LR(0) parsing actions
 
