@@ -95,6 +95,24 @@
             
                 <ol>
                     
+                    <li><a href="#overview">Overview</a>
+            		</li>
+
+                    <li><a href="#lr0-parsers">LR(0) parsers</a>
+            		</li>
+
+                    <li><a href="#lr1-parsers">LR(1) parsers</a>
+            		</li>
+
+                    <li><a href="#lr1-parsing-items">LR(1) parsing items</a>
+            		</li>
+
+                    <li><a href="#lr1-parsing-actions">LR(1) parsing actions</a>
+            		</li>
+
+                    <li><a href="#lalr1-parsers">LALR(1) parsers</a>
+            		</li>
+
                     <li><a href="#abstract-syntax">Abstract Syntax</a>
             		</li>
 
@@ -537,7 +555,78 @@ A \to A\ \alpha \mid \beta \quad \implies \quad A \to \beta\ A&#39;,\ A&#39; \to
 <li>…</li>
 <li>Type inference rules, well-formedness of statements.</li>
 <li>Remember that first sets can contain the empty string iff the construct is nullable.</li>
-</ul><h1>Static Semantics</h1>
+</ul><h1>Shift-Reduce Parsing</h1>
+
+  <!--
+<header id="title-block-header">
+<h1 class="title">Shift/Reduce Parsing</h1>
+<p class="author">Kenton Lam</p>
+<p class="date">Saturday July 4, 2020</p>
+</header>
+-->
+
+
+<p>This is a summary of the shift/reduce category of parsers, including LR(0), LR(1) and LALR(1). Written by Kenton Lam. Based on BottomUp-handout.pdf.</p>
+<h2 id="overview">Overview</h2>
+<p>Shift/reduce parsers work bottom-up; from the input sequence, they build up a parse tree ending at the start symbol. They use a stack and have three actions:</p>
+<ul>
+<li><em>shift</em> which pushes the next symbol onto the stack,</li>
+<li><em>reduce</em> <span class="math inline">N \to \alpha</span> when the top of the stack is <span class="math inline">\alpha</span> which reduces it to <span class="math inline">N</span>, and</li>
+<li><em>accept</em> when the stack contains just the start symbol and there is no more input.</li>
+</ul>
+<p>Different strategies for deciding between shifting or reducing give rise to different parser schemes, such as LR(0), SLR(1), LR(1), and LALR(1).</p>
+<h2 id="lr0-parsers">LR(0) parsers</h2>
+<p>This is left-to-right, rightmost derivation, zero symbol lookahead.</p>
+<p>An <strong>LR(0) parsing item</strong> is of the form <span class="math inline">N \to \alpha \bullet \beta</span> which means we are trying to match <span class="math inline">N</span> and have currently matched <span class="math inline">\alpha</span>. <span class="math inline">N</span> is a non-terminal, and <span class="math inline">\alpha</span> and <span class="math inline">\beta</span> are possibly empty terminal/non-terminal sequences such that <span class="math inline">N \to \alpha \beta</span> is a production.</p>
+<h3 id="lr0-parsing-items">LR(0) parsing items</h3>
+<p>An <strong>LR(0) parsing automaton</strong> (or state machine) consists of a finite set of <em>states</em>, each with a set of LR(0) parsing items. The <strong>kernel item</strong>, used to generate the items of the initial state, is <span class="math inline">S&#39; \to \bullet S</span> where <span class="math inline">S</span> is the start symbol.</p>
+<h4 id="derived-items">Derived items</h4>
+<p>If a state has an item of the form <span class="math inline">N \to \alpha \bullet M \beta</span>, where <span class="math inline">M \to \alpha_1 \mid \cdots \mid \alpha_m</span>, this state also contains the <strong>derived items</strong> of <span class="math display">
+M \to \bullet \alpha_1, \ldots, M \to \bullet \alpha_m.
+</span> This is because at this state, we can start matching an alternative of <span class="math inline">M</span>. It is important to note that these are in the <em>same state</em> as the original item.</p>
+<h4 id="goto-states">Goto states</h4>
+<p>If a state <span class="math inline">s_0</span> has an item of the form <span class="math inline">N \to \alpha \bullet x \beta</span> where <span class="math inline">x</span> is any symbol, then there is a transition from <span class="math inline">s_0</span> to a <strong>goto state</strong> <span class="math inline">s_1</span> on <span class="math inline">x</span>. This new state <span class="math inline">s_1</span> has a kernel item of the form <span class="math inline">N \to \alpha x \bullet \beta</span>, used to generate its derived items.</p>
+<p>If multiple items in <span class="math inline">s_0</span> have <span class="math inline">x</span> to the right of <span class="math inline">\bullet</span>, the goto state <span class="math inline">s_1</span> contains all those items with <span class="math inline">\bullet</span> moved after the <span class="math inline">x</span>. If states have the same kernel item, they can be treated as equivalent.</p>
+<h3 id="lr0-parsing-actions">LR(0) parsing actions</h3>
+<p>Once we have the states and their items, we can determine what action each state represents. Each state always performs the same action.</p>
+<ul>
+<li><span class="math inline">N \to \alpha \bullet a\beta</span> where <span class="math inline">a</span> is a terminal indicates a <strong>shift</strong> action.</li>
+<li><span class="math inline">S&#39; \to S\bullet</span> indicates the state has an <strong>accept</strong> action.</li>
+<li><span class="math inline">N \to \alpha \bullet</span> (where <span class="math inline">S&#39;\ne N</span>) indicates a <strong>reduce</strong> <span class="math inline">N \to \alpha</span> (the production is part of the action name).</li>
+</ul>
+<p>A shift at EOF is an error, as is accept when there is input remaining.</p>
+<h3 id="lr0-conflicts">LR(0) conflicts</h3>
+<p>A conflict occurs if a state has two different actions as derived above. Note that all <em>shift</em> actions are the same, so there is no shift/shift conflict. Apart from this, any action can conflict with any other action.</p>
+<p>A grammar is called LR(0) if its parsing automaton has no parsing action conflicts.</p>
+<h2 id="lr1-parsers">LR(1) parsers</h2>
+<p>A LR(1) parser is left-to-right, rightmost derivation, using one symbol lookahead.</p>
+<p>An <strong>LR(1) parsing item</strong> is of the form <span class="math inline">[N \to \alpha \bullet \beta, T]</span>, made up of an LR(0) parsing item and a <em>lookahead set</em> of terminal symbols <span class="math inline">T</span> (possibly containing <span class="math inline">\$</span>). This indicates that <span class="math inline">N</span> is currently being matched in a context where <span class="math inline">T</span> can follow <span class="math inline">N</span>.</p>
+<h2 id="lr1-parsing-items">LR(1) parsing items</h2>
+<p>An <strong>LR(1) parsing automaton</strong> is a set of states, where each state has a set of LR(1) parsing items. The initial state’s kernel item is <span class="math inline">[S&#39; \to \bullet S, \left\{ \$ \right\}]</span> because only EOF can validly follow the start symbol.</p>
+<h3 id="derived-items-1">Derived items</h3>
+<p>Suppose a state has an LR(1) parsing item of <span class="math inline">[N \to \alpha \bullet M \beta, T]</span>. The LR(0) item is derived identically to ordinary LR(0). The new lookahead set depends on whether <span class="math inline">\beta</span> is nullable.</p>
+<p>Specifically, if <span class="math inline">[N \to \alpha \bullet M \beta, T]</span> and <span class="math inline">M \to \alpha_1 \mid \cdots \alpha_m</span>, then the derived items are <span class="math display">
+[M \to \alpha_1, T&#39;],\ \ldots\ ,\ [M \to \alpha_m, T&#39;].
+</span> If <span class="math inline">\beta</span> is nullable, <span class="math inline">T&#39; = \operatorname*{First}(\beta)</span> otherwise $T’ = T () { } $.</p>
+<blockquote>
+<p><strong>Important:</strong> This needs to be repeated multiple times to get the correct lookahead set, possibly deriving from the same symbol many times.</p>
+</blockquote>
+<h3 id="goto-states-1">Goto states</h3>
+<p>Goto states work identically to LR(0). The lookahead set is unchanged.</p>
+<p>These should be computed after the items have been fully derived above.</p>
+<h2 id="lr1-parsing-actions">LR(1) parsing actions</h2>
+<p>While LR(0) actions did not depend on the input token, LR(1) actions can. There are the same three actions, but deciding between them is more specific.</p>
+<ul>
+<li><span class="math inline">[N \to \alpha\bullet a \beta, T]</span> where <span class="math inline">a</span> is a terminal indicates a <strong>shift on <span class="math inline">a</span></strong> action,</li>
+<li><span class="math inline">[S&#39; \to \bullet S, \left\{ \$ \right\}]</span> has an <strong>accept</strong> action on EOF, and</li>
+<li><span class="math inline">[N \to \alpha \bullet, T]</span> with <span class="math inline">N \ne S&#39;</span> has a <strong>reduce <span class="math inline">N \to \alpha</span> on <span class="math inline">x</span></strong> action for all <span class="math inline">x \in T</span>.</li>
+</ul>
+<p>If no action matches the current state and input, it is a parse error.</p>
+<h3 id="lr1-conflicts">LR(1) conflicts</h3>
+<p>The conflicts are much the same as LR(0) but they only occur when there are different actions on the same terminal symbol.</p>
+<p>A grammar is LR(1) if there is no parsing conflict in its LR(1) parsing automaton.</p>
+<h2 id="lalr1-parsers">LALR(1) parsers</h2>
+<p>A LALR(1) parser is just a LR(1) but states with the same set of LR(0) items are merged. The new lookahead set for each item is the unions of the original lookahead sets for that item.</p><h1>Static Semantics</h1>
 
   <!--
 <header id="title-block-header">
@@ -2020,6 +2109,6 @@ T(c_1&#39;, s_0) = s_1,\quad T(c_2&#39;, s_1)=s_1, \quad\ldots, \quad T(c_n&#39;
 <h2 id="interfaces">Interfaces</h2>
 <p>Interfaces provide a specification for some methods. They allow multiple inheritance (in Java) because a class can implement multiple interfaces but can only extend at most one class. They have a more complex runtime implementation.</p>
 <p>Each class that implements an interface (effectively) provides a DDT for that interface which needs to be resolved from both the object’s dynamic type and the interface type. Dynamic loading of classes further complicate this.</p>
-    <p><small>Generated at 7/4/2020, 6:35:57 AM.</small></p>
+    <p><small>Generated at 7/4/2020, 11:27:23 AM.</small></p>
   </body>
 </html>
