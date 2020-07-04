@@ -47,6 +47,7 @@ $$
 The leftmost nonterminal is expanded at each stage.
 
 The process of expanding $3-4$ goes something like this:
+
 1. Start with the start symbol. Which of the 3 alternatives do we choose? The first (somewhat arbitrarily).
 2. Then, we expand the left $E$ to the number 3.
 3. And so on.
@@ -61,6 +62,7 @@ A **derivation** is a sequence of 0 or more direct derivations. It is written $\
 ### Nullables
 
 A possibly empty sequence $\alpha$ is **nullable** if it can derive the empty string, often denoted $\epsilon$. There are some rules:
+
 - $\epsilon$ is nullable,
 - any terminal is non-nullable,
 - a sequence is nullable only if all items are nullable,
