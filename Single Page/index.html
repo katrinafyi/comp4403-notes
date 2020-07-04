@@ -586,7 +586,7 @@ M \to \bullet \alpha_1, \ldots, M \to \bullet \alpha_m.
 </span> This is because at this state, we can start matching an alternative of <span class="math inline">M</span>. It is important to note that these are in the <em>same state</em> as the original item.</p>
 <h4 id="goto-states">Goto states</h4>
 <p>If a state <span class="math inline">s_0</span> has an item of the form <span class="math inline">N \to \alpha \bullet x \beta</span> where <span class="math inline">x</span> is any symbol, then there is a transition from <span class="math inline">s_0</span> to a <strong>goto state</strong> <span class="math inline">s_1</span> on <span class="math inline">x</span>. This new state <span class="math inline">s_1</span> has a kernel item of the form <span class="math inline">N \to \alpha x \bullet \beta</span>, used to generate its derived items.</p>
-<p>If multiple items in <span class="math inline">s_0</span> have <span class="math inline">x</span> to the right of <span class="math inline">\bullet</span>, the goto state <span class="math inline">s_1</span> contains all those items with <span class="math inline">\bullet</span> moved after the <span class="math inline">x</span>. If states have the same kernel item, they can be treated as equivalent.</p>
+<p>If multiple items in <span class="math inline">s_0</span> have <span class="math inline">x</span> to the right of <span class="math inline">\bullet</span>, the goto state <span class="math inline">s_1</span> contains <em>all those items</em> with <span class="math inline">\bullet</span> moved after the <span class="math inline">x</span> as kernel items. If states have the same kernel item, they can be treated as equivalent.</p>
 <h3 id="lr0-parsing-actions">LR(0) parsing actions</h3>
 <p>Once we have the states and their items, we can determine what action each state represents. Each state always performs the same action.</p>
 <ul>
@@ -2109,6 +2109,6 @@ T(c_1&#39;, s_0) = s_1,\quad T(c_2&#39;, s_1)=s_1, \quad\ldots, \quad T(c_n&#39;
 <h2 id="interfaces">Interfaces</h2>
 <p>Interfaces provide a specification for some methods. They allow multiple inheritance (in Java) because a class can implement multiple interfaces but can only extend at most one class. They have a more complex runtime implementation.</p>
 <p>Each class that implements an interface (effectively) provides a DDT for that interface which needs to be resolved from both the object’s dynamic type and the interface type. Dynamic loading of classes further complicate this.</p>
-    <p><small>Generated at 7/4/2020, 11:27:23 AM.</small></p>
+    <p><small>Generated at 7/4/2020, 11:31:46 AM.</small></p>
   </body>
 </html>
