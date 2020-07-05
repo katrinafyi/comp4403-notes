@@ -88,13 +88,13 @@
 <p>A function returns a <strong>result</strong> and that result can be used as part of a larger expression. In the stack machine, the result is left on top of the stack after removing all call information. For this reason, space for the result is allocated before the parameters, stack frame, and everything else.</p>
 <p>There are a number of parameter passing mechanisms:</p>
 <ul>
-<li><p><strong>Call by const</strong> is the same as call by value but the formal parameter is a <em>read only</em> local variable.</p></li>
-<li><p><strong>Call by value</strong>, as discussed earlier. Assigning to the formal parameter does not change the actual parameter.</p></li>
-<li><p><strong>Call by result</strong> is where a formal parameter acts as a local variable whose final value is assigned to the actual parameter variable. Here, the actual parameter must be an LValue of some type.</p></li>
-<li><p><strong>Call by value-result</strong> where a single parameter acts as both a value and result parameter (as discussed above). Think MATLAB.</p></li>
-<li><p><strong>Call by reference</strong> the formal parameter is actually an address of the actual parameter; all references to the formal parameter affect the actual parameter (immediately). This can be done in C by passing a pointer then interacting via *.</p></li>
-<li><p><strong>Call by sharing</strong> is just call by value but the value is a reference to an object rather than the object itself. This sounds like Java.</p></li>
-<li><p><strong>Call by name</strong> is where the actual parameter expression is evaluated every time the formal parameter is accessed (this sounds like a bad idea).</p></li>
+<li><strong>Call by const</strong> is the same as call by value but the formal parameter is a <em>read only</em> local variable.</li>
+<li><strong>Call by value</strong>, as discussed earlier. Assigning to the formal parameter does not change the actual parameter.</li>
+<li><strong>Call by result</strong> is where a formal parameter acts as a local variable whose final value is assigned to the actual parameter variable. Here, the actual parameter must be an LValue of some type.</li>
+<li><strong>Call by value-result</strong> where a single parameter acts as both a value and result parameter (as discussed above). Think MATLAB.</li>
+<li><strong>Call by reference</strong> the formal parameter is actually an address of the actual parameter; all references to the formal parameter affect the actual parameter (immediately). This can be done in C by passing a pointer then interacting via *.</li>
+<li><strong>Call by sharing</strong> is just call by value but the value is a reference to an object rather than the object itself. This sounds like Java.</li>
+<li><strong>Call by name</strong> is where the actual parameter expression is evaluated every time the formal parameter is accessed (this sounds like a bad idea).</li>
 </ul>
 <p>More generally, we can pass and return procedures/functions.</p>
 <ul>
@@ -112,6 +112,50 @@
 <li>Parameter aliasing in languages with call by sharing (like Java) is where two parameters are aliases for the same reference, called pointer aliasing.</li>
 <li>Similarly for global variable aliasing.</li>
 </ul>
-    <p><small>Generated at 7/5/2020, 2:41:13 AM.</small></p>
+<h2 id="examples-of-parameters">Examples of parameters</h2>
+<p>Here are some examples of each parameter passing type, in C-style syntax as best as possible.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="co">// placeholder object we can pass a reference</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="dt">int</span> param; </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a><span class="co">// call by const: param is a read only local variable</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a><span class="dt">void</span> function(<span class="dt">const</span> <span class="dt">int</span> x);</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>function(<span class="dv">10</span>);</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a><span class="co">// call by value: param is ordinary local variable</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a><span class="dt">void</span> function(<span class="dt">int</span> x);</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a>function(<span class="dv">10</span>);</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a><span class="co">// call by result: inside function, param is a local variable.</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a><span class="co">// after function, local variable is stored in actual param.</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true"></a><span class="dt">void</span> function(<span class="dt">int</span>* result) {</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true"></a>    <span class="dt">int</span> x; <span class="co">// do some things.</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true"></a>    *result = x;</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true"></a>}</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true"></a>function(&amp;param);</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true"></a><span class="co">// call by value-result: param is both a value and result</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true"></a><span class="dt">void</span> function(<span class="dt">int</span>* x) {</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true"></a>    *x = *x + <span class="dv">1</span>; <span class="co">// compute result somehow</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true"></a>}</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true"></a>param = <span class="dv">10</span>; <span class="co">// passing value of 10</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true"></a>function(&amp;param); <span class="co">// result now set in param</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true"></a><span class="co">// call by reference: actual param *is* the function&#39;s param</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true"></a><span class="dt">void</span> function(ref <span class="dt">int</span> x) {</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true"></a>    x = <span class="dv">11</span>; <span class="co">// interacts directly with param</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true"></a>}</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true"></a>function(param); <span class="co">// somehow magically passes &quot;param&quot; reference</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true"></a><span class="co">// call by sharing: param is a reference, passed as value</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true"></a><span class="dt">void</span> function(<span class="dt">int</span>* x) {</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true"></a>    *x = *x + <span class="dv">1</span>;</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true"></a>    x = something; <span class="co">// set this value without affecting actual param.</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true"></a>}</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true"></a>function(&amp;param);</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true"></a></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true"></a><span class="co">// call by name: actual param is evaluated every use</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true"></a><span class="pp">#define function(x) ((x) + (x))</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true"></a>function(param + <span class="dv">1</span>);</span></code></pre></div>
+    <p><small>Generated at 7/5/2020, 12:22:56 PM.</small></p>
   </body>
 </html>
