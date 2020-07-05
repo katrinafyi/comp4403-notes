@@ -69,17 +69,20 @@ function(10);
 // call by result: inside function, param is a local variable.
 // after function, local variable is stored in actual param.
 void function(int* result) {
-    int x; // do some things.
+    int x; 
+    // do some things to set x.
     *result = x;
 }
 function(&param);
 
 // call by value-result: param is both a value and result
-void function(int* x) {
-    *x = *x + 1; // compute result somehow
+void function(int* result) {
+    int x = *result; // get initial param value
+    // do some things to compute x
+    *result = x; // store result in param
 }
-param = 10; // passing value of 10
-function(&param); // result now set in param
+param = 10;
+function(&param);
 
 // call by reference: actual param *is* the function's param
 void function(ref int x) {
@@ -90,11 +93,11 @@ function(param); // somehow magically passes "param" reference
 // call by sharing: param is a reference, passed as value
 void function(int* x) {
     *x = *x + 1;
-    x = something; // set this value without affecting actual param.
+    x = something; // sets "x" without changing "param".
 }
 function(&param);
 
-// call by name: actual param is evaluated every use
+// call by name: param expression is evaluated every use
 #define function(x) ((x) + (x))
 function(param + 1);
 ```
