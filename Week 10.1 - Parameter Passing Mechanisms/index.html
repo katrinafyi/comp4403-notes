@@ -128,34 +128,37 @@
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a><span class="co">// call by result: inside function, param is a local variable.</span></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a><span class="co">// after function, local variable is stored in actual param.</span></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true"></a><span class="dt">void</span> function(<span class="dt">int</span>* result) {</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true"></a>    <span class="dt">int</span> x; <span class="co">// do some things.</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true"></a>    *result = x;</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true"></a>}</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true"></a>function(&amp;param);</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true"></a></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true"></a><span class="co">// call by value-result: param is both a value and result</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true"></a><span class="dt">void</span> function(<span class="dt">int</span>* x) {</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true"></a>    *x = *x + <span class="dv">1</span>; <span class="co">// compute result somehow</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true"></a>}</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true"></a>param = <span class="dv">10</span>; <span class="co">// passing value of 10</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true"></a>function(&amp;param); <span class="co">// result now set in param</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true"></a></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true"></a><span class="co">// call by reference: actual param *is* the function&#39;s param</span></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true"></a><span class="dt">void</span> function(ref <span class="dt">int</span> x) {</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true"></a>    x = <span class="dv">11</span>; <span class="co">// interacts directly with param</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true"></a>}</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true"></a>function(param); <span class="co">// somehow magically passes &quot;param&quot; reference</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true"></a></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true"></a><span class="co">// call by sharing: param is a reference, passed as value</span></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true"></a><span class="dt">void</span> function(<span class="dt">int</span>* x) {</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true"></a>    *x = *x + <span class="dv">1</span>;</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true"></a>    x = something; <span class="co">// set this value without affecting actual param.</span></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true"></a>}</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true"></a>function(&amp;param);</span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true"></a></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true"></a><span class="co">// call by name: actual param is evaluated every use</span></span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true"></a><span class="pp">#define function(x) ((x) + (x))</span></span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true"></a>function(param + <span class="dv">1</span>);</span></code></pre></div>
-    <p><small>Generated at 7/5/2020, 12:22:56 PM.</small></p>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true"></a>    <span class="dt">int</span> x; </span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true"></a>    <span class="co">// do some things to set x.</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true"></a>    *result = x;</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true"></a>}</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true"></a>function(&amp;param);</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true"></a><span class="co">// call by value-result: param is both a value and result</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true"></a><span class="dt">void</span> function(<span class="dt">int</span>* result) {</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true"></a>    <span class="dt">int</span> x = *result; <span class="co">// get initial param value</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true"></a>    <span class="co">// do some things to compute x</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true"></a>    *result = x; <span class="co">// store result in param</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true"></a>}</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true"></a>param = <span class="dv">10</span>;</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true"></a>function(&amp;param);</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true"></a><span class="co">// call by reference: actual param *is* the function&#39;s param</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true"></a><span class="dt">void</span> function(ref <span class="dt">int</span> x) {</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true"></a>    x = <span class="dv">11</span>; <span class="co">// interacts directly with param</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true"></a>}</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true"></a>function(param); <span class="co">// somehow magically passes &quot;param&quot; reference</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true"></a></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true"></a><span class="co">// call by sharing: param is a reference, passed as value</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true"></a><span class="dt">void</span> function(<span class="dt">int</span>* x) {</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true"></a>    *x = *x + <span class="dv">1</span>;</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true"></a>    x = something; <span class="co">// sets &quot;x&quot; without changing &quot;param&quot;.</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true"></a>}</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true"></a>function(&amp;param);</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true"></a><span class="co">// call by name: param expression is evaluated every use</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true"></a><span class="pp">#define function(x) ((x) + (x))</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true"></a>function(param + <span class="dv">1</span>);</span></code></pre></div>
+    <p><small>Generated at 7/5/2020, 12:33:39 PM.</small></p>
   </body>
 </html>
