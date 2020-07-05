@@ -32,7 +32,7 @@ If a state has an item of the form $N \to \alpha \bullet M \beta$, where $M \to 
 $$
 M \to \bullet \alpha_1, \ldots, M \to \bullet \alpha_m.
 $$
-This is because at this state, we can start matching an alternative of $M$. It is important to note that these are in the _same state_ as the original item.
+This is because at this state, we can start matching an alternative of $M$. It is important to remember that these are part of the _same state_ as the original item.
 
 #### Goto states
 
@@ -62,6 +62,8 @@ A LR(1) parser is left-to-right, rightmost derivation, using one symbol lookahea
 
 An **LR(1) parsing item** is of the form $[N \to \alpha \bullet \beta, T]$, made up of an LR(0) parsing item and a _lookahead set_ of terminal symbols $T$ (possibly containing $\$$). This indicates that $N$ is currently being matched in a context where $T$ can follow $N$.
 
+The lookahead set can be thought of as a context-aware follow set.
+
 ## LR(1) parsing items
 
 An **LR(1) parsing automaton** is a set of states, where each state has a set of LR(1) parsing items. The initial state's kernel item is $[S' \to \bullet S, \left\{ \$ \right\}]$ because only EOF can validly follow the start symbol.
@@ -70,11 +72,11 @@ An **LR(1) parsing automaton** is a set of states, where each state has a set of
 
 Suppose a state has an LR(1) parsing item of $[N \to \alpha \bullet M \beta, T]$. The LR(0) item is derived identically to ordinary LR(0). The new lookahead set depends on whether $\beta$ is nullable. 
 
-Specifically, if $[N \to \alpha \bullet M \beta, T]$ and $M \to \alpha_1 \mid \cdots \alpha_m$, then the derived items are
+Specifically, if $[N \to \alpha \bullet M \beta, T]$ and $M \to \alpha_1 \mid \cdots \mid\alpha_m$, then the derived items are
 $$
 [M \to \alpha_1, T'],\ \ldots\ ,\ [M \to \alpha_m, T'].
 $$
-If $\beta$ is nullable, $T' = \operatorname*{First}(\beta)$ otherwise $T' = T \cup\operatorname*{First}(\beta) \setminus \left\{ \epsilon \right\} $.
+If $\beta$ is nullable, $T' = \operatorname*{First}(\beta)$ otherwise $T' = T \cup\operatorname*{First}(\beta) \setminus \left\{ \epsilon \right\}$.
 
 > **Important:** This needs to be repeated multiple times to get the correct lookahead set, possibly deriving from the same symbol many times.
 
@@ -92,7 +94,7 @@ While LR(0) actions did not depend on the input token, LR(1) actions can. There 
 - $[S' \to \bullet S, \left\{ \$ \right\}]$ has an **accept** action on EOF, and
 - $[N \to \alpha \bullet, T]$ with $N \ne S'$ has a **reduce $N \to \alpha$ on $x$** action for all $x \in T$.
 
-If no action matches the current state and input, it is a parse error.
+If no action matches the current state and input, it is a parse error. Note the lookahead set is only used to determine when to reduce.
 
 ### LR(1) conflicts
 

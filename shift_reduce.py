@@ -75,6 +75,7 @@ def compute_lr0_states(productions, start):
             new_right = item.right[:b] + (item.right[n], B) + item.right[n+1:]
             new_kernel = LR0Item(item.left, new_right)
 
+            # BUG: multiple movements across the same symbol should be merged in the same state.
             x = item.right[n]
             state.gotos[x] = new_kernel
             if new_kernel not in states:
