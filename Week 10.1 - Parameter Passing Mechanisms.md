@@ -26,7 +26,6 @@ A function returns a **result** and that result can be used as part of a larger 
 There are a number of parameter passing mechanisms:
 
 - **Call by const** is the same as call by value but the formal parameter is a _read only_ local variable.
-
 - **Call by value**, as discussed earlier. Assigning to the formal parameter does not change the actual parameter.
 - **Call by result** is where a formal parameter acts as a local variable whose final value is assigned to the actual parameter variable. Here, the actual parameter must be an LValue of some type.
 - **Call by value-result** where a single parameter acts as both a value and result parameter (as discussed above). Think MATLAB. 
@@ -50,3 +49,53 @@ Pointer aliasing:
 
 - Parameter aliasing in languages with call by sharing (like Java) is where two parameters are aliases for the same reference, called pointer aliasing.
 - Similarly for global variable aliasing.
+
+## Examples of parameters
+
+Here are some examples of each parameter passing type, in C-style syntax as best as possible.
+
+```c
+// placeholder object we can pass a reference
+int param; 
+
+// call by const: param is a read only local variable
+void function(const int x);
+function(10);
+
+// call by value: param is ordinary local variable
+void function(int x);
+function(10);
+
+// call by result: inside function, param is a local variable.
+// after function, local variable is stored in actual param.
+void function(int* result) {
+    int x; // do some things.
+    *result = x;
+}
+function(&param);
+
+// call by value-result: param is both a value and result
+void function(int* x) {
+    *x = *x + 1; // compute result somehow
+}
+param = 10; // passing value of 10
+function(&param); // result now set in param
+
+// call by reference: actual param *is* the function's param
+void function(ref int x) {
+    x = 11; // interacts directly with param
+}
+function(param); // somehow magically passes "param" reference
+
+// call by sharing: param is a reference, passed as value
+void function(int* x) {
+    *x = *x + 1;
+    x = something; // set this value without affecting actual param.
+}
+function(&param);
+
+// call by name: actual param is evaluated every use
+#define function(x) ((x) + (x))
+function(param + 1);
+```
+
