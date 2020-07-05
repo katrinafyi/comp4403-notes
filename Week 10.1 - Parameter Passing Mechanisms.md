@@ -52,11 +52,13 @@ Pointer aliasing:
 
 ## Examples of parameters
 
-Here are some examples of each parameter passing type, in C-style syntax as best as possible.
+Here are some examples of each parameter passing type, in C-style syntax as best as possible. 
+
+Below, we try to call a function `function` with an integer parameter `param` using the different parameter passing mechanisms. Anything starting with `_` would be hidden from the programmer (but is necessary in C).
 
 ```c
-// placeholder object we can pass a reference
-int param; 
+// placeholder variable we can pass a reference
+int param = 13; 
 
 // call by const: param is a read only local variable
 void function(const int x);
@@ -68,37 +70,41 @@ function(10);
 
 // call by result: inside function, param is a local variable.
 // after function, local variable is stored in actual param.
-void function(int* result) {
+void function(int* _result) {
     int x; 
     // do some things to set x.
-    *result = x;
+    *_result = x;
 }
 function(&param);
 
 // call by value-result: param is both a value and result
-void function(int* result) {
-    int x = *result; // get initial param value
+void function(int* _valueResult) {
+    int x = *_valueResult; // get initial param value
     // do some things to compute x
-    *result = x; // store result in param
+    *_valueResult = x; // store result in param
 }
-param = 10;
 function(&param);
 
 // call by reference: actual param *is* the function's param
 void function(ref int x) {
-    x = 11; // interacts directly with param
+    x = 11; // directly changes param outside function
 }
-function(param); // somehow magically passes "param" reference
+function(&&param); // somehow magically passes "param" in
 
 // call by sharing: param is a reference, passed as value
 void function(int* x) {
-    *x = *x + 1;
-    x = something; // sets "x" without changing "param".
+    *x = *x + 1;   // we can follow the reference to get/set param.
+    x = something; // we can overwrite the value without changing param.
 }
 function(&param);
 
 // call by name: param expression is evaluated every use
 #define function(x) ((x) + (x))
 function(param + 1);
+// macro expands to ((param + 1) + (param + 1))
 ```
+
+
+
+
 
