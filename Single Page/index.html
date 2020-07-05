@@ -583,7 +583,7 @@ A \to A\ \alpha \mid \beta \quad \implies \quad A \to \beta\ A&#39;,\ A&#39; \to
 <h4 id="derived-items">Derived items</h4>
 <p>If a state has an item of the form <span class="math inline">N \to \alpha \bullet M \beta</span>, where <span class="math inline">M \to \alpha_1 \mid \cdots \mid \alpha_m</span>, this state also contains the <strong>derived items</strong> of <span class="math display">
 M \to \bullet \alpha_1, \ldots, M \to \bullet \alpha_m.
-</span> This is because at this state, we can start matching an alternative of <span class="math inline">M</span>. It is important to note that these are in the <em>same state</em> as the original item.</p>
+</span> This is because at this state, we can start matching an alternative of <span class="math inline">M</span>. It is important to remember that these are part of the <em>same state</em> as the original item.</p>
 <h4 id="goto-states">Goto states</h4>
 <p>If a state <span class="math inline">s_0</span> has an item of the form <span class="math inline">N \to \alpha \bullet x \beta</span> where <span class="math inline">x</span> is any symbol, then there is a transition from <span class="math inline">s_0</span> to a <strong>goto state</strong> <span class="math inline">s_1</span> on <span class="math inline">x</span>. This new state <span class="math inline">s_1</span> has a kernel item of the form <span class="math inline">N \to \alpha x \bullet \beta</span>, used to generate its derived items.</p>
 <p>If multiple items in <span class="math inline">s_0</span> have <span class="math inline">x</span> to the right of <span class="math inline">\bullet</span>, the goto state <span class="math inline">s_1</span> contains <em>all those items</em> with <span class="math inline">\bullet</span> moved after the <span class="math inline">x</span> as kernel items. If states have the same kernel item, they can be treated as equivalent.</p>
@@ -601,13 +601,14 @@ M \to \bullet \alpha_1, \ldots, M \to \bullet \alpha_m.
 <h2 id="lr1-parsers">LR(1) parsers</h2>
 <p>A LR(1) parser is left-to-right, rightmost derivation, using one symbol lookahead.</p>
 <p>An <strong>LR(1) parsing item</strong> is of the form <span class="math inline">[N \to \alpha \bullet \beta, T]</span>, made up of an LR(0) parsing item and a <em>lookahead set</em> of terminal symbols <span class="math inline">T</span> (possibly containing <span class="math inline">\$</span>). This indicates that <span class="math inline">N</span> is currently being matched in a context where <span class="math inline">T</span> can follow <span class="math inline">N</span>.</p>
+<p>The lookahead set can be thought of as a context-aware follow set.</p>
 <h2 id="lr1-parsing-items">LR(1) parsing items</h2>
 <p>An <strong>LR(1) parsing automaton</strong> is a set of states, where each state has a set of LR(1) parsing items. The initial state’s kernel item is <span class="math inline">[S&#39; \to \bullet S, \left\{ \$ \right\}]</span> because only EOF can validly follow the start symbol.</p>
 <h3 id="derived-items-1">Derived items</h3>
 <p>Suppose a state has an LR(1) parsing item of <span class="math inline">[N \to \alpha \bullet M \beta, T]</span>. The LR(0) item is derived identically to ordinary LR(0). The new lookahead set depends on whether <span class="math inline">\beta</span> is nullable.</p>
-<p>Specifically, if <span class="math inline">[N \to \alpha \bullet M \beta, T]</span> and <span class="math inline">M \to \alpha_1 \mid \cdots \alpha_m</span>, then the derived items are <span class="math display">
+<p>Specifically, if <span class="math inline">[N \to \alpha \bullet M \beta, T]</span> and <span class="math inline">M \to \alpha_1 \mid \cdots \mid\alpha_m</span>, then the derived items are <span class="math display">
 [M \to \alpha_1, T&#39;],\ \ldots\ ,\ [M \to \alpha_m, T&#39;].
-</span> If <span class="math inline">\beta</span> is nullable, <span class="math inline">T&#39; = \operatorname*{First}(\beta)</span> otherwise $T’ = T () { } $.</p>
+</span> If <span class="math inline">\beta</span> is nullable, <span class="math inline">T&#39; = \operatorname*{First}(\beta)</span> otherwise <span class="math inline">T&#39; = T \cup\operatorname*{First}(\beta) \setminus \left\{ \epsilon \right\}</span>.</p>
 <blockquote>
 <p><strong>Important:</strong> This needs to be repeated multiple times to get the correct lookahead set, possibly deriving from the same symbol many times.</p>
 </blockquote>
@@ -621,7 +622,7 @@ M \to \bullet \alpha_1, \ldots, M \to \bullet \alpha_m.
 <li><span class="math inline">[S&#39; \to \bullet S, \left\{ \$ \right\}]</span> has an <strong>accept</strong> action on EOF, and</li>
 <li><span class="math inline">[N \to \alpha \bullet, T]</span> with <span class="math inline">N \ne S&#39;</span> has a <strong>reduce <span class="math inline">N \to \alpha</span> on <span class="math inline">x</span></strong> action for all <span class="math inline">x \in T</span>.</li>
 </ul>
-<p>If no action matches the current state and input, it is a parse error.</p>
+<p>If no action matches the current state and input, it is a parse error. Note the lookahead set is only used to determine when to reduce.</p>
 <h3 id="lr1-conflicts">LR(1) conflicts</h3>
 <p>The conflicts are much the same as LR(0) but they only occur when there are different actions on the same terminal symbol.</p>
 <p>A grammar is LR(1) if there is no parsing conflict in its LR(1) parsing automaton.</p>
@@ -2109,6 +2110,6 @@ T(c_1&#39;, s_0) = s_1,\quad T(c_2&#39;, s_1)=s_1, \quad\ldots, \quad T(c_n&#39;
 <h2 id="interfaces">Interfaces</h2>
 <p>Interfaces provide a specification for some methods. They allow multiple inheritance (in Java) because a class can implement multiple interfaces but can only extend at most one class. They have a more complex runtime implementation.</p>
 <p>Each class that implements an interface (effectively) provides a DDT for that interface which needs to be resolved from both the object’s dynamic type and the interface type. Dynamic loading of classes further complicate this.</p>
-    <p><small>Generated at 7/4/2020, 11:31:46 AM.</small></p>
+    <p><small>Generated at 7/5/2020, 2:41:13 AM.</small></p>
   </body>
 </html>
